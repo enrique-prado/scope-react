@@ -29,7 +29,8 @@ class CustomerSelect extends React.Component {
       items.push({value:1, label:"neat"});
       items.push({value:2, label:"SpokenDA"});
       items.push({value:3, label:"Guthy"});
-      
+      items.push({value:4, label:"Sky"});
+            
       //return menuItems;
       return items;
   }
