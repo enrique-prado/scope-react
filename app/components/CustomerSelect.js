@@ -5,7 +5,7 @@
 import React from 'react';
 import SelectField from 'material-ui/lib/SelectField';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-
+import HoursDataService from '../../services/dataService';
 
 
 var items = [];
@@ -20,19 +20,13 @@ class CustomerSelect extends React.Component {
   }
   
   componentWillMount() {
-      var customers = this.getCustomerData();
-      //items = customers;
+      items = this.getCustomerData();
   }
   
   getCustomerData() {
-      
-      items.push({value:1, label:"neat"});
-      items.push({value:2, label:"SpokenDA"});
-      items.push({value:3, label:"Guthy"});
-      items.push({value:4, label:"Sky"});
-            
-      //return menuItems;
-      return items;
+      var arr = HoursDataService.getCustomers();
+      var l = arr.length;
+      return arr;
   }
 
   handleChange(event, index, value) { 
