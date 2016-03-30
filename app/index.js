@@ -2,8 +2,8 @@ console.log('React is up and running!');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-//import Detail from './pages/Detail';
-import CustomerSelect from './components/CustomerSelect';
+import HrsApp from './containers/HrsApp';
+//import CustomerSelect from './components/CustomerSelect';
 
 //Needed for onTouchTap
 //Can go away when react 1.0 release
@@ -12,6 +12,6 @@ import CustomerSelect from './components/CustomerSelect';
 injectTapEventPlugin();
 
 ReactDOM.render(
-    <CustomerSelect />,
+    <HrsApp />,
     document.getElementById('app')
 );
