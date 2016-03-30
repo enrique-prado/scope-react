@@ -9,7 +9,7 @@ var MenuItem = require('material-ui/lib/menus/menu-item');
 var CustomerDropdown = React.createClass({
   propTypes: {
     customers: React.PropTypes.array,
-    onCustomerSelect: React.PropTypes.func
+    onCustomerSelect: React.PropTypes.func.isRequired
   },  
   handleChange: function(event, index, value) { 
       this.setState({selected:value});
