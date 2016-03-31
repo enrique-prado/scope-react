@@ -12,7 +12,7 @@ var CustomerDropdown = React.createClass({
     onCustomerSelect: React.PropTypes.func.isRequired
   },  
   handleChange: function(event, index, value) { 
-      //Call parent's handler which handle's state
+      //Call parent's handler which handles state logic
       this.props.onCustomerSelect(event, index, value);
   },
 
