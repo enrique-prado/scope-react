@@ -7,11 +7,14 @@ var RadioButton = require('material-ui/lib/radio-button');
 var RadioButtonGroup = require('material-ui/lib/radio-button-group');
 
 const styles = {
-  block: {
-    maxWidth: 250,
+  wide: {
+    maxWidth: 1500,
   },
   radioButton: {
     marginBottom: 16,
+    marginRight:10,
+    width:'100px',
+    display: 'inline-block'
   },
 };
 
@@ -26,10 +29,9 @@ var SchedTypeRadioBtn = React.createClass({
   },
 
   render: function() {
-
     return (
-    <div>
-        <RadioButtonGroup name="schedTypeBtnGrp" onChange={this.handleChange} defaultSelected={this.props.defaultSelected}>
+    <div >
+        <RadioButtonGroup name="schedTypeBtnGrp" onChange={this.handleChange} defaultSelected={this.props.defaultSelected} style={styles.wide} >
             <RadioButton
                 value="global"
                 label="Global"
