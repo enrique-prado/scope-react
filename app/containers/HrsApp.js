@@ -5,17 +5,20 @@ import HoursDataService from '../../services/dataService';
 var HrsApp = React.createClass({
   getInitialState: function(){
     return { 
-        customer_id: null,
+        selected: 1,
         customers: [] 
     };
   },
 
-  handleSelectCustomer: function( value) {
-    this.setState({ customer_id: value });
+  handleSelectCustomer: function(event, index, value) {
+    this.setState({ selected: value });
+    console.log("Selected Customer is " + value.toString());
   },
   
-  componentWillMount: function() {
-      this.state.customers = HoursDataService.getCustomers();
+  componentDidMount: function() {
+      this.setState({
+        customers : HoursDataService.getCustomers()
+    });
   },
 
   render: function() {
@@ -23,7 +26,7 @@ var HrsApp = React.createClass({
 
     return (
       <div >
-        <CustomerDropdown customers={this.state.customers}  />
+        <CustomerDropdown onCustomerSelect={this.handleSelectCustomer} customers={this.state.customers} selected={this.state.selected} />
       </div>
     );
   }

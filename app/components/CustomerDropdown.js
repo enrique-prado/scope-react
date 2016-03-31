@@ -7,13 +7,9 @@ var SelectField = require('material-ui/lib/SelectField');
 var MenuItem = require('material-ui/lib/menus/menu-item');
 
 var CustomerDropdown = React.createClass({
-  getInitialState: function(){
-      return {
-        selected: 2
-    };
-  },
   propTypes: {
-    customers: React.PropTypes.array
+    customers: React.PropTypes.array,
+    onCustomerSelect: React.PropTypes.func.isRequired
   },  
   handleChange: function(event, index, value) { 
       this.setState({selected:value});
@@ -27,7 +23,7 @@ var CustomerDropdown = React.createClass({
     });
     return (
     <div>
-        <SelectField value={this.state.selected} onChange={this.handleChange}>
+        <SelectField value={this.props.selected} onChange={this.props.onCustomerSelect}>
             {customer_list}
         </SelectField>
     </div>
