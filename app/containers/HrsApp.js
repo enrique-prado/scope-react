@@ -6,9 +6,10 @@ var SchedTypeRadioBtn = require('../components/SchedTypeRadioBtn');
 var HrsApp = React.createClass({
   getInitialState: function(){
     return { 
-        selectedCustomer: 1,
+        selectedCustomer: "Neat",
         customers: [],
-        schedType: "global"
+        schedType: "global",
+        schedEntries: []
     };
   },
 
@@ -21,11 +22,20 @@ var HrsApp = React.createClass({
   handleSelectCustomer: function(event, index, value) {
     this.setState({ selectedCustomer: value });
     console.log("Selected Customer is " + value);
+    this.populateSchedNavMenu();
   },  
   
   handleSchedTypeChange: function(event, value) {
       this.setState({schedType: value});
       console.log("Sched Type changed to " + value);
+    this.populateSchedNavMenu();
+  },
+  
+  populateSchedNavMenu: function() {
+      //Refreshes Sched Nav Menu on the left
+      this.setState({
+          schedEntries : HoursDataService.getSchedEntries(this.state.selectedCustomer, this.state.schedType)
+      });
   },
 
   render: function() {
