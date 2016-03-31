@@ -12,7 +12,7 @@ var CustomerDropdown = React.createClass({
     onCustomerSelect: React.PropTypes.func.isRequired
   },  
   handleChange: function(event, index, value) { 
-      this.setState({selected:value});
+      this.props.onCustomerSelect(event, index, value);
   },
 
   render: function() {
@@ -23,7 +23,7 @@ var CustomerDropdown = React.createClass({
     });
     return (
     <div>
-        <SelectField value={this.props.selected} onChange={this.props.onCustomerSelect}>
+        <SelectField value={this.props.selected} onChange={this.handleChange}>
             {customer_list}
         </SelectField>
     </div>
