@@ -14,29 +14,45 @@ var HoursDataService = (function () {
             ];
             
         var defaultSchedEntries = [
-            { customer:"Neat", queueType:"global",  queue:"All Neat"},
-            { customer:"SpokenDA", queueType:"global",  queue:"All Spoken"},
-            { customer:"Guthy", queueType:"global",  queue:"All Guthy"},
-            { customer:"Neat", queueType:"DN",  queue:"800-NEAT"},
-            { customer:"Neat", queueType:"DN",  queue:"877-NEAT"},
-            { customer:"Neat", queueType:"DN",  queue:"888-NEAT"},
-            { customer:"SpokenDA", queueType:"DN",  queue:"800-SPKN"},
-            { customer:"SpokenDA", queueType:"DN",  queue:"877-SPKN"},
-            { customer:"Guthy", queueType:"DN",  queue:"800-GR"},
-            { customer:"Guthy", queueType:"DN",  queue:"801-GR"},
-            { customer:"Guthy", queueType:"DN",  queue:"802-GR"},
-            { customer:"Guthy", queueType:"DN",  queue:"803-GR"},
-            { customer:"Neat", queueType:"queue",  queue:"Sales NEAT"},
-            { customer:"Neat", queueType:"queue",  queue:"Billing NEAT"},
-            { customer:"Neat", queueType:"queue",  queue:"Support NEAT"},
-            { customer:"Neat", queueType:"queue",  queue:"Operator NEAT"},
-            { customer:"Neat", queueType:"queue",  queue:"Orders NEAT"},
-            { customer:"SpokenDA", queueType:"queue",  queue:"Engineering SPKN"},                        
-            { customer:"SpokenDA", queueType:"queue",  queue:"PM SPKN"},                        
-            { customer:"SpokenDA", queueType:"queue",  queue:"Marketing SPKN"},                        
-            { customer:"Guthy", queueType:"queue",  queue:"Returns GR"},                        
-            { customer:"Guthy", queueType:"queue",  queue:"Sales GR"},                        
-            { customer:"Guthy", queueType:"queue",  queue:"Billing GR"}                        
+            { type:"DOW", selector: 1, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
+            { type:"DOW", selector: 2, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
+            { type:"DOW", selector: 3, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
+            { type:"DOW", selector: 4, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
+            { type:"DOW", selector: 5, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
+            { type:"DOW", selector: 6, start:"10:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
+            { type:"DOW", selector: 7, start:"12:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 0},
+            { type:"DOW", selector: 1, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
+            { type:"DOW", selector: 2, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
+            { type:"DOW", selector: 3, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
+            { type:"DOW", selector: 4, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
+            { type:"DOW", selector: 5, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
+            { type:"DOW", selector: 6, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 0},
+            { type:"DOW", selector: 7, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 0},
+            { type:"DOW", selector: 1, start:"07:00:00", end: "17:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
+            { type:"DOW", selector: 2, start:"07:00:00", end: "17:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
+            { type:"DOW", selector: 3, start:"07:00:00", end: "17:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
+            { type:"DOW", selector: 4, start:"07:00:00", end: "17:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
+            { type:"DOW", selector: 5, start:"07:00:00", end: "17:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
+            { type:"DOW", selector: 6, start:"09:00:00", end: "17:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
+            { type:"DOW", selector: 7, start:"10:00:00", end: "17:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
+            
+            { type:"DOW", selector: 1, start:"10:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"DN",  queue:"800-NEAT", state: 1},
+            { type:"DOW", selector: 2, start:"11:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"DN",  queue:"877-NEAT", state: 1},
+            { type:"DOW", selector: 3, start:"12:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"DN",  queue:"888-NEAT", state: 1},
+            { type:"DOW", selector: 4, start:"13:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"DN",  queue:"888-NEAT", state: 1},
+            { type:"DOW", selector: 5, start:"10:00:00", end: "17:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"DN",  queue:"800-SPKN", state: 1},
+            { type:"DOW", selector: 6, start:"11:00:00", end: "17:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"DN",  queue:"877-SPKN", state: 1},
+            { type:"DOW", selector: 7, start:"12:00:00", end: "17:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"DN",  queue:"877-SPKN", state: 1},
+            { type:"DOW", selector: 6, start:"09:00:00", end: "18:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"DN",  queue:"800-GR", state: 1},
+            
+            { type:"DOW", selector: 1, start:"10:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"queue",  queue:"Sales NEAT", state: 1},
+            { type:"DOW", selector: 2, start:"11:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"queue",  queue:"Billing NEAT", state: 1},
+            { type:"DOW", selector: 3, start:"12:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"queue",  queue:"Support NEAT", state: 1},
+            { type:"DOW", selector: 4, start:"13:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"queue",  queue:"Operator NEAT", state: 1},
+            { type:"DOW", selector: 5, start:"10:00:00", end: "15:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"queue",  queue:"Engineering SPKN", state: 1},
+            { type:"DOW", selector: 6, start:"11:00:00", end: "15:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"queue",  queue:"PM SPKN", state: 1},
+            { type:"DOW", selector: 7, start:"12:00:00", end: "14:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"queue",  queue:"Returns GR", state: 1},
+            { type:"DOW", selector: 6, start:"09:00:00", end: "14:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"queue",  queue:"Sales GR", state: 1}
 ]
             
             
@@ -58,11 +74,25 @@ var HoursDataService = (function () {
             console.log("getSchedEntriesMock called...");
             console.log("custName = " + custName + ", qType = " + qType);
             var schedEntries = [];
+            var entriesDict = {};
+            var key = {};
+            var value = null;
             
             for (var i = 0; i < defaultSchedEntries.length; i++) {
                 if ((defaultSchedEntries[i].customer == custName) && (defaultSchedEntries[i].queueType == qType)) {
-                    schedEntries.push(defaultSchedEntries[i].queue);
-                    console.log(defaultSchedEntries[i].queue + " entry added");
+                    key = defaultSchedEntries[i].queue; //use name of queue as dictionary key
+                    if (!entriesDict.hasOwnProperty(key)) {
+                        entriesDict[key] = defaultSchedEntries[i].app_id; //Only store one queue instance, no duplicates
+                    }
+                    
+                    console.log(key + " entry added");
+                }
+            }
+            
+            //Conver dictionary to flat array
+            for (key in entriesDict) {
+                if (entriesDict.hasOwnProperty(key)) {
+                    schedEntries.push({appId: entriesDict[key], queue: key});
                 }
             }
             
