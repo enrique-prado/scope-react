@@ -38,7 +38,7 @@ var SchedTypeRadioBtn = React.createClass({
                 style={styles.radioButton}
             />
             <RadioButton
-                value="dn"
+                value="DN"
                 label="DN"
                 style={styles.radioButton}
             />

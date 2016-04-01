@@ -14,9 +14,9 @@ var HoursDataService = (function () {
             ];
             
         var defaultSchedEntries = [
-            { customer:"Neat", queueType:"global",  queue:"Company Wide"},
-            { customer:"SpokenDA", queueType:"global",  queue:"Company Wide"},
-            { customer:"Guthy", queueType:"global",  queue:"Company Wide"},
+            { customer:"Neat", queueType:"global",  queue:"All Neat"},
+            { customer:"SpokenDA", queueType:"global",  queue:"All Spoken"},
+            { customer:"Guthy", queueType:"global",  queue:"All Guthy"},
             { customer:"Neat", queueType:"DN",  queue:"800-NEAT"},
             { customer:"Neat", queueType:"DN",  queue:"877-NEAT"},
             { customer:"Neat", queueType:"DN",  queue:"888-NEAT"},
@@ -55,11 +55,14 @@ var HoursDataService = (function () {
         };
         
         function getSchedEntriesMock (custName, qType) {
+            console.log("getSchedEntriesMock called...");
+            console.log("custName = " + custName + ", qType = " + qType);
             var schedEntries = [];
             
             for (var i = 0; i < defaultSchedEntries.length; i++) {
-                if (defaultSchedEntries[i].customer == custName && defaultSchedEntries[i].queueType == qType) {
+                if ((defaultSchedEntries[i].customer == custName) && (defaultSchedEntries[i].queueType == qType)) {
                     schedEntries.push(defaultSchedEntries[i].queue);
+                    console.log(defaultSchedEntries[i].queue + " entry added");
                 }
             }
             

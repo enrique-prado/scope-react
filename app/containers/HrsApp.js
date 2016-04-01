@@ -22,13 +22,17 @@ var HrsApp = React.createClass({
   handleSelectCustomer: function(event, index, value) {
     this.setState({ selectedCustomer: value });
     console.log("Selected Customer is " + value);
-    this.populateSchedNavMenu();
   },  
   
   handleSchedTypeChange: function(event, value) {
       this.setState({schedType: value});
       console.log("Sched Type changed to " + value);
-    this.populateSchedNavMenu();
+  },
+  
+  componentDidUpdate: function(prevProps, prevState) {
+      if ((prevState.selectedCustomer !== this.state.selectedCustomer) || (prevState.schedType !== this.state.schedType)) {
+        this.populateSchedNavMenu();
+      }
   },
   
   populateSchedNavMenu: function() {
