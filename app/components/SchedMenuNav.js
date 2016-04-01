@@ -46,9 +46,9 @@ var SchedMenuNav = React.createClass({
     },
     
     render: function() {
-        var sched_entries = this.props.entries.map(function(entry) {
+        var sched_entries = this.props.entries.map(function(entry, index) {
             return (
-                <ListItem value={entry} primaryText={entry} rightIcon={<CommunicationChatBubble/>} />
+                <ListItem key={index} value={entry.appId} primaryText={entry.queue} rightIcon={<CommunicationChatBubble/>} />
             )
         });
         return (
