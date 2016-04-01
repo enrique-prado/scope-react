@@ -2,6 +2,13 @@ var React = require('react');
 var CustomerDropdown = require('../components/CustomerDropdown');
 import HoursDataService from '../../services/dataService';
 var SchedTypeRadioBtn = require('../components/SchedTypeRadioBtn');
+var SchedMenuNav = require('../components/SchedMenuNav');
+
+    const appStyles = {
+        menunav: {
+            width:'300px'
+        }
+    }
 
 var HrsApp = React.createClass({
   getInitialState: function(){
@@ -56,17 +63,8 @@ var HrsApp = React.createClass({
                 <SchedTypeRadioBtn onSchedTypeSelect={this.handleSchedTypeChange} defaultSelected={this.state.schedType} />
             </div>
         </div>  
-        <div className="leftNav">
-            <table id='hrs-leftNavTable'>
-                <thead>
-                <tr>
-                    <th>Sched Type</th>
-                </tr>
-                </thead>
-            <tbody className="notranslate">
-                            
-            </tbody>
-            </table>        
+        <div className="leftNav" style={appStyles.menunav}>
+            <SchedMenuNav entries={this.state.schedEntries} />
         </div>                    
       </div>
     );
