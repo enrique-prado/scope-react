@@ -3,7 +3,7 @@ var CustomerDropdown = require('../components/CustomerDropdown');
 import HoursDataService from '../../services/dataService';
 var SchedTypeRadioBtn = require('../components/SchedTypeRadioBtn');
 var SchedMenuNav = require('../components/SchedMenuNav');
-
+var HoursTabContainer = require('../containers/HoursTabContainer');
     const appStyles = {
         menunav: {
             width:'300px'
@@ -65,6 +65,9 @@ var HrsApp = React.createClass({
         </div>  
         <div className="leftNav" style={appStyles.menunav}>
             <SchedMenuNav entries={this.state.schedEntries} />
+        </div>
+        <div className="tablesPane" >
+            <HoursTabContainer/>
         </div>                    
       </div>
     );
