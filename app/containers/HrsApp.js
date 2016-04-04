@@ -11,11 +11,13 @@ var HoursTabContainer = require('../containers/HoursTabContainer');
     }
 
 var HrsApp = React.createClass({
+  //LIFE CYCLE EVENTS 
   getInitialState: function(){
     return { 
         selectedCustomer: "Neat",
-        customers: [],
         schedType: "global",
+        activeHrsTab: "weekly",
+        customers: [],
         schedEntries: []
     };
   },
@@ -26,6 +28,13 @@ var HrsApp = React.createClass({
     });
   },
   
+  componentDidUpdate: function(prevProps, prevState) {
+      if ((prevState.selectedCustomer !== this.state.selectedCustomer) || (prevState.schedType !== this.state.schedType)) {
+        this.populateSchedNavMenu();
+      }
+  },
+  
+  // USER DRIVER EVENTS
   handleSelectCustomer: function(event, index, value) {
     this.setState({ selectedCustomer: value });
     console.log("Selected Customer is " + value);
@@ -36,12 +45,12 @@ var HrsApp = React.createClass({
       console.log("Sched Type changed to " + value);
   },
   
-  componentDidUpdate: function(prevProps, prevState) {
-      if ((prevState.selectedCustomer !== this.state.selectedCustomer) || (prevState.schedType !== this.state.schedType)) {
-        this.populateSchedNavMenu();
-      }
+  handleHoursTabChange: function(value) {
+      this.setState({activeHrsTab: value});
+      console.log("activeHrsTab changed to " + value);
   },
   
+  // OTHER METHODS
   populateSchedNavMenu: function() {
       //Refreshes Sched Nav Menu on the left
       this.setState({
@@ -49,6 +58,7 @@ var HrsApp = React.createClass({
       });
   },
 
+  //UI RENDERING
   render: function() {
     var customer_id = this.state.customer_id;
 
@@ -67,7 +77,7 @@ var HrsApp = React.createClass({
             <SchedMenuNav entries={this.state.schedEntries} />
         </div>
         <div className="tablesPane" >
-            <HoursTabContainer/>
+            <HoursTabContainer onTabSelect={this.handleHoursTabChange} selected={this.state.activeHrsTab} />
         </div>                    
       </div>
     );
