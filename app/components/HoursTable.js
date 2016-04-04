@@ -11,6 +11,7 @@ var columns = [
     {
     key: 'day',
     name: 'Day',
+    width: 100
     },
     {
     key: 'open',
@@ -42,12 +43,14 @@ var HoursTable = React.createClass({
   },
 
   render:function(){
+    var rowsCount = this.props.rows ? this.props.rows.length : 0;
+    
     return(
       <ReactDataGrid
       enableCellSelect={true}
       columns={columns}
       rowGetter={this.rowGetter}
-      rowsCount={this.props.rows.length}
+      rowsCount={rowsCount}
       minHeight={500}
      />
     )

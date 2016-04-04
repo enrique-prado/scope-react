@@ -17,7 +17,7 @@ var HrsApp = React.createClass({
         selectedCustomer: "Neat",
         schedType: "global",
         activeHrsTab: "weekly",
-        selectedMenuEntry:"",
+        selectedMenuEntry: "",
         customers: [],
         schedEntries: [],
         regularHours: [],
@@ -34,6 +34,10 @@ var HrsApp = React.createClass({
   componentDidUpdate: function(prevProps, prevState) {
       if ((prevState.selectedCustomer !== this.state.selectedCustomer) || (prevState.schedType !== this.state.schedType)) {
         this.populateSchedNavMenu();
+      }
+      
+      if (prevState.selectedMenuEntry !== this.state.selectedMenuEntry)  {
+        this.populateHoursTable();
       }
   },
   
@@ -53,11 +57,11 @@ var HrsApp = React.createClass({
       console.log("activeHrsTab changed to " + value);
   },
   
-  handleMenuEntrySelect: function(value) {
-      //TODO: Handle selected state
-      
-      //Refresh hours tables TODO: Move to onDidUpdate()?
-      this.populateHoursTable();
+  handleMenuEntrySelect: function(event, index) {
+      console.log("Entering.... handleMenuEntrySelect");
+      console.log("index = " + index);
+      //console.log("event.target.textContent =" + event.target.textContent);
+      this.setState({selectedMenuEntry: index})
   },
   
   // OTHER METHODS
@@ -91,7 +95,8 @@ var HrsApp = React.createClass({
             </div>
         </div>  
         <div className="leftNav" style={appStyles.menunav}>
-            <SchedMenuNav entries={this.state.schedEntries} onEntrySelect={this.handleMenuEntrySelect}  />
+            <SchedMenuNav selected={this.state.selectedMenuEntry} entries={this.state.schedEntries} 
+                onEntrySelect={this.handleMenuEntrySelect}  />
         </div>
         <div className="tablesPane" >
             <HoursTabContainer onTabSelect={this.handleHoursTabChange} selected={this.state.activeHrsTab}
