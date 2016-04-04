@@ -101,7 +101,7 @@ var HoursDataService = (function () {
         
         function getHoursMock (custName, qType, queue) {
             console.log("getHoursMock called...");
-            console.log("custName = " + custName + ", qType = " + qType + ",queue = " + queue);
+            console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
             var hours = [];
             
             for (var i = 0; i < defaultSchedEntries.length; i++) {
@@ -109,10 +109,17 @@ var HoursDataService = (function () {
                 if ((entry.customer == custName)  
                     && (entry.queueType == qType)
                     && (entry.queue == queue)) {
-                        hours.push(entry);
-                        console.log(entry.selector + " day hours added");
+                        hours.push({
+                            off: false,
+                            day: entry.selector,
+                            open: entry.start,
+                            close: entry.end
+                        });
+                        console.log(entry.selector + " selector added");
                 }
-            }                        
+            }
+            
+            return hours;                        
         };
 
     /*      
