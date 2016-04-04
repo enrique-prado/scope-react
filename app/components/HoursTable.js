@@ -6,21 +6,25 @@ var columns = [
     {
     key: 'off',
     name: 'Off',
+    editable: true,
     width: 80
     },
     {
     key: 'day',
     name: 'Day',
+    editable: true,
     width: 100
     },
     {
     key: 'open',
     name: 'Open',
+    editable: true,
     width: 80
     },   
     {
     key: 'close',
     name: 'Close',
+    editable: true,
     width: 80
     }    
 ]
