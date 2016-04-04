@@ -98,6 +98,22 @@ var HoursDataService = (function () {
             
             return schedEntries;
         };
+        
+        function getHoursMock (custName, qType, queue) {
+            console.log("getHoursMock called...");
+            console.log("custName = " + custName + ", qType = " + qType + ",queue = " + queue);
+            var hours = [];
+            
+            for (var i = 0; i < defaultSchedEntries.length; i++) {
+                var entry = defaultSchedEntries[i];
+                if ((entry.customer == custName)  
+                    && (entry.queueType == qType)
+                    && (entry.queue == queue)) {
+                        hours.push(entry);
+                        console.log(entry.selector + " day hours added");
+                }
+            }                        
+        };
 
     /*      
          this.insertSchedEntry = function (entry) {s
@@ -116,7 +132,8 @@ var HoursDataService = (function () {
     // Public interface methods
     return {
         getCustomers : getCustomersMock,
-        getSchedEntries : getSchedEntriesMock
+        getSchedEntries : getSchedEntriesMock,
+        getHours : getHoursMock
     }
 })();
 
