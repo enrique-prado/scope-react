@@ -1,6 +1,7 @@
 import React from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
+import HoursTable from '../components/HoursTable';
 
 const hrsTabStyles = {
   headline: {
@@ -31,7 +32,7 @@ var HoursTabContainer = React.createClass({
           <Tabs onChange={this.handleChange} value={this.props.selected}>
             <Tab label="Weekly Hours" value="weekly">
                 <div>
-                    TABLE 1 GOES HERE
+                    <HoursTable rows={this.props.regularHours} />
                 </div>
             </Tab>
             <Tab label="Exceptions" value="exceptions">

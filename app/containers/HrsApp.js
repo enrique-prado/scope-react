@@ -17,8 +17,11 @@ var HrsApp = React.createClass({
         selectedCustomer: "Neat",
         schedType: "global",
         activeHrsTab: "weekly",
+        selectedMenuEntry:"",
         customers: [],
-        schedEntries: []
+        schedEntries: [],
+        regularHours: [],
+        exceptionHours: []
     };
   },
 
@@ -50,6 +53,13 @@ var HrsApp = React.createClass({
       console.log("activeHrsTab changed to " + value);
   },
   
+  handleMenuEntrySelect: function(value) {
+      //TODO: Handle selected state
+      
+      //Refresh hours tables TODO: Move to onDidUpdate()?
+      this.populateHoursTable();
+  },
+  
   // OTHER METHODS
   populateSchedNavMenu: function() {
       //Refreshes Sched Nav Menu on the left
@@ -57,6 +67,13 @@ var HrsApp = React.createClass({
           schedEntries : HoursDataService.getSchedEntries(this.state.selectedCustomer, this.state.schedType)
       });
   },
+  
+  populateHoursTable: function() {
+      //Refreshes Sched Nav Menu on the left
+      this.setState({
+          regularHours : HoursDataService.getHours(this.state.selectedCustomer, this.state.schedType, this.state.selectedMenuEntry)
+      });
+  },  
 
   //UI RENDERING
   render: function() {
@@ -74,10 +91,11 @@ var HrsApp = React.createClass({
             </div>
         </div>  
         <div className="leftNav" style={appStyles.menunav}>
-            <SchedMenuNav entries={this.state.schedEntries} />
+            <SchedMenuNav entries={this.state.schedEntries} onEntrySelect={this.handleMenuEntrySelect}  />
         </div>
         <div className="tablesPane" >
-            <HoursTabContainer onTabSelect={this.handleHoursTabChange} selected={this.state.activeHrsTab} />
+            <HoursTabContainer onTabSelect={this.handleHoursTabChange} selected={this.state.activeHrsTab}
+                regularHours={this.state.regularHours} />
         </div>                    
       </div>
     );

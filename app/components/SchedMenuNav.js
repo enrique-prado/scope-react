@@ -38,7 +38,7 @@ SelectableList = wrapState(SelectableList);
 var SchedMenuNav = React.createClass({
     propTypes: {
         entries: React.PropTypes.array,
-        onEntrySelect: React.PropTypes.func
+        onEntrySelect: React.PropTypes.func.isRequired
     },
     handleSelect: function(event, index, value) { 
       //Call parent's handler which handles state logic
@@ -53,7 +53,7 @@ var SchedMenuNav = React.createClass({
         });
         return (
         <div>
-            <SelectableList value={3} subheader="Entries" >
+            <SelectableList value={1} subheader="Entries" >
                 {sched_entries}
             </SelectableList>
         </div>
