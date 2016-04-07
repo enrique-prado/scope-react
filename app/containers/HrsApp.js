@@ -26,12 +26,17 @@ var HrsApp = React.createClass({
   },
 
   componentDidMount: function() {
-      this.setState({
-        customers : HoursDataService.getCustomers()
+      var self = this;
+      HoursDataService.getCustomers().then(function(result) {
+        self.setState({
+            customers : result         
+        });
     });
   },
   
   componentDidUpdate: function(prevProps, prevState) {
+      console.log('in componentDidUpdate, num of customers is ' + this.state.customers.length );
+
       if ((prevState.selectedCustomer !== this.state.selectedCustomer) || (prevState.schedType !== this.state.schedType)) {
         this.populateSchedNavMenu();
       }

@@ -58,7 +58,38 @@ var HoursDataService = (function () {
             
 
         function getCustomers () {
-            //return $http.get(urlBase + custTemplate + rowsRange);
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log('dataService.getCustomers succeeds');
+                        //parse response and make customers array
+                        var custlist = xhr.response.replace(/\r\n/g,"\n");
+                        var customers = custlist.split("\n");
+                        var custResults = []
+                        //get rid of the last line in customers if it is empty
+                        if (customers[customers.length - 1] == '')
+                            customers.length = customers.length - 1;
+                        
+                        for (var i in customers) {
+                        custResults.push({value: (i + 1), label: customers[i]});
+                        console.log('value = ' + i + 'label = ' + customers[i]);
+                        }
+                        
+                        console.log('num of customers is ' + custResults.length);
+                        
+                        resolve(custResults); // Resolve Promise returning customer array
+                    }
+                    else {
+                        console.log('ERROR retrieving dataService.getCustomers()');
+                        resolve([]);
+                    }
+                }
+                
+                xhr.onerror = reject;
+                xhr.open('GET', '/getdata?template=userclientlist&startrow=0&rowcount=30', true);                
+                xhr.send();
+            });
         };
         
         function getCustomersMock() {
@@ -66,8 +97,43 @@ var HoursDataService = (function () {
         }
 
         function getSchedEntries (custName, qType) {
-            return $http.get(urlBase + schedQTemplate + custNameParam + custName +
-                queueTypeParam + qType);
+           var xhr = new XMLHttpRequest();
+            if (xhr == null) {
+                console.log("getSchedEntries: Failed to get http request object");
+                return [];
+            }
+            
+            console.log("Fetching schedule list for customer " + custName + " sched type: " + qType);
+            xhr.open("GET","/getdata?template=getschedentries" +
+                "&cust_name=" + custName + "&queue_type=" + qType +
+                "&startrow=0&rowcount=20", true);
+                
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    console.log('dataService.getSchedEntries succeeds');
+                    //parse response and make entries array
+                    var entryList = xhr.response.replace(/\r\n/g,"\n");
+                    var entries = entryList.split("\n");
+                    var schedEntries = [];
+                    
+                    console.log('Number of entries returned: ' + entries.length);
+                    //get rid of the last line in entries if it is empty
+                    if (entries[entries.length - 1] == '')
+                        entries.length = entries.length - 1;
+                        
+                    for (var i in entries) {
+                        schedEntries.push({appId: entries[i].app_id, queue: entries[i].queue});
+                    }
+                    
+                    return schedEntries; //Return final array
+               }
+                else {
+                    console.log('ERROR retrieving dataService.getSchedEntries()');
+                    return [];
+                }            
+            }
+            
+            xhr.send();            
         };
         
         function getSchedEntriesMock (custName, qType) {
@@ -138,7 +204,7 @@ var HoursDataService = (function () {
      
     // Public interface methods
     return {
-        getCustomers : getCustomersMock,
+        getCustomers : getCustomers,
         getSchedEntries : getSchedEntriesMock,
         getHours : getHoursMock
     }
