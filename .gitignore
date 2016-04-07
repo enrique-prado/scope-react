@@ -16,3 +16,4 @@ icon-builder/jsx
 # OS files
 .DS_STORE
 dist/bundle.js
+dist/bundle.js.map
