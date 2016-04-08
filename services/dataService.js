@@ -8,19 +8,19 @@ var HoursDataService = (function () {
         var queueTypeParam = '&queue_type=';
         
         var defaultCustomers = [
-                {value:1, label:"Neat"},
+                {value:1, label:"neat"},
                 {value:2, label:"SpokenDA"},
                 {value:3, label:"Guthy"}
             ];
             
         var defaultSchedEntries = [
-            { type:"DOW", selector: 1, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
-            { type:"DOW", selector: 2, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
-            { type:"DOW", selector: 3, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
-            { type:"DOW", selector: 4, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
-            { type:"DOW", selector: 5, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
-            { type:"DOW", selector: 6, start:"10:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 1},
-            { type:"DOW", selector: 7, start:"12:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"global",  queue:"All Neat", state: 0},
+            { type:"DOW", selector: 1, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 2, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 3, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 4, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 5, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 6, start:"10:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 7, start:"12:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
             { type:"DOW", selector: 1, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
             { type:"DOW", selector: 2, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
             { type:"DOW", selector: 3, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
@@ -36,19 +36,19 @@ var HoursDataService = (function () {
             { type:"DOW", selector: 6, start:"09:00:00", end: "17:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
             { type:"DOW", selector: 7, start:"10:00:00", end: "17:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
             
-            { type:"DOW", selector: 1, start:"10:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"DN",  queue:"800-NEAT", state: 1},
-            { type:"DOW", selector: 2, start:"11:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"DN",  queue:"877-NEAT", state: 1},
-            { type:"DOW", selector: 3, start:"12:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"DN",  queue:"888-NEAT", state: 1},
-            { type:"DOW", selector: 4, start:"13:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"DN",  queue:"888-NEAT", state: 1},
+            { type:"DOW", selector: 1, start:"10:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"800-NEAT", state: 1},
+            { type:"DOW", selector: 2, start:"11:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"877-NEAT", state: 1},
+            { type:"DOW", selector: 3, start:"12:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"888-NEAT", state: 1},
+            { type:"DOW", selector: 4, start:"13:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"888-NEAT", state: 1},
             { type:"DOW", selector: 5, start:"10:00:00", end: "17:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"DN",  queue:"800-SPKN", state: 1},
             { type:"DOW", selector: 6, start:"11:00:00", end: "17:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"DN",  queue:"877-SPKN", state: 1},
             { type:"DOW", selector: 7, start:"12:00:00", end: "17:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"DN",  queue:"877-SPKN", state: 1},
             { type:"DOW", selector: 6, start:"09:00:00", end: "18:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"DN",  queue:"800-GR", state: 1},
             
-            { type:"DOW", selector: 1, start:"10:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"queue",  queue:"Sales NEAT", state: 1},
-            { type:"DOW", selector: 2, start:"11:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"queue",  queue:"Billing NEAT", state: 1},
-            { type:"DOW", selector: 3, start:"12:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"queue",  queue:"Support NEAT", state: 1},
-            { type:"DOW", selector: 4, start:"13:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"Neat", queueType:"queue",  queue:"Operator NEAT", state: 1},
+            { type:"DOW", selector: 1, start:"10:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"queue",  queue:"Sales NEAT", state: 1},
+            { type:"DOW", selector: 2, start:"11:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"queue",  queue:"Billing NEAT", state: 1},
+            { type:"DOW", selector: 3, start:"12:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"queue",  queue:"Support NEAT", state: 1},
+            { type:"DOW", selector: 4, start:"13:00:00", end: "16:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"queue",  queue:"Operator NEAT", state: 1},
             { type:"DOW", selector: 5, start:"10:00:00", end: "15:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"queue",  queue:"Engineering SPKN", state: 1},
             { type:"DOW", selector: 6, start:"11:00:00", end: "15:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"queue",  queue:"PM SPKN", state: 1},
             { type:"DOW", selector: 7, start:"12:00:00", end: "14:00,00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"queue",  queue:"Returns GR", state: 1},
@@ -71,9 +71,11 @@ var HoursDataService = (function () {
                         if (customers[customers.length - 1] == '')
                             customers.length = customers.length - 1;
                         
-                        for (var i in customers) {
-                        custResults.push({value: (i + 1), label: customers[i]});
-                        console.log('value = ' + i + 'label = ' + customers[i]);
+                        for (var i = 0 ; i < customers.length; i++) {
+                            var val = i + 1;
+                            var custItem = {value: val, label: customers[i]};
+                            custResults.push(custItem);
+                            console.log('value = ' + custItem.value + ' ,label = ' + custItem.label);
                         }
                         
                         console.log('num of customers is ' + custResults.length);
@@ -97,43 +99,47 @@ var HoursDataService = (function () {
         }
 
         function getSchedEntries (custName, qType) {
-           var xhr = new XMLHttpRequest();
-            if (xhr == null) {
-                console.log("getSchedEntries: Failed to get http request object");
-                return [];
-            }
+            console.log("getSchedEntries called...");
+            console.log("custName = " + custName + ", qType = " + qType);
             
-            console.log("Fetching schedule list for customer " + custName + " sched type: " + qType);
-            xhr.open("GET","/getdata?template=getschedentries" +
-                "&cust_name=" + custName + "&queue_type=" + qType +
-                "&startrow=0&rowcount=20", true);
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
                 
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    console.log('dataService.getSchedEntries succeeds');
-                    //parse response and make entries array
-                    var entryList = xhr.response.replace(/\r\n/g,"\n");
-                    var entries = entryList.split("\n");
-                    var schedEntries = [];
-                    
-                    console.log('Number of entries returned: ' + entries.length);
-                    //get rid of the last line in entries if it is empty
-                    if (entries[entries.length - 1] == '')
-                        entries.length = entries.length - 1;
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log('dataService.getSchedEntries succeeds');
+                        //parse response and make entries array
+                        var entryList = xhr.response.replace(/\r\n/g,"\n");
+                        var entries = entryList.split("\n");
+                        var schedEntries = [];
                         
-                    for (var i in entries) {
-                        schedEntries.push({appId: entries[i].app_id, queue: entries[i].queue});
+                        console.log('Number of entries returned: ' + entries.length);
+                        //get rid of the last line in entries if it is empty
+                        if (entries[entries.length - 1] == '')
+                            entries.length = entries.length - 1;
+                            
+                        for (var i in entries) {
+                            var newEntry = JSON.parse(entries[i]);
+                            schedEntries.push(newEntry);
+                            console.log('Added SchedNav entry:');
+                            console.log('appId: ' + newEntry.appId + ' , queue: ' + newEntry.queue);
+                        }
+                        
+                        resolve(schedEntries); //Return final array
                     }
-                    
-                    return schedEntries; //Return final array
-               }
-                else {
-                    console.log('ERROR retrieving dataService.getSchedEntries()');
-                    return [];
-                }            
-            }
+                    else {
+                        console.log('ERROR retrieving dataService.getSchedEntries()');
+                        resolve([]);
+                    }            
+                }
             
-            xhr.send();            
+                xhr.onerror = reject;
+                console.log("Fetching schedule list for customer " + custName + " sched type: " + qType);
+                xhr.open("GET","/getdata?template=getschedentries" +
+                    "&cust_name=" + custName + "&queue_type=" + qType +
+                    "&startrow=0&rowcount=20", true);            
+                xhr.send();
+            });            
         };
         
         function getSchedEntriesMock (custName, qType) {
@@ -205,7 +211,7 @@ var HoursDataService = (function () {
     // Public interface methods
     return {
         getCustomers : getCustomers,
-        getSchedEntries : getSchedEntriesMock,
+        getSchedEntries : getSchedEntries,
         getHours : getHoursMock
     }
 })();

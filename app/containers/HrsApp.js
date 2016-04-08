@@ -14,7 +14,7 @@ var HrsApp = React.createClass({
   //LIFE CYCLE EVENTS 
   getInitialState: function(){
     return { 
-        selectedCustomer: "Neat",
+        selectedCustomer: "neat",
         schedType: "global",
         activeHrsTab: "weekly",
         selectedMenuEntry: "",
@@ -72,9 +72,13 @@ var HrsApp = React.createClass({
   // OTHER METHODS
   populateSchedNavMenu: function() {
       //Refreshes Sched Nav Menu on the left
-      this.setState({
-          schedEntries : HoursDataService.getSchedEntries(this.state.selectedCustomer, this.state.schedType)
-      });
+      var self = this;
+       HoursDataService.getSchedEntries(this.state.selectedCustomer, this.state.schedType)
+       .then(function(result) {
+           self.setState({
+               schedEntries : result
+           });
+       });
   },
   
   populateHoursTable: function() {
