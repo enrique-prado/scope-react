@@ -13,6 +13,16 @@ var HoursDataService = (function () {
                 {value:3, label:"Guthy"}
             ];
             
+        var weekDays = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+        ]
+            
         var defaultSchedEntries = [
             { type:"DOW", selector: 1, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DOW", selector: 2, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
@@ -113,10 +123,11 @@ var HoursDataService = (function () {
                         var entries = entryList.split("\n");
                         var schedEntries = [];
                         
-                        console.log('Number of entries returned: ' + entries.length);
                         //get rid of the last line in entries if it is empty
                         if (entries[entries.length - 1] == '')
                             entries.length = entries.length - 1;
+                        
+                        console.log('Number of entries returned: ' + entries.length);
                             
                         for (var i in entries) {
                             var newEntry = JSON.parse(entries[i]);
@@ -134,7 +145,7 @@ var HoursDataService = (function () {
                 }
             
                 xhr.onerror = reject;
-                console.log("Fetching schedule list for customer " + custName + " sched type: " + qType);
+                console.log("Fetching Sched NavMenu entries for customer " + custName + " sched type: " + qType);
                 xhr.open("GET","/getdata?template=getschedentries" +
                     "&cust_name=" + custName + "&queue_type=" + qType +
                     "&startrow=0&rowcount=20", true);            
@@ -170,6 +181,51 @@ var HoursDataService = (function () {
             
             return schedEntries;
         };
+        
+        function getHours (custName, qType, queue) {
+            console.log("getHours called...");
+            console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
+
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log('dataService.getHours succeeds');
+                        //parse response and make entries array
+                        var entryList = xhr.response.replace(/\r\n/g,"\n");
+                        var entries = entryList.split("\n");
+                        var hoursEntries = [];
+                        
+                        //get rid of the last line in entries if it is empty
+                        if (entries[entries.length - 1] == '')
+                            entries.length = entries.length - 1;
+                        
+                        console.log('Number of entries returned: ' + entries.length);
+                        
+                        for (var i = 0; i < entries.length; i++) {
+                            var newEntry = JSON.parse(entries[i]);
+                            newEntry.day = weekDays[newEntry.day];
+                            hoursEntries.push(newEntry);
+                            console.log('Added Hours entry:');
+                            console.log('Day: ' + newEntry.day + ' , hours: ' + newEntry.open + ' - ' + newEntry.close);
+                        }
+                        resolve (hoursEntries); // Return final array
+                    }
+                    else {
+                        console.log('ERROR retrieving dataService.getHours()');
+                        resolve([]);                        
+                    }
+                }
+                                                    
+                xhr.onerror = reject;
+                console.log("Fetching schedule list for cust_name " + custName + "queue_type: " + qType + " , queue_name: " + queue);
+                xhr.open("GET","/getdata?template=gethoursforcustomer" +
+                    "&cust_name=" + custName + "&queue_type=" + qType + "&queue_name=" + queue +
+                    "&startrow=0&rowcount=30", true);            
+                xhr.send();
+            });             
+        }
         
         function getHoursMock (custName, qType, queue) {
             console.log("getHoursMock called...");
@@ -212,7 +268,7 @@ var HoursDataService = (function () {
     return {
         getCustomers : getCustomers,
         getSchedEntries : getSchedEntries,
-        getHours : getHoursMock
+        getHours : getHours
     }
 })();
 

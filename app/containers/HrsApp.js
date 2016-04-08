@@ -82,9 +82,13 @@ var HrsApp = React.createClass({
   },
   
   populateHoursTable: function() {
-      //Refreshes Sched Nav Menu on the left
-      this.setState({
-          regularHours : HoursDataService.getHours(this.state.selectedCustomer, this.state.schedType, this.state.selectedMenuEntry)
+      //Refreshes working hours table on the right pane
+      var self = this;
+      HoursDataService.getHours(this.state.selectedCustomer, this.state.schedType, this.state.selectedMenuEntry)
+      .then(function(result) {
+          self.setState({
+              regularHours : result
+          });
       });
   },  
 
