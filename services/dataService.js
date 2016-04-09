@@ -105,7 +105,9 @@ var HoursDataService = (function () {
         };
         
         function getCustomersMock() {
-            return defaultCustomers;
+            return new Promise(function(resolve, reject) {
+                resolve(defaultCustomers);
+            });
         }
 
         function getSchedEntries (custName, qType) {
@@ -156,6 +158,8 @@ var HoursDataService = (function () {
         function getSchedEntriesMock (custName, qType) {
             console.log("getSchedEntriesMock called...");
             console.log("custName = " + custName + ", qType = " + qType);
+            
+            return new Promise(function(resolve, reject) {
             var schedEntries = [];
             var entriesDict = {};
             var key = {};
@@ -178,8 +182,8 @@ var HoursDataService = (function () {
                     schedEntries.push({appId: entriesDict[key], queue: key});
                 }
             }
-            
-            return schedEntries;
+            resolve(schedEntries);
+            });
         };
         
         function getHours (custName, qType, queue) {
@@ -232,22 +236,25 @@ var HoursDataService = (function () {
             console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
             var hours = [];
             
-            for (var i = 0; i < defaultSchedEntries.length; i++) {
-                var entry = defaultSchedEntries[i];
-                if ((entry.customer == custName)  
-                    && (entry.queueType == qType)
-                    && (entry.queue == queue)) {
-                        hours.push({
-                            off: false,
-                            day: entry.selector,
-                            open: entry.start,
-                            close: entry.end
-                        });
-                        console.log(entry.selector + " selector added");
+            return new Promise(function(resolve, reject) {            
+                for (var i = 0; i < defaultSchedEntries.length; i++) {
+                    var entry = defaultSchedEntries[i];
+                    if ((entry.customer == custName)  
+                        && (entry.queueType == qType)
+                        && (entry.queue == queue)) {
+                            hours.push({
+                                off: false,
+                                day: entry.selector,
+                                open: entry.start,
+                                close: entry.end
+                            });
+                            console.log('Added Hours entry:');
+                            console.log('Day: ' + entry.selector + ' , hours: ' + entry.start + ' - ' + entry.end);
+                    }
                 }
-            }
-            
-            return hours;                        
+                
+                resolve(hours);
+            });                        
         };
 
     /*      
