@@ -33,27 +33,30 @@ function wrapState(ComposedComponent) {
   return StateWrapper;
 }
 
-SelectableList = wrapState(SelectableList);
+//SelectableList = wrapState(SelectableList);
 
 var SchedMenuNav = React.createClass({
     propTypes: {
+        selected: React.PropTypes.string,
         entries: React.PropTypes.array,
-        onEntrySelect: React.PropTypes.func
+        onEntrySelect: React.PropTypes.func.isRequired
     },
-    handleSelect: function(event, index, value) { 
+    handleSelect: function(event, index) { 
       //Call parent's handler which handles state logic
-      this.props.onEntrySelect(event, index, value);
+      this.props.onEntrySelect(event, index);
     },
     
     render: function() {
-        var sched_entries = this.props.entries.map(function(entry) {
+        var sched_entries = this.props.entries.map(function(entry, index) {
             return (
-                <ListItem value={entry} primaryText={entry} rightIcon={<CommunicationChatBubble/>} />
+                <ListItem key={index} value={entry.queue} primaryText={entry.queue} rightIcon={<CommunicationChatBubble/>} />
             )
         });
         return (
         <div>
-            <SelectableList value={3} subheader="Entries" >
+            <SelectableList 
+                valueLink={{value: this.props.selected, requestChange: this.handleSelect}}
+                subheader="Entries" >
                 {sched_entries}
             </SelectableList>
         </div>

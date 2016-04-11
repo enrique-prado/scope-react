@@ -16,6 +16,8 @@ module.exports = {
     resolve: {
         extensions: ['', '.js']
     },
+    debug: true,
+    devtool: 'inline-source-map',
     output: {
         path: 'dist',
         publicPath: '/',
