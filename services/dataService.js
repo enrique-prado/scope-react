@@ -209,7 +209,7 @@ var HoursDataService = (function () {
                         
                         for (var i = 0; i < entries.length; i++) {
                             var newEntry = JSON.parse(entries[i]);
-                            newEntry.day = weekDays[newEntry.day];
+                            newEntry.day = weekDays[newEntry.day - 1];
                             hoursEntries.push(newEntry);
                             console.log('Added Hours entry:');
                             console.log('Day: ' + newEntry.day + ' , hours: ' + newEntry.open + ' - ' + newEntry.close);
@@ -244,7 +244,7 @@ var HoursDataService = (function () {
                         && (entry.queue == queue)) {
                             hours.push({
                                 off: false,
-                                day: entry.selector,
+                                day: weekDays[entry.selector - 1],
                                 open: entry.start,
                                 close: entry.end
                             });

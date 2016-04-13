@@ -7,6 +7,9 @@ import TableRowColumn from 'material-ui/lib/table/table-row-column';
 import TableBody from 'material-ui/lib/table/table-body';
 import TableFooter from 'material-ui/lib/table/table-footer';
 import TextField from 'material-ui/lib/text-field';
+import Toggle from 'material-ui/lib/toggle';
+import TimePicker from 'material-ui/lib/time-picker/time-picker';
+var WeekDayDropdown = require('../components/WeekDayDropdown');
 
 const styles = {
   propContainerStyle: {
@@ -63,15 +66,27 @@ var HoursTable = React.createClass({
     Object.assign(rows[e.rowIdx], e.updated);
     this.setState({rows:rows});
   },
+  
+  handleDaySelected : function(e, index, value) {
+      console.log('Weekday selected:');
+      console.log('index:' + index + ' value: ' + value);      
+  },
 
   render:function(){
+    var self = this;
     var rowsCount = this.props.rows ? this.props.rows.length : 0;
     var hrs_list = this.props.rows.map(function(hour, index) {
         return (
             <TableRow key={index}>
-                <TableRowColumn>{hour.off}</TableRowColumn>
-                <TableRowColumn>{hour.day}</TableRowColumn>
-                <TableRowColumn>{hour.open}</TableRowColumn>
+                <TableRowColumn><Toggle toggled={hour.off}/></TableRowColumn>
+                <TableRowColumn>
+                    <WeekDayDropdown onDaySelect={self.handleDaySelected}
+                        selected={hour.day} /> 
+                </TableRowColumn>
+                <TableRowColumn>
+                    <TimePicker format="ampm"
+                        defaultTime={hour.open} />
+                </TableRowColumn>
                 <TableRowColumn>{hour.close}</TableRowColumn>
             </TableRow>
         )
