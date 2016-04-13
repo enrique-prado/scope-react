@@ -29,7 +29,7 @@ var HoursTabContainer = React.createClass({
   render: function() {
       
       return (
-          <Tabs onChange={this.handleChange} value={this.props.selected}>
+          <Tabs >
             <Tab label="Weekly Hours" value="weekly">
                 <div>
                     <HoursTable rows={this.props.regularHours} />

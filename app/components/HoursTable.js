@@ -71,11 +71,26 @@ var HoursTable = React.createClass({
       console.log('Weekday selected:');
       console.log('index:' + index + ' value: ' + value);      
   },
+  
+  handleTimeChanged : function(e, value) {
+    console.log('Time selected: ' + value );
+  },
+  
+  handleCloseTimeChange : function(e) {
+      console.log('Close Time selected: ' + e.target.value );
+  },
+  
+    handleOnFocus : function(e) {
+      console.log(' focus on text field ' + e.target.value );
+      e.preventDefault();
+  },
 
   render:function(){
     var self = this;
     var rowsCount = this.props.rows ? this.props.rows.length : 0;
     var hrs_list = this.props.rows.map(function(hour, index) {
+        //var open = new Date(hour.open);
+        //var close = new Date(hour.close);
         return (
             <TableRow key={index}>
                 <TableRowColumn><Toggle toggled={hour.off}/></TableRowColumn>
@@ -84,10 +99,12 @@ var HoursTable = React.createClass({
                         selected={hour.day} /> 
                 </TableRowColumn>
                 <TableRowColumn>
-                    <TimePicker format="ampm"
-                        defaultTime={hour.open} />
+                    <TimePicker format="ampm" onChange={self.handleTimeChanged} />
                 </TableRowColumn>
-                <TableRowColumn>{hour.close}</TableRowColumn>
+                <TableRowColumn>
+                    <TextField defaultValue={hour.close} onChange={self.handleCloseTimeChange}
+                        onFocus={self.handleOnFocus} disabled={false}  />
+                </TableRowColumn>
             </TableRow>
         )
     });
@@ -95,10 +112,9 @@ var HoursTable = React.createClass({
     return(
       <Table
       height="300px"
-      selectable={true}
-      onRowSelection={this._onRowSelection}
+      selectable={false}
       rowsCount={rowsCount}
-      minHeight={500}
+      minHeight={290}
       >
         <TableHeader>
             <TableRow>
@@ -108,7 +124,7 @@ var HoursTable = React.createClass({
                 <TableHeaderColumn tooltip="End of work hours">Close</TableHeaderColumn>
             </TableRow>
         </TableHeader>
-        <TableBody deselectOnClickaway={true} showRowHover={true} >
+        <TableBody showRowHover={false} >
             {hrs_list}
         </TableBody>
       </Table>        
