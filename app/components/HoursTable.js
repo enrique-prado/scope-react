@@ -20,40 +20,22 @@ const styles = {
   propToggleHeader: {
     margin: '20px auto 10px',
   },
+  hiddenColumn: {
+      display: 'none'
+  }
 };
 
-//Columns definition
-var columns = [
-    {
-    key: 'off',
-    name: 'Off',
-    editable: true,
-    width: 80
-    },
-    {
-    key: 'day',
-    name: 'Day',
-    editable: true,
-    width: 100
-    },
-    {
-    key: 'open',
-    name: 'Open',
-    editable: true,
-    width: 80
-    },   
-    {
-    key: 'close',
-    name: 'Close',
-    editable: true,
-    width: 80
-    }    
-]
+var originalData = [];
+
 
 var HoursTable = React.createClass({
   propTypes: {
     rows: React.PropTypes.array,
     onHrsUpdate: React.PropTypes.func,
+  },
+  
+  componentWillMount: function() {
+      originalData = this.props.rows; // Make a copy of original data array in case we need to reset changes
   },
 
   handleRowSelected : function(rowIdx){
@@ -93,6 +75,7 @@ var HoursTable = React.createClass({
         //var close = new Date(hour.close);
         return (
             <TableRow key={index}>
+                <TableRowColumn >{hour.row_id}</TableRowColumn>
                 <TableRowColumn><Toggle toggled={hour.off}/></TableRowColumn>
                 <TableRowColumn>
                     <WeekDayDropdown onDaySelect={self.handleDaySelected}
@@ -116,15 +99,16 @@ var HoursTable = React.createClass({
       rowsCount={rowsCount}
       minHeight={290}
       >
-        <TableHeader>
+        <TableHeader displaySelectAll={false}>
             <TableRow>
+                <TableHeaderColumn style={styles.hiddenColumn} >row_id</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Day Off when checked">Day off</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Day of the week">Day</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Start of work hours">Open</TableHeaderColumn>
                 <TableHeaderColumn tooltip="End of work hours">Close</TableHeaderColumn>
             </TableRow>
         </TableHeader>
-        <TableBody showRowHover={false} >
+        <TableBody showRowHover={false} displayRowCheckbox={false} >
             {hrs_list}
         </TableBody>
       </Table>        

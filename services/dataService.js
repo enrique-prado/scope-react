@@ -209,7 +209,7 @@ var HoursDataService = (function () {
                         
                         for (var i = 0; i < entries.length; i++) {
                             var newEntry = JSON.parse(entries[i]);
-                            newEntry.day = weekDays[newEntry.day - 1];
+                            newEntry.day = weekDays[newEntry.day - 1]; //Replace day int selector value with actual string: 1 -> Monday, 1 -> Tuesday, etc.
                             hoursEntries.push(newEntry);
                             console.log('Added Hours entry:');
                             console.log('Day: ' + newEntry.day + ' , hours: ' + newEntry.open + ' - ' + newEntry.close);
@@ -243,12 +243,13 @@ var HoursDataService = (function () {
                         && (entry.queueType == qType)
                         && (entry.queue == queue)) {
                             hours.push({
+                                row_id: i,
                                 off: false,
                                 day: weekDays[entry.selector - 1],
                                 open: entry.start,
                                 close: entry.end
                             });
-                            console.log('Added Hours entry:');
+                            console.log('Added Hours entry: ' + i);
                             console.log('Day: ' + entry.selector + ' , hours: ' + entry.start + ' - ' + entry.end);
                     }
                 }
