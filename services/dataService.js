@@ -210,6 +210,9 @@ var HoursDataService = (function () {
                         for (var i = 0; i < entries.length; i++) {
                             var newEntry = JSON.parse(entries[i]);
                             newEntry.day = weekDays[newEntry.day - 1]; //Replace day int selector value with actual string: 1 -> Monday, 1 -> Tuesday, etc.
+                            newEntry.off = Boolean(Number(newEntry.off));
+                            newEntry.open = new Date('Jan 1, 2016 ' + newEntry.open); //Converting to Date object, Month, day & year are irrelevant
+                            newEntry.close = new Date('Jan 1, 2016 ' + newEntry.close); //Converting to Date object, Month, day & year are irrelevant
                             hoursEntries.push(newEntry);
                             console.log('Added Hours entry:');
                             console.log('Day: ' + newEntry.day + ' , hours: ' + newEntry.open + ' - ' + newEntry.close);

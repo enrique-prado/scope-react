@@ -4,11 +4,19 @@ import HoursDataService from '../../services/dataService';
 var SchedTypeRadioBtn = require('../components/SchedTypeRadioBtn');
 var SchedMenuNav = require('../components/SchedMenuNav');
 var HoursTabContainer = require('../containers/HoursTabContainer');
-    const appStyles = {
-        menunav: {
-            width:'300px'
-        }
+    
+const appStyles = {
+    menunav: {
+        width:'300px'
     }
+}
+
+//TODO: Replace this with real table lookup
+var custIds = {};
+custIds['neat'] = 'NEAT_ID';
+custIds['SpokenDA'] = 'SPKN_ID';
+custIds['Guthy'] = 'GUTHY_ID';
+
 
 var HrsApp = React.createClass({
   //LIFE CYCLE EVENTS 
@@ -44,7 +52,7 @@ var HrsApp = React.createClass({
       if (prevState.selectedMenuEntry !== this.state.selectedMenuEntry)  {
         this.populateHoursTable();
         
-        this.testHourEntry();        
+        //this.testHourEntry();        
       }
   },
   
@@ -97,14 +105,14 @@ var HrsApp = React.createClass({
   testHourEntry: function() {
     //Testing api
     var hrEntry = {
-        day: "Wed",
+        day: "6",
         open: "08:00:00",
         close: "18:00:00",
-        appId: "TEST_APP_ID",
+        appId: custIds[this.state.selectedCustomer],
         custName: this.state.selectedCustomer,
         qType : this.state.schedType,
         qName : this.state.selectedMenuEntry,
-        state : 1
+        state : 0
     }
 
     HoursDataService.insertHoursForCustomer(hrEntry)

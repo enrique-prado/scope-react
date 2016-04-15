@@ -82,11 +82,10 @@ var HoursTable = React.createClass({
                         selected={hour.day} /> 
                 </TableRowColumn>
                 <TableRowColumn>
-                    <TimePicker format="ampm" onChange={self.handleTimeChanged} />
+                    <TimePicker format="ampm" defaultTime={hour.open} onChange={self.handleTimeChanged} />
                 </TableRowColumn>
                 <TableRowColumn>
-                    <TextField defaultValue={hour.close} onChange={self.handleCloseTimeChange}
-                        onFocus={self.handleOnFocus} disabled={false}  />
+                    <TimePicker format="ampm" defaultTime={hour.close} onChange={self.handleTimeChanged} />
                 </TableRowColumn>
             </TableRow>
         )
@@ -101,7 +100,7 @@ var HoursTable = React.createClass({
       >
         <TableHeader displaySelectAll={false}>
             <TableRow>
-                <TableHeaderColumn style={styles.hiddenColumn} >row_id</TableHeaderColumn>
+                <TableHeaderColumn >row_id</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Day Off when checked">Day off</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Day of the week">Day</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Start of work hours">Open</TableHeaderColumn>
