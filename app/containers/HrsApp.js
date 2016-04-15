@@ -43,6 +43,8 @@ var HrsApp = React.createClass({
       
       if (prevState.selectedMenuEntry !== this.state.selectedMenuEntry)  {
         this.populateHoursTable();
+        
+        this.testHourEntry();        
       }
   },
   
@@ -91,6 +93,25 @@ var HrsApp = React.createClass({
           });
       });
   },  
+  
+  testHourEntry: function() {
+    //Testing api
+    var hrEntry = {
+        day: "Wed",
+        open: "08:00:00",
+        close: "18:00:00",
+        appId: "TEST_APP_ID",
+        custName: this.state.selectedCustomer,
+        qType : this.state.schedType,
+        qName : this.state.selectedMenuEntry,
+        state : 1
+    }
+
+    HoursDataService.insertHoursForCustomer(hrEntry)
+    .then(function(result) {
+        console.log('TESTING inserting hr entry, Result:' + result);
+    });      
+  },
 
   //UI RENDERING
   render: function() {

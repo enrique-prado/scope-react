@@ -24,11 +24,11 @@ var HoursDataService = (function () {
         ]
             
         var defaultSchedEntries = [
-            { type:"DOW", selector: 1, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 2, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 3, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 4, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 5, start:"08:00:00", end: "19:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 1, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 2, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 3, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 4, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DOW", selector: 5, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DOW", selector: 6, start:"10:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DOW", selector: 7, start:"12:00:00", end: "17:00,00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
             { type:"DOW", selector: 1, start:"09:00:00", end: "18:00,00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
@@ -257,26 +257,48 @@ var HoursDataService = (function () {
                 resolve(hours);
             });                        
         };
+        
+        function insertHoursForCustomer(hourObj ) {
+            console.log("insertHoursForCustomer called...");
+            
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log('dataService.insertHoursForCustomer succeeds');
+                        var result = xhr.response;
+                        resolve(result); //Return status
+                    }
+                    else {
+                        console.log('ERROR in dataService.insertHoursForCustomer(), status: ' + xhr.status);
+                        resolve(xhr.status);
+                    }            
+                }
+            
+                xhr.onerror = reject;
+                console.log("Entering new hour entry for customer " + hourObj.custName );
+                xhr.open("GET","/getdata?template=addhoursforcustomer" +
+                    "&day_idx=" + hourObj.day +
+                    "&open=" + hourObj.open +
+                    "&close=" + hourObj.close +
+                    "&appid=" + hourObj.appId +
+                    "&cust_name=" + hourObj.custName + 
+                    "&qtype=" + hourObj.qType +
+                    "&qname=" + hourObj.qName +
+                    "&state_idx=" + hourObj.state, true);
+                                
+                xhr.send();
+            });                        
+        }
 
-    /*      
-         this.insertSchedEntry = function (entry) {s
-            return $http.post(urlBase, cust);
-        };
-
-        this.updateSchedEntry = function (entry_id, entry) {
-            return $http.put(urlBase + '/' + cust.ID, cust)
-        };
-
-        this.deleteSchedEntry = function (entry_id) {
-            return $http.delete(urlBase + '/' + entry_id);
-        };
-    */
-     
+   
     // Public interface methods
     return {
-        getCustomers : getCustomersMock,
-        getSchedEntries : getSchedEntriesMock,
-        getHours : getHoursMock
+        getCustomers : getCustomers,
+        getSchedEntries : getSchedEntries,
+        getHours : getHours,
+        insertHoursForCustomer : insertHoursForCustomer
     }
 })();
 
