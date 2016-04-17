@@ -1,15 +1,36 @@
 import React from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
+import FlatButton from 'material-ui/lib/flat-button';
+import Toggle from 'material-ui/lib/toggle';
+import TimePicker from 'material-ui/lib/time-picker/time-picker';
+import ActionDone from 'material-ui/lib/svg-icons/action/done';
 import HoursTable from '../components/HoursTable';
+var WeekDayDropdown = require('../components/WeekDayDropdown');
 
 const hrsTabStyles = {
   headline: {
-    fontSize: 24,
+    fontSize: 20,
     paddingTop: 16,
     marginBottom: 12,
     fontWeight: 400,
   },
+};
+
+const btnStyle = {
+  margin: 12,
+};
+
+var defaultEntry  = { 
+          type:"DOW", 
+          day: "Monday", 
+          open: new Date(), 
+          close: new Date(), 
+          app_id:"NEAT_ID", 
+          customer:"neat", 
+          queueType:"global",  
+          queue:"All neat", 
+          off: true 
 };
 
 var HoursTabContainer = React.createClass({
@@ -19,28 +40,74 @@ var HoursTabContainer = React.createClass({
     onTabSelect: React.PropTypes.func.isRequired,
     onRegularHrsUpdate: React.PropTypes.func,
     onExceptionHrsUpdate: React.PropTypes.func,
+    onSave:React.PropTypes.func,
+    onCancel:React.PropTypes.func,
+    onAddEntry:React.PropTypes.func,
     selected: React.PropTypes.string
   },  
+  getInitialState: function() {
+      return {
+          newEntry : defaultEntry
+      };
+  },
   handleChange: function(value) { 
       //Check for any unsaved changes, prompt if unsaved
       this.props.onTabSelect(value);
   },
+  handleAddRow: function() {
+      //Show new row elements and set default values
+      this.setState({
+          newEntry : defaultEntry
+      });
+  },
+  handleDaySelected : function(e, index, value) {
+      console.log('New Entry Weekday selected:');
+      console.log('index:' + index + ' value: ' + value);
+      var entry = this.state.newEntry;
+      entry.day = value;   
+      this.setState({
+          newEntry: entry
+      });         
+  },  
   
   render: function() {
       
       return (
-          <Tabs >
-            <Tab label="Weekly Hours" value="weekly">
-                <div>
-                    <HoursTable rows={this.props.regularHours} />
-                </div>
-            </Tab>
-            <Tab label="Exceptions" value="exceptions">
-                <div>
-                    TABLE 2 GOES HERE
-                </div>
-            </Tab>            
-          </Tabs>
+          <div>
+            <div>
+            <Tabs >
+                <Tab label="Weekly Hours" value="weekly">
+                    <div>
+                        <HoursTable rows={this.props.regularHours} />
+                    </div>
+                </Tab>
+                <Tab label="Exceptions" value="exceptions">
+                    <div>
+                        TABLE 2 GOES HERE
+                    </div>
+                </Tab>            
+            </Tabs>
+            </div>
+            <div>
+                <Toggle toggled={this.state.newEntry.off}/>
+                <WeekDayDropdown selected={this.state.newEntry.day}
+                    onDaySelect={this.handleDaySelected} />
+                <TimePicker format="ampm" defaultTime={this.state.newEntry.open} />
+                <TimePicker format="ampm" defaultTime={this.state.newEntry.close} />
+                <FlatButton icon={<ActionDone />} />				
+            </div>
+            <div>
+                <FlatButton label="Save" 
+                    style={btnStyle} />
+                <FlatButton label="Cancel" 
+                    secondary={true} 
+                    style={btnStyle} />
+                <FlatButton label="Add" 
+                    secondary={true} 
+                    onTouchStart={this.handleAddRow}
+                    style={btnStyle} />
+            </div>
+          </div>
       )
   }
 

@@ -79,6 +79,10 @@ var HrsApp = React.createClass({
       this.setState({selectedMenuEntry: index})
   },
   
+  handleAddEntry: function() {
+      console.log("handleAddEntry called");
+  },
+  
   // OTHER METHODS
   populateSchedNavMenu: function() {
       //Refreshes Sched Nav Menu on the left
@@ -141,7 +145,8 @@ var HrsApp = React.createClass({
                 onEntrySelect={this.handleMenuEntrySelect}  />
         </div>
         <div className="tablesPane" >
-            <HoursTabContainer onTabSelect={this.handleHoursTabChange} selected={this.state.activeHrsTab}
+            <HoursTabContainer onTabSelect={this.handleHoursTabChange}
+                selected={this.state.activeHrsTab}
                 regularHours={this.state.regularHours} />
         </div>                    
       </div>

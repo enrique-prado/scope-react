@@ -93,7 +93,7 @@ var HoursTable = React.createClass({
     
     return(
       <Table
-      height="300px"
+      height="auto"
       selectable={false}
       rowsCount={rowsCount}
       minHeight={290}
