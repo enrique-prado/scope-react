@@ -213,6 +213,8 @@ var HoursDataService = (function () {
                             newEntry.off = Boolean(Number(newEntry.off));
                             newEntry.open = new Date('Jan 1, 2016 ' + newEntry.open); //Converting to Date object, Month, day & year are irrelevant
                             newEntry.close = new Date('Jan 1, 2016 ' + newEntry.close); //Converting to Date object, Month, day & year are irrelevant
+                            newEntry.deleted = Boolean(Number(newEntry.deleted));
+                            newEntry.updated = false; // flag that indicates if record has been changed by user
                             hoursEntries.push(newEntry);
                             console.log('Added Hours entry:');
                             console.log('Day: ' + newEntry.day + ' , hours: ' + newEntry.open + ' - ' + newEntry.close);
