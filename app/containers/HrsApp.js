@@ -104,8 +104,30 @@ var HrsApp = React.createClass({
       this.setState({selectedMenuEntry: index})
   },
   
-  handleAddEntry: function() {
-      console.log("handleAddEntry called");
+  handleAddNewHourRow: function(newRow) {
+      console.log("handleAddNewHourRow called");
+      console.log('off = ' + newRow.off + ' , day = ' + newRow.day + ', hours = ' + newRow.open + ' - ' + newRow.close);
+      //Add new row to array in memory but not to DB
+      var newEntry = {};
+      newEntry.row_id = -1 //Negative id denotes it's a new row not yet commited to DB
+      newEntry.type = 'DOW';
+      newEntry.off = newRow.off;
+      newEntry.day = newRow.day;
+      newEntry.open = newRow.open;
+      newEntry.close = newRow.close;
+      newEntry.app_id = "TODO"; //TODO: Query customer (app_id)
+      newEntry.customer = this.state.selectedCustomer;
+      newEntry.queueType = this.state.schedType;
+      newEntry.queue = this.state.selectedMenuEntry;
+      newEntry.deleted = false;
+      newEntry.updated = false;
+      
+      //update hours array
+      var updatedHours = this.state.regularHours;
+      updatedHours.push(newEntry);
+      this.setState({
+          regularHours : updatedHours
+      })
   },
   
   // OTHER METHODS
@@ -126,6 +148,7 @@ var HrsApp = React.createClass({
   },
   
   populateHoursTable: function() {
+      console.log('populateHoursTable CALLED');
       //Refreshes working hours table on the right pane
       var self = this;
       HoursDataService.getHours(this.state.selectedCustomer, this.state.schedType, this.state.selectedMenuEntry)
@@ -177,7 +200,8 @@ var HrsApp = React.createClass({
         <div className="tablesPane" style={appStyles.content}>
             <HoursTabContainer onTabSelect={this.handleHoursTabChange}
                 selected={this.state.activeHrsTab}
-                regularHours={this.state.regularHours} />
+                regularHours={this.state.regularHours}
+                onNewRowAccepted={this.handleAddNewHourRow} />
         </div>                    
       </div>
     );

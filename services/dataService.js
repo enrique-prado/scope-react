@@ -252,7 +252,9 @@ var HoursDataService = (function () {
                                 off: false,
                                 day: weekDays[entry.selector - 1],
                                 open: new Date('Jan 1, 2016 ' + entry.start),
-                                close: new Date('Jan 1, 2016 ' + entry.end)
+                                close: new Date('Jan 1, 2016 ' + entry.end),
+                                deleted: false,
+                                updated: false
                             });
                             console.log('Added Hours entry: ' + i);
                             console.log('Day: ' + entry.selector + ' , hours: ' + entry.start + ' - ' + entry.end);

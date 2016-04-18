@@ -55,7 +55,7 @@ var HoursTabContainer = React.createClass({
     onExceptionHrsUpdate: React.PropTypes.func,
     onSave:React.PropTypes.func,
     onCancel:React.PropTypes.func,
-    onAddEntry:React.PropTypes.func,
+    onNewRowAccepted:React.PropTypes.func.isRequired,
     selected: React.PropTypes.string
   },  
   getInitialState: function() {
@@ -63,17 +63,24 @@ var HoursTabContainer = React.createClass({
           newEntry : defaultEntry
       };
   },
-  handleChange: function(value) { 
-      //Check for any unsaved changes, prompt if unsaved
-      this.props.onTabSelect(value);
-  },
   handleAddRow: function() {
-      //Show new row elements and set default values
+      //Show new row elements TODO
+      
+      //Set default row values
       this.setState({
           newEntry : defaultEntry
       });
   },
-  handleDaySelected : function(e, index, value) {
+  handleRowAccepted : function(e) {
+      //Call parent so it can add new row to array
+      this.props.onNewRowAccepted(this.state.newEntry);
+      
+      //Hide new row elements TODO
+  },
+  handleNewRowDayOffToggle : function(e,val1, val2) {
+      
+  },
+  handleNewRowDaySelected : function(e, index, value) {
       console.log('New Entry Weekday selected:');
       console.log('index:' + index + ' value: ' + value);
       var entry = this.state.newEntry;
@@ -82,7 +89,20 @@ var HoursTabContainer = React.createClass({
           newEntry: entry
       });         
   },  
-  
+  handleOpenHrChange: function(e, newDate) { 
+      var entry = this.state.newEntry;
+      entry.open = newDate;
+      this.setState({
+          newEntry : entry
+      });
+  },  
+  handleCloseHrChange: function(e, newDate) { 
+      var entry = this.state.newEntry;
+      entry.close = newDate;
+      this.setState({
+          newEntry : entry
+      });
+  },    
   render: function() {
       
       return (
@@ -102,12 +122,22 @@ var HoursTabContainer = React.createClass({
             </Tabs>
             </div>
             <div className="newRow-div" style={tabStyles.newrow}>
-                <Toggle toggled={this.state.newEntry.off} style={tabStyles.toggle}/>
+                <Toggle defaultToggled={this.state.newEntry.off}
+                    onToggle={this.handleNewRowDayOffToggle} 
+                    style={tabStyles.toggle}/>
                 <WeekDayDropdown selected={this.state.newEntry.day}
-                    onDaySelect={this.handleDaySelected}/>
-                <TimePicker format="ampm" defaultTime={this.state.newEntry.open} style={tabStyles.horzLayout} />
-                <TimePicker format="ampm" defaultTime={this.state.newEntry.close} style={tabStyles.horzLayout} />
-                <FlatButton label=" " icon={<ActionDone />} />				
+                    onDaySelect={this.handleNewRowDaySelected}/>
+                <TimePicker format="ampm" 
+                    defaultTime={this.state.newEntry.open}
+                    onChange={this.handleOpenHrChange} 
+                    style={tabStyles.horzLayout} />
+                <TimePicker format="ampm" 
+                    defaultTime={this.state.newEntry.close} 
+                    onChange={this.handleCloseHrChange} 
+                    style={tabStyles.horzLayout} />
+                <FlatButton label=" " 
+                    onClick={this.handleRowAccepted} 
+                    icon={<ActionDone />} />				
             </div>
             <div>
                 <FlatButton label="Save" 
