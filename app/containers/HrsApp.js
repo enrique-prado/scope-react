@@ -42,7 +42,7 @@ var HrsApp = React.createClass({
   //LIFE CYCLE EVENTS 
   getInitialState: function(){
     return { 
-        selectedCustomer: "neat",
+        selectedCustomer: "",
         schedType: "global",
         activeHrsTab: "weekly",
         selectedMenuEntry: "",
@@ -59,6 +59,11 @@ var HrsApp = React.createClass({
         self.setState({
             customers : result         
         });
+        if (result.length > 0) {
+            self.setState({
+                selectedCustomer: result[0].label //Select first customer 
+            });
+        }
     });
   },
   
@@ -112,6 +117,11 @@ var HrsApp = React.createClass({
            self.setState({
                schedEntries : result
            });
+           if (result.length > 0) {
+               self.setState({
+                   selectedMenuEntry : result[0].queue //select first entry
+               });
+           }
        });
   },
   
