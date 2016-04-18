@@ -18,6 +18,8 @@ Implement exceptions tab
     Update / Delete
     
 Implement HOP state logic for UI
+    *Initial auto populate state
+    Enable / disable buttons
 
 Implement in-line styling.
 
