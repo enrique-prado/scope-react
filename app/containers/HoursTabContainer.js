@@ -94,7 +94,7 @@ var HoursTabContainer = React.createClass({
                     onDaySelect={this.handleDaySelected} />
                 <TimePicker format="ampm" defaultTime={this.state.newEntry.open} />
                 <TimePicker format="ampm" defaultTime={this.state.newEntry.close} />
-                <FlatButton icon={<ActionDone />} />				
+                <FlatButton label=" " icon={<ActionDone />} />				
             </div>
             <div>
                 <FlatButton label="Save" 
