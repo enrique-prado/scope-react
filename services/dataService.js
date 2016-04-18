@@ -251,8 +251,8 @@ var HoursDataService = (function () {
                                 row_id: i,
                                 off: false,
                                 day: weekDays[entry.selector - 1],
-                                open: entry.start,
-                                close: entry.end
+                                open: new Date('Jan 1, 2016 ' + entry.start),
+                                close: new Date('Jan 1, 2016 ' + entry.end)
                             });
                             console.log('Added Hours entry: ' + i);
                             console.log('Day: ' + entry.selector + ' , hours: ' + entry.start + ' - ' + entry.end);
@@ -300,9 +300,9 @@ var HoursDataService = (function () {
    
     // Public interface methods
     return {
-        getCustomers : getCustomers,
-        getSchedEntries : getSchedEntries,
-        getHours : getHours,
+        getCustomers : getCustomersMock,
+        getSchedEntries : getSchedEntriesMock,
+        getHours : getHoursMock,
         insertHoursForCustomer : insertHoursForCustomer
     }
 })();
