@@ -6,6 +6,16 @@ var React = require('react');
 var SelectField = require('material-ui/lib/SelectField');
 var MenuItem = require('material-ui/lib/menus/menu-item');
 
+const wdStyles = {
+  horzLayout: {
+    display:'inline-block',
+    verticalAlign:'top',
+  },
+  dropdown: {
+    width:'120px'  
+  }  
+};
+
 var weekDays = [
     "Monday",
     "Tuesday",
@@ -33,8 +43,8 @@ var WeekDayDropdown = React.createClass({
         )
     });
     return (
-    <div>
-        <SelectField value={this.props.selected} onChange={this.handleChange}>
+    <div className="dowDropdown-div" style={wdStyles.horzLayout}>
+        <SelectField value={this.props.selected} onChange={this.handleChange} style={wdStyles.dropdown}>
             {days_list}
         </SelectField>
     </div>

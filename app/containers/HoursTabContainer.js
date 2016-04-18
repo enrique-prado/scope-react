@@ -8,13 +8,26 @@ import ActionDone from 'material-ui/lib/svg-icons/action/done';
 import HoursTable from '../components/HoursTable';
 var WeekDayDropdown = require('../components/WeekDayDropdown');
 
-const hrsTabStyles = {
+const tabStyles = {
   headline: {
     fontSize: 20,
     paddingTop: 16,
     marginBottom: 12,
     fontWeight: 400,
   },
+  horzLayout: {
+    display:'inline-block',
+    verticalAlign:'top',
+    width:'20%'  
+  },
+  toggle: {
+    display:'inline-block',
+    verticalAlign:'top',
+    width:'60px'  
+  },
+  newrow:{
+      width:'700px'
+  }  
 };
 
 const btnStyle = {
@@ -88,12 +101,12 @@ var HoursTabContainer = React.createClass({
                 </Tab>            
             </Tabs>
             </div>
-            <div>
-                <Toggle toggled={this.state.newEntry.off}/>
+            <div className="newRow-div" style={tabStyles.newrow}>
+                <Toggle toggled={this.state.newEntry.off} style={tabStyles.toggle}/>
                 <WeekDayDropdown selected={this.state.newEntry.day}
-                    onDaySelect={this.handleDaySelected} />
-                <TimePicker format="ampm" defaultTime={this.state.newEntry.open} />
-                <TimePicker format="ampm" defaultTime={this.state.newEntry.close} />
+                    onDaySelect={this.handleDaySelected}/>
+                <TimePicker format="ampm" defaultTime={this.state.newEntry.open} style={tabStyles.horzLayout} />
+                <TimePicker format="ampm" defaultTime={this.state.newEntry.close} style={tabStyles.horzLayout} />
                 <FlatButton label=" " icon={<ActionDone />} />				
             </div>
             <div>
