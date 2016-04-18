@@ -77,8 +77,13 @@ var HoursTabContainer = React.createClass({
       
       //Hide new row elements TODO
   },
-  handleNewRowDayOffToggle : function(e,val1, val2) {
-      
+  handleNewRowDayOffToggle : function(e, value) {
+      console.log('New day off toggle: ' + value);
+      var entry = this.state.newEntry;
+      entry.off = value;   
+      this.setState({
+          newEntry: entry
+      });           
   },
   handleNewRowDaySelected : function(e, index, value) {
       console.log('New Entry Weekday selected:');
