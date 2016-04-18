@@ -5,9 +5,10 @@ Enable other ScopeUI tabs (recordings, calls, etc)
 
 * Implement up MUI table with nested controls
     (Read only done )Hook up day off toggle ctl
-    * Hook up time picker ctl
-    Add 'Save' / 'Cancel' buttons
-    Sort hours by day?
+    (RO done) Hook up time picker ctl
+    (UI done) Add 'Save' / 'Cancel' / Add buttons
+    (UI done) Add new row components
+
     
 
 Implement exceptions tab
@@ -19,4 +20,8 @@ Implement exceptions tab
 Implement HOP state logic for UI
 
 Implement in-line styling.
+
+Reuse hoursTable, pass in a prop that specifies exceptions or hours 
+and use DOW dropdown or DatePicker accordingly. Then implement getExceptions api
+that converts selector into date format.
 
