@@ -42,9 +42,11 @@ var HoursTable = React.createClass({
     return this.props.rows[rowIdx]
   },
   
-  handleDayOffToggle : function(e, value) {
+  handleDayOffToggle : function(key, e, value) {
       console.log('handleDayOffToggle toggled: ' + value);
-      
+      console.log('e: ' + e );
+      console.log('Row key: ' + key );
+      console.log('Correspoding row_id: ' + this.props.rows[key].row_id);      
   },
 
   handleRowUpdated : function(e){
@@ -54,24 +56,25 @@ var HoursTable = React.createClass({
     this.setState({rows:rows});
   },
   
-  handleDaySelected : function(e, index, value) {
+  handleDaySelected : function(key, e, index, value) {
       console.log('Weekday selected:');
       console.log('index:' + index + ' value: ' + value);      
+      console.log('e: ' + e );
+      console.log('Row key: ' + key );
+      console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
   },
   
-  handleTimeChanged : function(e, value) {
+  handleTimeChanged : function(key, e, value) {
+    console.log('e: ' + e );
     console.log('Time selected: ' + value );
+    console.log('Row key: ' + key );
+    console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
   },
   
   handleCloseTimeChange : function(e) {
       console.log('Close Time selected: ' + e.target.value );
   },
   
-  handleRowSelection : function(key) {
-      console.log('Selected row with key: ' + key );
-      console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
-  },
-
   render:function(){
     var self = this;
     var rowsCount = this.props.rows ? this.props.rows.length : 0;
@@ -83,17 +86,17 @@ var HoursTable = React.createClass({
                 <TableRowColumn >{hour.row_id}</TableRowColumn>
                 <TableRowColumn>
                     <Toggle defaultToggled={hour.off}
-                            onToggle={self.handleDayOffToggle}/>
+                            onToggle={self.handleDayOffToggle.bind(self, index)}/>
                 </TableRowColumn>
                 <TableRowColumn>
-                    <WeekDayDropdown onDaySelect={self.handleDaySelected}
+                    <WeekDayDropdown onDaySelect={self.handleDaySelected.bind(self, index)}
                             selected={hour.day} /> 
                 </TableRowColumn>
                 <TableRowColumn>
-                    <TimePicker format="ampm" defaultTime={hour.open} onChange={self.handleTimeChanged} />
+                    <TimePicker format="ampm" defaultTime={hour.open} onChange={self.handleTimeChanged.bind(self, index)} />
                 </TableRowColumn>
                 <TableRowColumn>
-                    <TimePicker format="ampm" defaultTime={hour.close} onChange={self.handleTimeChanged} />
+                    <TimePicker format="ampm" defaultTime={hour.close} onChange={self.handleTimeChanged.bind(self, index)} />
                 </TableRowColumn>
             </TableRow>
         )
