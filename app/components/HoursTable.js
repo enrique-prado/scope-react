@@ -41,6 +41,11 @@ var HoursTable = React.createClass({
   handleRowSelected : function(rowIdx){
     return this.props.rows[rowIdx]
   },
+  
+  handleDayOffToggle : function(e, value) {
+      console.log('handleDayOffToggle toggled: ' + value);
+      
+  },
 
   handleRowUpdated : function(e){
     //merge updated row with current row and rerender by setting state
@@ -62,7 +67,7 @@ var HoursTable = React.createClass({
       console.log('Close Time selected: ' + e.target.value );
   },
   
-    handleOnFocus : function(e) {
+  handleOnFocus : function(e) {
       console.log(' focus on text field ' + e.target.value );
       e.preventDefault();
   },
@@ -76,10 +81,13 @@ var HoursTable = React.createClass({
         return (
             <TableRow key={index}>
                 <TableRowColumn >{hour.row_id}</TableRowColumn>
-                <TableRowColumn><Toggle toggled={hour.off}/></TableRowColumn>
+                <TableRowColumn>
+                    <Toggle defaultToggled={hour.off}
+                            onToggle={self.handleDayOffToggle}/>
+                </TableRowColumn>
                 <TableRowColumn>
                     <WeekDayDropdown onDaySelect={self.handleDaySelected}
-                        selected={hour.day} /> 
+                            selected={hour.day} /> 
                 </TableRowColumn>
                 <TableRowColumn>
                     <TimePicker format="ampm" defaultTime={hour.open} onChange={self.handleTimeChanged} />
@@ -107,7 +115,7 @@ var HoursTable = React.createClass({
                 <TableHeaderColumn tooltip="End of work hours">Close</TableHeaderColumn>
             </TableRow>
         </TableHeader>
-        <TableBody showRowHover={false} displayRowCheckbox={false} >
+        <TableBody showRowHover={false} displayRowCheckbox={false} selectable={true} >
             {hrs_list}
         </TableBody>
       </Table>        
