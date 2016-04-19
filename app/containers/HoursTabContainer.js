@@ -107,7 +107,18 @@ var HoursTabContainer = React.createClass({
       this.setState({
           newEntry : entry
       });
-  },    
+  },
+  handleSaveHours : function() {
+    //Check to see if new row needs to be accepted first
+    // Also commit any changes to updated rows
+    //TODO: Reuse for exceptions by passing type param?
+    this.props.onSave();  
+  },
+  handleCancelHours : function() {
+    //TODO: Reuse for exceptions by passing type param?
+
+    this.props.onCancel();  
+  },        
   render: function() {
       
       return (
@@ -145,14 +156,16 @@ var HoursTabContainer = React.createClass({
                     icon={<ActionDone />} />				
             </div>
             <div>
-                <FlatButton label="Save" 
+                <FlatButton label="Add" 
+                    secondary={true} 
+                    onClick={this.handleAddRow}
+                    style={btnStyle} />            
+                <FlatButton label="Save"
+                    onClick={this.handleSaveHours} 
                     style={btnStyle} />
                 <FlatButton label="Cancel" 
                     secondary={true} 
-                    style={btnStyle} />
-                <FlatButton label="Add" 
-                    secondary={true} 
-                    onTouchStart={this.handleAddRow}
+                    onClick={this.handleCancelHours} 
                     style={btnStyle} />
             </div>
           </div>

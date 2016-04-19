@@ -109,16 +109,16 @@ var HrsApp = React.createClass({
       console.log('off = ' + newRow.off + ' , day = ' + newRow.day + ', hours = ' + newRow.open + ' - ' + newRow.close);
       //Add new row to array in memory but not to DB
       var newEntry = {};
-      newEntry.row_id = -1 //Negative id denotes it's a new row not yet commited to DB
+      newEntry.row_id = "NEW_ID" //NEW_ID denotes it's a new row not yet commited to DB
       newEntry.type = 'DOW';
       newEntry.off = newRow.off;
       newEntry.day = newRow.day;
       newEntry.open = newRow.open;
       newEntry.close = newRow.close;
-      newEntry.app_id = "TODO"; //TODO: Query customer (app_id)
-      newEntry.customer = this.state.selectedCustomer;
-      newEntry.queueType = this.state.schedType;
-      newEntry.queue = this.state.selectedMenuEntry;
+      newEntry.appId = "TODO"; //TODO: Query customer (app_id)
+      newEntry.custName = this.state.selectedCustomer;
+      newEntry.qType = this.state.schedType;
+      newEntry.qName = this.state.selectedMenuEntry;
       newEntry.deleted = false;
       newEntry.updated = false;
       
@@ -130,7 +130,38 @@ var HrsApp = React.createClass({
       })
   },
   
-  // OTHER METHODS
+  handleSaveHours : function() {
+      //User wants to commit changes to DB
+      //First insert new hour entries
+      this.addNewHourEntries();
+      //this.updateChangedEntries();
+      //Refresh from DB? Yes to get new row_ids.
+  },
+  // HELPER METHODS
+  addNewHourEntries : function() {
+      //Insert new entries to DB
+      this.state.regularHours.forEach (function(entry, index) {
+        if (entry.row_id === 'NEW_ID') { // This means this is a new unsaved row
+            console.log('About to call insertHoursForCustomer');
+            HoursDataService.insertHoursForCustomer(entry)
+            .then(function(result) {
+                console.log('Inserting hr entry, Result:' + result);
+                });   
+        }  
+      });
+  },
+  updateChangedEntries : function() {
+      //Insert new entries to DB
+      this.state.regularHours.forEach (function(entry, index) {
+        if ((entry.row_id != 'NEW_ID') && (entry.updated)) { 
+            console.log('About to call updateHoursForCustomer');
+            HoursDataService.updateHoursForCustomer(entry)
+            .then(function(result) {
+                console.log('Inserting hr entry, Result:' + result);
+                });   
+        }  
+      });
+  },  
   populateSchedNavMenu: function() {
       //Refreshes Sched Nav Menu on the left
       var self = this;
@@ -201,6 +232,8 @@ var HrsApp = React.createClass({
             <HoursTabContainer onTabSelect={this.handleHoursTabChange}
                 selected={this.state.activeHrsTab}
                 regularHours={this.state.regularHours}
+                onSave={this.handleSaveHours}
+                onCancel={this.handleCancelHours}
                 onNewRowAccepted={this.handleAddNewHourRow} />
         </div>                    
       </div>

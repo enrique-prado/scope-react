@@ -263,7 +263,7 @@ var HoursDataService = (function () {
                 
                 resolve(hours);
             });                        
-        };
+        }
         
         function insertHoursForCustomer(hourObj ) {
             console.log("insertHoursForCustomer called...");
@@ -279,16 +279,60 @@ var HoursDataService = (function () {
                     }
                     else {
                         console.log('ERROR in dataService.insertHoursForCustomer(), status: ' + xhr.status);
-                        resolve(xhr.status);
+                        return reject(xhr.status);
                     }            
                 }
             
-                xhr.onerror = reject;
-                console.log("Entering new hour entry for customer " + hourObj.custName );
+                xhr.onerror = reject(xhr.status);
+                console.log("Inserting new hour entry for customer " + hourObj.custName );
+                
+                //Convert Date to time string
+                var openTime = getTimeString(hourObj.open);
+                var closeTime = getTimeString(hourObj.close);
+                var state = Number(hourObj.off);
+                
                 xhr.open("GET","/getdata?template=addhoursforcustomer" +
                     "&day_idx=" + hourObj.day +
-                    "&open=" + hourObj.open +
-                    "&close=" + hourObj.close +
+                    "&open=" + opentime +
+                    "&close=" + closeTime +
+                    "&appid=" + hourObj.appId +
+                    "&cust_name=" + hourObj.custName + 
+                    "&qtype=" + hourObj.qType +
+                    "&qname=" + hourObj.qName +
+                    "&state_idx=" + state, true);
+                                
+                xhr.send();
+            });                        
+        }
+        
+        function updateHoursForCustomer(hourObj ) {
+            console.log("updateHoursForCustomer called...");
+            
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log('dataService.updateHoursForCustomer succeeds');
+                        var result = xhr.response;
+                        resolve(result); //Return status
+                    }
+                    else {
+                        console.log('ERROR in dataService.updateHoursForCustomer(), status: ' + xhr.status);
+                        return reject(xhr.status);
+                    }            
+                }
+            
+                xhr.onerror = reject(xhr.status);
+                console.log("Updating new hour entry for customer " + hourObj.custName );
+                //Convert Date to time string
+                var openTime = getTimeString(hourObj.open);
+                var closeTime = getTimeString(hourObj.close);
+                xhr.open("GET","/getdata?template=updatehoursforcustomer" +
+                    "&row_id=" + hourObj.row_id +
+                    "&day_idx=" + hourObj.day +
+                    "&open=" + openTime +
+                    "&close=" + closeTime +
                     "&appid=" + hourObj.appId +
                     "&cust_name=" + hourObj.custName + 
                     "&qtype=" + hourObj.qType +
@@ -297,15 +341,32 @@ var HoursDataService = (function () {
                                 
                 xhr.send();
             });                        
+        }        
+        
+//Helper functions
+    function getTimeString(date) {
+        var h = addZero(date.getHours());
+        var m = addZero(date.getMinutes());
+        var s = addZero(date.getSeconds());
+        var timeStr = h + ":" + m + ":" + s;
+        return timeStr;
+    }        
+    
+    function addZero(i) {
+        if (i < 10) {
+            i = "0" + i;
         }
+        return i;
+    }
 
    
     // Public interface methods
     return {
-        getCustomers : getCustomersMock,
-        getSchedEntries : getSchedEntriesMock,
-        getHours : getHoursMock,
-        insertHoursForCustomer : insertHoursForCustomer
+        getCustomers : getCustomers,
+        getSchedEntries : getSchedEntries,
+        getHours : getHours,
+        insertHoursForCustomer : insertHoursForCustomer,
+        updateHoursForCustomer : updateHoursForCustomer
     }
 })();
 

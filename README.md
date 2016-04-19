@@ -8,6 +8,9 @@ Enable other ScopeUI tabs (recordings, calls, etc)
     (RO done) Hook up time picker ctl
     (UI done) Add 'Save' / 'Cancel' / Add buttons
     (UI done) Add new row components
+    
+* Error Handling:
+    * reject in Promises
 
     
 
