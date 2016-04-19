@@ -134,13 +134,14 @@ var HrsApp = React.createClass({
       //User wants to commit changes to DB
       //First insert new hour entries
       this.addNewHourEntries();
-      //this.updateChangedEntries();
+      this.updateChangedEntries();
       //Refresh from DB? Yes to get new row_ids.
   },
   
   handleHoursUpdate : function(key, updatedRow) {
     //merge updated row with current row and rerender by setting state
     var updatedRows = this.state.regularHours;
+    updatedRow.updated = true; // Flag row as dirty
     Object.assign(updatedRows[key], updatedRow);
     this.setState({
         regularHours : updatedRows

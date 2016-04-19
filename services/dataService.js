@@ -326,25 +326,24 @@ var HoursDataService = (function () {
                     }
                     else {
                         console.log('ERROR in dataService.updateHoursForCustomer(), status: ' + xhr.status);
-                        return reject(xhr.status);
+                        resolve(xhr.status);
                     }            
                 }
             
-                xhr.onerror = reject(xhr.status);
+                xhr.onerror = reject;
                 console.log("Updating new hour entry for customer " + hourObj.custName );
+                var state = Number(hourObj.off);
+                var deleted = Number(hourObj.deleted);
                 //Convert Date to time string
                 var openTime = getTimeString(hourObj.open);
                 var closeTime = getTimeString(hourObj.close);
                 xhr.open("GET","/getdata?template=updatehoursforcustomer" +
-                    "&row_id=" + hourObj.row_id +
+                    "&rowid=" + hourObj.row_id +
                     "&day_idx=" + hourObj.day +
                     "&open=" + openTime +
                     "&close=" + closeTime +
-                    "&appid=" + hourObj.appId +
-                    "&cust_name=" + hourObj.custName + 
-                    "&qtype=" + hourObj.qType +
-                    "&qname=" + hourObj.qName +
-                    "&state_idx=" + hourObj.state, true);
+                    "&deleted=" + deleted +
+                    "&state_idx=" + state, true);
                                 
                 xhr.send();
             });                        
