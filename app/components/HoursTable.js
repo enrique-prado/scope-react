@@ -31,7 +31,7 @@ var originalData = [];
 var HoursTable = React.createClass({
   propTypes: {
     rows: React.PropTypes.array,
-    onHrsUpdate: React.PropTypes.func,
+    onHrsUpdate: React.PropTypes.func.isRequired
   },
   
   componentWillMount: function() {
@@ -46,34 +46,45 @@ var HoursTable = React.createClass({
       console.log('handleDayOffToggle toggled: ' + value);
       console.log('e: ' + e );
       console.log('Row key: ' + key );
-      console.log('Correspoding row_id: ' + this.props.rows[key].row_id);      
+      console.log('Correspoding row_id: ' + this.props.rows[key].row_id);  
+      var updatedRow = this.props.rows[key];
+      updatedRow.off = value;
+      this.props.onHrsUpdate(key, updatedRow);
   },
 
-  handleRowUpdated : function(e){
-    //merge updated row with current row and rerender by setting state
-    var rows = this.state.rows;
-    Object.assign(rows[e.rowIdx], e.updated);
-    this.setState({rows:rows});
-  },
-  
   handleDaySelected : function(key, e, index, value) {
       console.log('Weekday selected:');
       console.log('index:' + index + ' value: ' + value);      
       console.log('e: ' + e );
       console.log('Row key: ' + key );
       console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
+      var updatedRow = this.props.rows[key];
+      updatedRow.day = value;
+      this.props.onHrsUpdate(key, updatedRow);      
   },
   
-  handleTimeChanged : function(key, e, value) {
-    console.log('e: ' + e );
-    console.log('Time selected: ' + value );
+  handleOpenTimeChanged : function(key, e, value) {
+    console.log('Open Time selected: ' + value );
     console.log('Row key: ' + key );
     console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
+    var updatedRow = this.props.rows[key];
+    updatedRow.open = value;
+    this.props.onHrsUpdate(key, updatedRow);    
   },
   
-  handleCloseTimeChange : function(e) {
-      console.log('Close Time selected: ' + e.target.value );
+  handleCloseTimeChange : function(key, e, value) {
+    console.log('Close Time selected: ' + value );
+    console.log('Row key: ' + key );
+    console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
+    var updatedRow = this.props.rows[key];
+    updatedRow.close = value;
+    this.props.onHrsUpdate(key, updatedRow);        
   },
+  
+  //HELPER FUNCTIONS
+
+  
+  //UI
   
   render:function(){
     var self = this;
@@ -93,10 +104,10 @@ var HoursTable = React.createClass({
                             selected={hour.day} /> 
                 </TableRowColumn>
                 <TableRowColumn>
-                    <TimePicker format="ampm" defaultTime={hour.open} onChange={self.handleTimeChanged.bind(self, index)} />
+                    <TimePicker format="ampm" defaultTime={hour.open} onChange={self.handleOpenTimeChanged.bind(self, index)} />
                 </TableRowColumn>
                 <TableRowColumn>
-                    <TimePicker format="ampm" defaultTime={hour.close} onChange={self.handleTimeChanged.bind(self, index)} />
+                    <TimePicker format="ampm" defaultTime={hour.close} onChange={self.handleCloseTimeChange.bind(self, index)} />
                 </TableRowColumn>
             </TableRow>
         )

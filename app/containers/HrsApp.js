@@ -137,6 +137,16 @@ var HrsApp = React.createClass({
       //this.updateChangedEntries();
       //Refresh from DB? Yes to get new row_ids.
   },
+  
+  handleHoursUpdate : function(key, updatedRow) {
+    //merge updated row with current row and rerender by setting state
+    var updatedRows = this.state.regularHours;
+    Object.assign(updatedRows[key], updatedRow);
+    this.setState({
+        regularHours : updatedRows
+    });
+  },  
+  
   // HELPER METHODS
   addNewHourEntries : function() {
       //this.testHourEntry();
@@ -233,6 +243,7 @@ var HrsApp = React.createClass({
             <HoursTabContainer onTabSelect={this.handleHoursTabChange}
                 selected={this.state.activeHrsTab}
                 regularHours={this.state.regularHours}
+                onRegularHrsUpdate={this.handleHoursUpdate}
                 onSave={this.handleSaveHours}
                 onCancel={this.handleCancelHours}
                 onNewRowAccepted={this.handleAddNewHourRow} />
