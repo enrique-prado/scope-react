@@ -27,13 +27,6 @@ var WrkHoursTable = React.createClass({
     return this.props.rows[rowIdx]
   },
 
-  handleRowUpdated : function(e){
-    //merge updated row with current row and rerender by setting state
-    var rows = this.state.rows;
-    Object.assign(rows[e.rowIdx], e.updated);
-    this.setState({rows:rows});
-  },
-  
   handleDaySelected : function(e, index, value) {
       console.log('Weekday selected:');
       console.log('index:' + index + ' value: ' + value);      
