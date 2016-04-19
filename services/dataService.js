@@ -279,21 +279,28 @@ var HoursDataService = (function () {
                     }
                     else {
                         console.log('ERROR in dataService.insertHoursForCustomer(), status: ' + xhr.status);
-                        return reject(xhr.status);
+                        resolve(xhr.status);
                     }            
                 }
             
-                xhr.onerror = reject(xhr.status);
+                xhr.onerror = reject;
                 console.log("Inserting new hour entry for customer " + hourObj.custName );
                 
                 //Convert Date to time string
                 var openTime = getTimeString(hourObj.open);
                 var closeTime = getTimeString(hourObj.close);
+                //var openTime = hourObj.open;
+                //var closeTime = hourObj.close;
                 var state = Number(hourObj.off);
+                //var state = hourObj.state;
+                var day = getDayIndex(hourObj.day) + 1; // DOW index start at 1 in DB
+                //var day = hourObj.day; // DOW index start at 1 in DB
+
+                console.log("Sending addHoursForCustomer: " + hourObj);
                 
                 xhr.open("GET","/getdata?template=addhoursforcustomer" +
-                    "&day_idx=" + hourObj.day +
-                    "&open=" + opentime +
+                    "&day_idx=" + day +
+                    "&open=" + openTime +
                     "&close=" + closeTime +
                     "&appid=" + hourObj.appId +
                     "&cust_name=" + hourObj.custName + 
@@ -359,6 +366,14 @@ var HoursDataService = (function () {
         return i;
     }
 
+    function getDayIndex(dowName) {
+        for (var i = 0; i < weekDays.length; i++) {
+            if (weekDays[i] == dowName) {
+                return i;
+            }
+        }
+        return -1; // Day string not found
+    }
    
     // Public interface methods
     return {

@@ -115,7 +115,7 @@ var HrsApp = React.createClass({
       newEntry.day = newRow.day;
       newEntry.open = newRow.open;
       newEntry.close = newRow.close;
-      newEntry.appId = "TODO"; //TODO: Query customer (app_id)
+      newEntry.appId = custIds[this.state.selectedCustomer]; //TODO: Query customer (app_id)
       newEntry.custName = this.state.selectedCustomer;
       newEntry.qType = this.state.schedType;
       newEntry.qName = this.state.selectedMenuEntry;
@@ -139,6 +139,7 @@ var HrsApp = React.createClass({
   },
   // HELPER METHODS
   addNewHourEntries : function() {
+      //this.testHourEntry();
       //Insert new entries to DB
       this.state.regularHours.forEach (function(entry, index) {
         if (entry.row_id === 'NEW_ID') { // This means this is a new unsaved row
