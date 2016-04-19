@@ -67,9 +67,9 @@ var HoursTable = React.createClass({
       console.log('Close Time selected: ' + e.target.value );
   },
   
-  handleOnFocus : function(e) {
-      console.log(' focus on text field ' + e.target.value );
-      e.preventDefault();
+  handleRowSelection : function(key) {
+      console.log('Selected row with key: ' + key );
+      console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
   },
 
   render:function(){
@@ -115,7 +115,7 @@ var HoursTable = React.createClass({
                 <TableHeaderColumn tooltip="End of work hours">Close</TableHeaderColumn>
             </TableRow>
         </TableHeader>
-        <TableBody showRowHover={false} displayRowCheckbox={false} selectable={true} >
+        <TableBody showRowHover={true} displayRowCheckbox={false} >
             {hrs_list}
         </TableBody>
       </Table>        
