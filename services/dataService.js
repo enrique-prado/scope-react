@@ -334,12 +334,13 @@ var HoursDataService = (function () {
                 console.log("Updating new hour entry for customer " + hourObj.custName );
                 var state = Number(hourObj.off);
                 var deleted = Number(hourObj.deleted);
+                var day = getDayIndex(hourObj.day) + 1; // DOW index start at 1 in DB
                 //Convert Date to time string
                 var openTime = getTimeString(hourObj.open);
                 var closeTime = getTimeString(hourObj.close);
                 xhr.open("GET","/getdata?template=updatehoursforcustomer" +
                     "&rowid=" + hourObj.row_id +
-                    "&day_idx=" + hourObj.day +
+                    "&day_idx=" + day +
                     "&open=" + openTime +
                     "&close=" + closeTime +
                     "&deleted=" + deleted +
