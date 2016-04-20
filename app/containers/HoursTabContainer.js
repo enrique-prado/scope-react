@@ -34,15 +34,12 @@ const btnStyle = {
   margin: 12,
 };
 
-var defaultEntry  = { 
+//TODO: Make these configurable and localizable
+var defaultEntry  = {  
           type:"DOW", 
           day: "Monday", 
-          open: new Date(), 
-          close: new Date(), 
-          app_id:"NEAT_ID", 
-          customer:"neat", 
-          queueType:"global",  
-          queue:"All neat", 
+          open: new Date('Jan 1, 2016 09:00:00'),
+          close: new Date('Jan 1, 2016 17:00:00'),
           off: true 
 };
 
@@ -61,22 +58,28 @@ var HoursTabContainer = React.createClass({
   },  
   getInitialState: function() {
       return {
-          newEntry : defaultEntry
+          newEntry : defaultEntry,
+          showNewEntryRow : false
       };
   },
   handleAddRow: function() {
-      //Show new row elements TODO
-      
+      //Make new row elements appear
+      this.setState({
+          showNewEntryRow : true
+      });
       //Set default row values
       this.setState({
           newEntry : defaultEntry
       });
+      
   },
   handleRowAccepted : function(e) {
       //Call parent so it can add new row to array
       this.props.onNewRowAccepted(this.state.newEntry);
-      
-      //Hide new row elements TODO
+      //Hide new row elements 
+      this.setState({
+          showNewEntryRow : false
+      });
   },
   handleNewRowDayOffToggle : function(e, value) {
       console.log('New day off toggle: ' + value);
@@ -121,6 +124,39 @@ var HoursTabContainer = React.createClass({
     this.props.onCancel();  
   },        
   render: function() {
+      var add_row = null; //add_row either renders the new row ui elements OR the Add button
+      if (this.state.showNewEntryRow == true) {
+        add_row = (
+                    <div className="newRow-div" style={tabStyles.newrow}>
+                        <Toggle defaultToggled={this.state.newEntry.off}
+                            onToggle={this.handleNewRowDayOffToggle} 
+                            style={tabStyles.toggle}/>
+                        <WeekDayDropdown selected={this.state.newEntry.day}
+                            onDaySelect={this.handleNewRowDaySelected}/>
+                        <TimePicker format="ampm" 
+                            defaultTime={this.state.newEntry.open}
+                            onChange={this.handleOpenHrChange} 
+                            style={tabStyles.horzLayout} />
+                        <TimePicker format="ampm" 
+                            defaultTime={this.state.newEntry.close} 
+                            onChange={this.handleCloseHrChange} 
+                            style={tabStyles.horzLayout} />
+                        <FlatButton label=" " 
+                            onClick={this.handleRowAccepted} 
+                            icon={<ActionDone />} />				
+                    </div>             
+        );
+      }
+      else {
+        add_row = (
+                    <div>
+                        <FlatButton label="Add"
+                            secondary={true} 
+                            onClick={this.handleAddRow}
+                            style={btnStyle} />                      
+                    </div>
+          );
+      }
       
       return (
           <div>
@@ -130,6 +166,7 @@ var HoursTabContainer = React.createClass({
                     <div>
                         <HoursTable rows={this.props.regularHours} onHrsUpdate={this.props.onRegularHrsUpdate}/>
                     </div>
+                    {add_row}
                 </Tab>
                 <Tab label="Exceptions" value="exceptions">
                     <div>
@@ -138,29 +175,8 @@ var HoursTabContainer = React.createClass({
                 </Tab>            
             </Tabs>
             </div>
-            <div className="newRow-div" style={tabStyles.newrow}>
-                <Toggle defaultToggled={this.state.newEntry.off}
-                    onToggle={this.handleNewRowDayOffToggle} 
-                    style={tabStyles.toggle}/>
-                <WeekDayDropdown selected={this.state.newEntry.day}
-                    onDaySelect={this.handleNewRowDaySelected}/>
-                <TimePicker format="ampm" 
-                    defaultTime={this.state.newEntry.open}
-                    onChange={this.handleOpenHrChange} 
-                    style={tabStyles.horzLayout} />
-                <TimePicker format="ampm" 
-                    defaultTime={this.state.newEntry.close} 
-                    onChange={this.handleCloseHrChange} 
-                    style={tabStyles.horzLayout} />
-                <FlatButton label=" " 
-                    onClick={this.handleRowAccepted} 
-                    icon={<ActionDone />} />				
-            </div>
+
             <div>
-                <FlatButton label="Add"
-                    secondary={true} 
-                    onClick={this.handleAddRow}
-                    style={btnStyle} />            
                 <FlatButton label="Save"
                     disabled={this.props.UIDisable} 
                     secondary={true} 

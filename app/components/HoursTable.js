@@ -141,7 +141,7 @@ var HoursTable = React.createClass({
         <TableHeader displaySelectAll={false}>
             <TableRow>
                 <TableHeaderColumn >row_id</TableHeaderColumn>
-                <TableHeaderColumn tooltip="Day Off when checked">Day off</TableHeaderColumn>
+                <TableHeaderColumn tooltip="Toggle off to take entire day off">Active</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Day of the week">Day</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Start of work hours">Open</TableHeaderColumn>
                 <TableHeaderColumn tooltip="End of work hours">Close</TableHeaderColumn>
