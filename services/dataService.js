@@ -298,7 +298,7 @@ var HoursDataService = (function () {
 
                 console.log("Sending addHoursForCustomer: " + hourObj);
                 
-                xhr.open("GET","/getdata?template=addhoursforcustomer" +
+                xhr.open("GET","/updatedata?template=addhoursforcustomer" +
                     "&day_idx=" + day +
                     "&open=" + openTime +
                     "&close=" + closeTime +
@@ -338,7 +338,7 @@ var HoursDataService = (function () {
                 //Convert Date to time string
                 var openTime = getTimeString(hourObj.open);
                 var closeTime = getTimeString(hourObj.close);
-                xhr.open("GET","/getdata?template=updatehoursforcustomer" +
+                xhr.open("GET","/updatedata?template=updatehoursforcustomer" +
                     "&rowid=" + hourObj.row_id +
                     "&day_idx=" + day +
                     "&open=" + openTime +
