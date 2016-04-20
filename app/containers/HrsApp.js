@@ -163,7 +163,7 @@ var HrsApp = React.createClass({
       });
   },
   updateChangedEntries : function() {
-      //Insert new entries to DB
+      //Only update rows that changed
       this.state.regularHours.forEach (function(entry, index) {
         if ((entry.row_id != 'NEW_ID') && (entry.updated)) { 
             console.log('About to call updateHoursForCustomer');

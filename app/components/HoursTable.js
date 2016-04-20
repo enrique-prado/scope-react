@@ -88,6 +88,9 @@ var HoursTable = React.createClass({
     console.log('Delete Row clicked:' );
     console.log('Row key: ' + key );
     console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
+    var updatedRow = this.props.rows[key];
+    updatedRow.deleted = true;
+    this.props.onHrsUpdate(key, updatedRow);       
   },
   
   //HELPER FUNCTIONS
@@ -99,33 +102,33 @@ var HoursTable = React.createClass({
     var self = this;
     var rowsCount = this.props.rows ? this.props.rows.length : 0;
     var hrs_list = this.props.rows.map(function(hour, index) {
-        //var open = new Date(hour.open);
-        //var close = new Date(hour.close);
-        return (
-            <TableRow key={index}>
-                <TableRowColumn >{hour.row_id}</TableRowColumn>
-                <TableRowColumn>
-                    <Toggle defaultToggled={hour.off}
-                            onToggle={self.handleDayOffToggle.bind(self, index)}/>
-                </TableRowColumn>
-                <TableRowColumn>
-                    <WeekDayDropdown onDaySelect={self.handleDaySelected.bind(self, index)}
-                            selected={hour.day} /> 
-                </TableRowColumn>
-                <TableRowColumn>
-                    <TimePicker format="ampm" defaultTime={hour.open} onChange={self.handleOpenTimeChanged.bind(self, index)} />
-                </TableRowColumn>
-                <TableRowColumn>
-                    <TimePicker format="ampm" defaultTime={hour.close} onChange={self.handleCloseTimeChange.bind(self, index)} />
-                </TableRowColumn>
-                <TableRowColumn>
-                    <IconButton onClick={self.handleDeleteRow.bind(self, index)}>
-                        <ActionDelete color={Colors.green300} hoverColor={Colors.green700} />
-                    </IconButton>
-                </TableRowColumn>
-                    
-            </TableRow>
-        )
+        if (!hour.deleted) {
+            return (
+                <TableRow key={index}>
+                    <TableRowColumn >{hour.row_id}</TableRowColumn>
+                    <TableRowColumn>
+                        <Toggle defaultToggled={hour.off}
+                                onToggle={self.handleDayOffToggle.bind(self, index)}/>
+                    </TableRowColumn>
+                    <TableRowColumn>
+                        <WeekDayDropdown onDaySelect={self.handleDaySelected.bind(self, index)}
+                                selected={hour.day} /> 
+                    </TableRowColumn>
+                    <TableRowColumn>
+                        <TimePicker format="ampm" defaultTime={hour.open} onChange={self.handleOpenTimeChanged.bind(self, index)} />
+                    </TableRowColumn>
+                    <TableRowColumn>
+                        <TimePicker format="ampm" defaultTime={hour.close} onChange={self.handleCloseTimeChange.bind(self, index)} />
+                    </TableRowColumn>
+                    <TableRowColumn>
+                        <IconButton onClick={self.handleDeleteRow.bind(self, index)}>
+                            <ActionDelete color={Colors.green300} hoverColor={Colors.green700} />
+                        </IconButton>
+                    </TableRowColumn>
+                        
+                </TableRow>
+            )
+        }
     });
     
     return(
