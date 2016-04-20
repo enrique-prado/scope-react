@@ -56,6 +56,7 @@ var HoursTabContainer = React.createClass({
     onSave:React.PropTypes.func,
     onCancel:React.PropTypes.func,
     onNewRowAccepted:React.PropTypes.func.isRequired,
+    UIDisable:React.PropTypes.bool,
     selected: React.PropTypes.string
   },  
   getInitialState: function() {
@@ -156,14 +157,17 @@ var HoursTabContainer = React.createClass({
                     icon={<ActionDone />} />				
             </div>
             <div>
-                <FlatButton label="Add" 
+                <FlatButton label="Add"
                     secondary={true} 
                     onClick={this.handleAddRow}
                     style={btnStyle} />            
                 <FlatButton label="Save"
+                    disabled={this.props.UIDisable} 
+                    secondary={true} 
                     onClick={this.handleSaveHours} 
                     style={btnStyle} />
                 <FlatButton label="Cancel" 
+                    disabled={this.props.UIDisable} 
                     secondary={true} 
                     onClick={this.handleCancelHours} 
                     style={btnStyle} />

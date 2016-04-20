@@ -46,6 +46,7 @@ var HrsApp = React.createClass({
         schedType: "global",
         activeHrsTab: "weekly",
         selectedMenuEntry: "",
+        disableUI:true,
         customers: [],
         schedEntries: [],
         regularHours: [],
@@ -127,7 +128,10 @@ var HrsApp = React.createClass({
       updatedHours.push(newEntry);
       this.setState({
           regularHours : updatedHours
-      })
+      });
+      this.setState({
+          disableUI: false // Enable Save and Cancel buttons
+      });         
   },
   
   handleSaveHours : function() {
@@ -136,6 +140,7 @@ var HrsApp = React.createClass({
       this.addNewHourEntries();
       this.updateChangedEntries();
       //Refresh from DB? Yes to get new row_ids.
+      this.populateHoursTable();
   },
   
   handleHoursUpdate : function(key, updatedRow) {
@@ -146,6 +151,9 @@ var HrsApp = React.createClass({
     this.setState({
         regularHours : updatedRows
     });
+    this.setState({
+        disableUI: false // Enable Save and Cancel buttons
+    });    
   },  
   
   // HELPER METHODS
@@ -199,6 +207,9 @@ var HrsApp = React.createClass({
           self.setState({
               regularHours : result
           });
+          self.setState({
+              disableUI: true // Disable Save and Cancel buttons
+          });
       });
   },  
   
@@ -243,6 +254,7 @@ var HrsApp = React.createClass({
         <div className="tablesPane" style={appStyles.content}>
             <HoursTabContainer onTabSelect={this.handleHoursTabChange}
                 selected={this.state.activeHrsTab}
+                UIDisable={this.state.disableUI}
                 regularHours={this.state.regularHours}
                 onRegularHrsUpdate={this.handleHoursUpdate}
                 onSave={this.handleSaveHours}
