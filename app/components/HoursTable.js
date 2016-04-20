@@ -9,6 +9,9 @@ import TableFooter from 'material-ui/lib/table/table-footer';
 import TextField from 'material-ui/lib/text-field';
 import Toggle from 'material-ui/lib/toggle';
 import TimePicker from 'material-ui/lib/time-picker/time-picker';
+import IconButton from 'material-ui/lib/icon-button';
+import Colors from 'material-ui/lib/styles/colors';
+import ActionDelete from 'material-ui/lib/svg-icons/action/delete';
 var WeekDayDropdown = require('../components/WeekDayDropdown');
 
 const styles = {
@@ -81,6 +84,12 @@ var HoursTable = React.createClass({
     this.props.onHrsUpdate(key, updatedRow);        
   },
   
+  handleDeleteRow : function(key, e) {
+    console.log('Delete Row clicked:' );
+    console.log('Row key: ' + key );
+    console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
+  },
+  
   //HELPER FUNCTIONS
 
   
@@ -109,6 +118,12 @@ var HoursTable = React.createClass({
                 <TableRowColumn>
                     <TimePicker format="ampm" defaultTime={hour.close} onChange={self.handleCloseTimeChange.bind(self, index)} />
                 </TableRowColumn>
+                <TableRowColumn>
+                    <IconButton onClick={self.handleDeleteRow.bind(self, index)}>
+                        <ActionDelete color={Colors.green300} hoverColor={Colors.green700} />
+                    </IconButton>
+                </TableRowColumn>
+                    
             </TableRow>
         )
     });
