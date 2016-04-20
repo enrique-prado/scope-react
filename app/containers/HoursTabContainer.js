@@ -5,6 +5,10 @@ import FlatButton from 'material-ui/lib/flat-button';
 import Toggle from 'material-ui/lib/toggle';
 import TimePicker from 'material-ui/lib/time-picker/time-picker';
 import ActionDone from 'material-ui/lib/svg-icons/action/done';
+import IconButton from 'material-ui/lib/icon-button';
+import Colors from 'material-ui/lib/styles/colors';
+import ContentClear from 'material-ui/lib/svg-icons/content/clear';
+import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import HoursTable from '../components/HoursTable';
 var WeekDayDropdown = require('../components/WeekDayDropdown');
 
@@ -32,6 +36,7 @@ const tabStyles = {
 
 const btnStyle = {
   margin: 12,
+  float: 'right'
 };
 
 //TODO: Make these configurable and localizable
@@ -80,6 +85,12 @@ var HoursTabContainer = React.createClass({
       this.setState({
           showNewEntryRow : false
       });
+  },
+  handleRowRejected : function() {
+      // Dismiss new row without adding it to table
+      this.setState({
+          showNewEntryRow : false
+      });      
   },
   handleNewRowDayOffToggle : function(e, value) {
       console.log('New day off toggle: ' + value);
@@ -141,19 +152,21 @@ var HoursTabContainer = React.createClass({
                             defaultTime={this.state.newEntry.close} 
                             onChange={this.handleCloseHrChange} 
                             style={tabStyles.horzLayout} />
-                        <FlatButton label=" " 
-                            onClick={this.handleRowAccepted} 
-                            icon={<ActionDone />} />				
+                        <IconButton onClick={this.handleRowAccepted}>
+                            <ActionDone color={Colors.green300} hoverColor={Colors.green700} />
+                        </IconButton>                              
+                        <IconButton onClick={this.handleRowRejected}>
+                            <ContentClear color={Colors.grey300} hoverColor={Colors.red700} />
+                        </IconButton>                            				
                     </div>             
         );
       }
       else {
         add_row = (
                     <div>
-                        <FlatButton label="Add"
-                            secondary={true} 
-                            onClick={this.handleAddRow}
-                            style={btnStyle} />                      
+                        <IconButton onClick={this.handleAddRow}>
+                            <ContentAdd color={Colors.green300} hoverColor={Colors.green700} />
+                        </IconButton>                      
                     </div>
           );
       }

@@ -25,7 +25,8 @@ Implement HOP state logic for UI
     (Done)Initial auto populate state
     (D)Enable / disable buttons
     (D) Cancel button functionality
-    * Add button functionality
+    (D)Add row button functionality
+    (D) Remove row functinality
 
 * Implement in-line styling.
 
