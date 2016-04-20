@@ -48,7 +48,7 @@ var defaultEntry  = {
 
 var HoursTabContainer = React.createClass({
   propTypes: {
-    regularHours: React.PropTypes.array,
+    regularHours: React.PropTypes.array.isRequired,
     exceptionHours: React.PropTypes.array,
     onTabSelect: React.PropTypes.func.isRequired,
     onRegularHrsUpdate: React.PropTypes.func,
@@ -117,7 +117,7 @@ var HoursTabContainer = React.createClass({
   },
   handleCancelHours : function() {
     //TODO: Reuse for exceptions by passing type param?
-
+    // Throw away any uncommitted changes, call parent to do this.
     this.props.onCancel();  
   },        
   render: function() {

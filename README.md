@@ -24,7 +24,7 @@ Implement update functionality / queries
 Implement HOP state logic for UI
     (Done)Initial auto populate state
     (D)Enable / disable buttons
-    * Cancel button functionality
+    (D) Cancel button functionality
     * Add button functionality
 
 * Implement in-line styling.

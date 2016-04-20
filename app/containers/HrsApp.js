@@ -139,7 +139,13 @@ var HrsApp = React.createClass({
       //First insert new hour entries
       this.addNewHourEntries();
       this.updateChangedEntries();
-      //Refresh from DB? Yes to get new row_ids.
+      //TODO: Clear hours array
+      //Refresh from DB to get new row_ids.
+      this.populateHoursTable();
+  },
+  handleCancelHours : function() {
+      //Throw away any unsaved changes to DB by simply querying and repopulating table
+      //TODO: Clear array first.
       this.populateHoursTable();
   },
   
