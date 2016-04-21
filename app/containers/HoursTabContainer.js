@@ -177,7 +177,9 @@ var HoursTabContainer = React.createClass({
             <Tabs >
                 <Tab label="Weekly Hours" value="weekly">
                     <div>
-                        <HoursTable rows={this.props.regularHours} onHrsUpdate={this.props.onRegularHrsUpdate}/>
+                        <HoursTable rows={this.props.regularHours}
+                            valueType="DOW" 
+                            onHrsUpdate={this.props.onRegularHrsUpdate}/>
                     </div>
                     {add_row}
                 </Tab>

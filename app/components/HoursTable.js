@@ -8,10 +8,11 @@ import TableBody from 'material-ui/lib/table/table-body';
 import TableFooter from 'material-ui/lib/table/table-footer';
 import TextField from 'material-ui/lib/text-field';
 import Toggle from 'material-ui/lib/toggle';
-import TimePicker from 'material-ui/lib/time-picker/time-picker';
 import IconButton from 'material-ui/lib/icon-button';
 import Colors from 'material-ui/lib/styles/colors';
 import ActionDelete from 'material-ui/lib/svg-icons/action/delete';
+import TimePicker from 'material-ui/lib/time-picker/time-picker';
+var DualDayPicker = require('../components/DualDayPicker');
 var WeekDayDropdown = require('../components/WeekDayDropdown');
 
 const styles = {
@@ -31,7 +32,8 @@ const styles = {
 var HoursTable = React.createClass({
   propTypes: {
     rows: React.PropTypes.array,
-    onHrsUpdate: React.PropTypes.func.isRequired
+    onHrsUpdate: React.PropTypes.func.isRequired,
+    valueType: React.PropTypes.string
   },
   
   handleRowSelected : function(rowIdx){
@@ -104,8 +106,9 @@ var HoursTable = React.createClass({
                                 onToggle={self.handleDayOffToggle.bind(self, index)}/>
                     </TableRowColumn>
                     <TableRowColumn>
-                        <WeekDayDropdown onDaySelect={self.handleDaySelected.bind(self, index)}
-                                selected={hour.day} /> 
+                        <DualDayPicker onDaySelect={self.handleDaySelected.bind(self, index)}
+                                daySelected={hour.day}
+                                valueType={self.props.valueType} /> 
                     </TableRowColumn>
                     <TableRowColumn>
                         <TimePicker format="ampm" defaultTime={hour.open} onChange={self.handleOpenTimeChanged.bind(self, index)} />
