@@ -85,7 +85,7 @@ var HoursDataService = (function () {
                             var val = i + 1;
                             var custItem = {value: val, label: customers[i]};
                             custResults.push(custItem);
-                            console.log('value = ' + custItem.value + ' ,label = ' + custItem.label);
+                            //console.log('value = ' + custItem.value + ' ,label = ' + custItem.label);
                         }
                         
                         console.log('num of customers is ' + custResults.length);
@@ -111,7 +111,7 @@ var HoursDataService = (function () {
         }
 
         function getSchedEntries (custName, qType) {
-            console.log("getSchedEntries called...");
+            console.log("getSchedEntries CALLED...");
             console.log("custName = " + custName + ", qType = " + qType);
             
             return new Promise(function(resolve, reject) {
@@ -134,8 +134,8 @@ var HoursDataService = (function () {
                         for (var i in entries) {
                             var newEntry = JSON.parse(entries[i]);
                             schedEntries.push(newEntry);
-                            console.log('Added SchedNav entry:');
-                            console.log('appId: ' + newEntry.appId + ' , queue: ' + newEntry.queue);
+                            //console.log('Added SchedNav entry:');
+                            //console.log('appId: ' + newEntry.appId + ' , queue: ' + newEntry.queue);
                         }
                         
                         resolve(schedEntries); //Return final array
@@ -147,7 +147,7 @@ var HoursDataService = (function () {
                 }
             
                 xhr.onerror = reject;
-                console.log("Fetching Sched NavMenu entries for customer " + custName + " sched type: " + qType);
+                //console.log("Fetching Sched NavMenu entries for customer " + custName + " sched type: " + qType);
                 xhr.open("GET","/getdata?template=getschedentries" +
                     "&cust_name=" + custName + "&queue_type=" + qType +
                     "&startrow=0&rowcount=20", true);            
@@ -216,9 +216,10 @@ var HoursDataService = (function () {
                             newEntry.deleted = Boolean(Number(newEntry.deleted));
                             newEntry.updated = false; // flag that indicates if record has been changed by user
                             hoursEntries.push(newEntry);
-                            console.log('Added Hours entry:');
-                            console.log('Day: ' + newEntry.day + ' , hours: ' + newEntry.open + ' - ' + newEntry.close);
+                            //console.log('Added Hours entry:');
+                            //console.log('Day: ' + newEntry.day + ' , hours: ' + newEntry.open + ' - ' + newEntry.close);
                         }
+                        console.log('NUMBER OF ENTRIES RETURNED: ' + hoursEntries.length)
                         resolve (hoursEntries); // Return final array
                     }
                     else {
@@ -228,7 +229,7 @@ var HoursDataService = (function () {
                 }
                                                     
                 xhr.onerror = reject;
-                console.log("Fetching schedule list for cust_name " + custName + "queue_type: " + qType + " , queue_name: " + queue);
+                //console.log("Fetching hours for cust_name " + custName + "queue_type: " + qType + " , queue_name: " + queue);
                 xhr.open("GET","/getdata?template=gethoursforcustomer" +
                     "&cust_name=" + custName + "&queue_type=" + qType + "&queue_name=" + queue +
                     "&startrow=0&rowcount=30", true);            
@@ -284,20 +285,14 @@ var HoursDataService = (function () {
                 }
             
                 xhr.onerror = reject;
-                console.log("Inserting new hour entry for customer " + hourObj.custName );
+                //console.log("Inserting new hour entry for customer " + hourObj.custName );
                 
                 //Convert Date to time string
                 var openTime = getTimeString(hourObj.open);
                 var closeTime = getTimeString(hourObj.close);
-                //var openTime = hourObj.open;
-                //var closeTime = hourObj.close;
                 var state = Number(hourObj.off);
-                //var state = hourObj.state;
                 var day = getDayIndex(hourObj.day) + 1; // DOW index start at 1 in DB
-                //var day = hourObj.day; // DOW index start at 1 in DB
-
-                console.log("Sending addHoursForCustomer: " + hourObj);
-                
+               
                 xhr.open("GET","/updatedata?template=addhoursforcustomer" +
                     "&day_idx=" + day +
                     "&open=" + openTime +
@@ -331,7 +326,7 @@ var HoursDataService = (function () {
                 }
             
                 xhr.onerror = reject;
-                console.log("Updating new hour entry for customer " + hourObj.custName );
+                //console.log("Updating new hour entry for customer " + hourObj.custName );
                 var state = Number(hourObj.off);
                 var deleted = Number(hourObj.deleted);
                 var day = getDayIndex(hourObj.day) + 1; // DOW index start at 1 in DB

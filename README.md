@@ -27,6 +27,10 @@ Implement HOP state logic for UI
     (D) Cancel button functionality
     (D)Add row button functionality
     (D) Remove row functinality
+    
+Clean up and bugs:
+    * Refresh issues
+    * onTabSelect not being used / needed?
 
 * Implement in-line styling.
 

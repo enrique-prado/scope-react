@@ -69,27 +69,33 @@ var HrsApp = React.createClass({
   },
   
   componentDidUpdate: function(prevProps, prevState) {
-      console.log('in componentDidUpdate, num of customers is ' + this.state.customers.length );
-
+      console.log("componentDidUpdate CALLED");
+      console.log('prev Customer: ' + prevState.selectedCustomer + 
+        " current: " + this.state.selectedCustomer);
+      console.log('prev Sched Type: ' + prevState.schedType + 
+        " current: " + this.state.schedType);        
+      console.log('prev Menu: ' + prevState.selectedMenuEntry + 
+        " current: " + this.state.selectedMenuEntry);   
+             
       if ((prevState.selectedCustomer !== this.state.selectedCustomer) || (prevState.schedType !== this.state.schedType)) {
         this.populateSchedNavMenu();
       }
       
       if (prevState.selectedMenuEntry !== this.state.selectedMenuEntry)  {
         this.populateHoursTable();
-        
-        //this.testHourEntry();        
       }
   },
   
   // USER DRIVER EVENTS
   handleSelectCustomer: function(event, index, value) {
     this.setState({ selectedCustomer: value });
+    this.setState({regularHours : [] }) // Clear table
     console.log("Selected Customer is " + value);
   },  
   
   handleSchedTypeChange: function(event, value) {
       this.setState({schedType: value});
+      this.setState({regularHours : [] }) // Clear table
       console.log("Sched Type changed to " + value);
   },
   
@@ -101,6 +107,8 @@ var HrsApp = React.createClass({
   handleMenuEntrySelect: function(event, index) {
       console.log("Entering.... handleMenuEntrySelect");
       console.log("index = " + index);
+      this.setState({regularHours : [] }) // Clear table TODO: This is inefficient, find out a way to make timepicker control refresh
+      
       //console.log("event.target.textContent =" + event.target.textContent);
       this.setState({selectedMenuEntry: index})
   },
@@ -164,7 +172,6 @@ var HrsApp = React.createClass({
   
   // HELPER METHODS
   addNewHourEntries : function() {
-      //this.testHourEntry();
       //Insert new entries to DB
       this.state.regularHours.forEach (function(entry, index) {
         if (entry.row_id === 'NEW_ID') { // This means this is a new unsaved row
@@ -189,6 +196,7 @@ var HrsApp = React.createClass({
       });
   },  
   populateSchedNavMenu: function() {
+      console.log('populateSchedNavMenu CALLED')
       //Refreshes Sched Nav Menu on the left
       var self = this;
        HoursDataService.getSchedEntries(this.state.selectedCustomer, this.state.schedType)
@@ -219,25 +227,6 @@ var HrsApp = React.createClass({
       });
   },  
   
-  testHourEntry: function() {
-    //Testing api
-    var hrEntry = {
-        day: "6",
-        open: "08:00:00",
-        close: "18:00:00",
-        appId: custIds[this.state.selectedCustomer],
-        custName: this.state.selectedCustomer,
-        qType : this.state.schedType,
-        qName : this.state.selectedMenuEntry,
-        state : 0
-    }
-
-    HoursDataService.insertHoursForCustomer(hrEntry)
-    .then(function(result) {
-        console.log('TESTING inserting hr entry, Result:' + result);
-    });      
-  },
-
   //UI RENDERING
   render: function() {
     var customer_id = this.state.customer_id;

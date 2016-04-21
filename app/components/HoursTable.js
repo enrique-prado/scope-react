@@ -28,19 +28,12 @@ const styles = {
   }
 };
 
-var originalData = [];
-
-
 var HoursTable = React.createClass({
   propTypes: {
     rows: React.PropTypes.array,
     onHrsUpdate: React.PropTypes.func.isRequired
   },
   
-  componentWillMount: function() {
-      originalData = this.props.rows; // Make a copy of original data array in case we need to reset changes
-  },
-
   handleRowSelected : function(rowIdx){
     return this.props.rows[rowIdx]
   },
