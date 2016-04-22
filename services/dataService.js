@@ -189,7 +189,6 @@ var HoursDataService = (function () {
         function getHoursOrExceptions(custName, qType, queue, isExceptionQuery) {
             //console.log("getHoursOrExceptions called...");
             //console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
-            
             var qTemplate = isExceptionQuery ? 'getexceptionsforcustomer' : 'gethoursforcustomer';
 
             return new Promise(function(resolve, reject) {
@@ -197,7 +196,7 @@ var HoursDataService = (function () {
                 
                 xhr.onload = function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
-                        console.log('dataService.getHours succeeds');
+                        console.log('dataService.getHoursOrExceptions succeeds');
                         //parse response and make entries array
                         var entryList = xhr.response.replace(/\r\n/g,"\n");
                         var entries = entryList.split("\n");
@@ -227,7 +226,7 @@ var HoursDataService = (function () {
                         resolve (hoursEntries); // Return final array
                     }
                     else {
-                        console.log('ERROR retrieving dataService.getHours()');
+                        console.log('ERROR retrieving dataService.getHoursOrExceptions()');
                         resolve([]);                        
                     }
                 }
@@ -316,20 +315,20 @@ var HoursDataService = (function () {
             });                        
         }        
         
-        function insertHoursForCustomer(hourObj ) {
-            console.log("insertHoursForCustomer called...");
+        function insertHourOrException(hourObj, isExceptionQuery ) {
+            var qTemplate = isExceptionQuery ? 'addexceptionforcustomer' : 'addhoursforcustomer';
             
             return new Promise(function(resolve, reject) {
                 var xhr = new XMLHttpRequest();
                 
                 xhr.onload = function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
-                        console.log('dataService.insertHoursForCustomer succeeds');
+                        console.log('dataService.insertHourOrException succeeds');
                         var result = xhr.response;
                         resolve(result); //Return status
                     }
                     else {
-                        console.log('ERROR in dataService.insertHoursForCustomer(), status: ' + xhr.status);
+                        console.log('ERROR in dataService.insertHourOrException(), status: ' + xhr.status);
                         resolve(xhr.status);
                     }            
                 }
@@ -341,9 +340,11 @@ var HoursDataService = (function () {
                 var openTime = getTimeString(hourObj.open);
                 var closeTime = getTimeString(hourObj.close);
                 var state = Number(hourObj.off);
-                var day = getDayIndex(hourObj.day) + 1; // DOW index start at 1 in DB
+                // hourObj.day may contain two different types of data depending on what type of entry we are saving
+                // If saving an exception then it contains a date object, if saving regular hours it contains a DOW string name.
+                var day = isExceptionQuery ? getDateString(hourObj.day) : getDayIndex(hourObj.day) + 1; // DOW index range [1-7] in DB
                
-                xhr.open("GET","/updatedata?template=addhoursforcustomer" +
+                xhr.open("GET","/updatedata?template=" + qTemplate +
                     "&day_idx=" + day +
                     "&open=" + openTime +
                     "&close=" + closeTime +
@@ -355,6 +356,18 @@ var HoursDataService = (function () {
                                 
                 xhr.send();
             });                        
+        }
+        
+        function insertHourForCustomer(entryObj) {
+            console.log("insertException called...");
+            
+            return insertHourOrException(entryObj, false);
+        }
+        
+        function insertExceptionForCustomer(entryObj) {
+            console.log("insertException called...");
+            
+            return insertHourOrException(entryObj, true);
         }
         
         function updateHoursForCustomer(hourObj ) {
@@ -395,7 +408,7 @@ var HoursDataService = (function () {
             });                        
         }        
         
-//Helper functions
+    //Helper functions
     function parseDate(selector) {
         console.log('date to be parsed: ' + selector );
         //Check to see if date is in format of '____-mm-dd' and convert it to valid date
@@ -416,6 +429,14 @@ var HoursDataService = (function () {
         var s = addZero(date.getSeconds());
         var timeStr = h + ":" + m + ":" + s;
         return timeStr;
+    }
+    
+    function getDateString(date) {
+        var year = date.getFullYear();
+        var month = addZero(date.getMonth());
+        var day = addZero(date.getDate());
+        var dateStr = year + '-' + month + '-' + day + ' 00:00:00';
+        return dateStr;        
     }        
     
     function addZero(i) {
@@ -436,11 +457,12 @@ var HoursDataService = (function () {
    
     // Public interface methods
     return {
-        getCustomers : getCustomers,
-        getSchedEntries : getSchedEntries,
-        getHours : getHours,
-        getExceptions : getExceptions,
-        insertHoursForCustomer : insertHoursForCustomer,
+        getCustomers : getCustomersMock,
+        getSchedEntries : getSchedEntriesMock,
+        getHours : getHoursMock,
+        getExceptions : getExceptionsMock,
+        insertHourForCustomer : insertHourForCustomer,
+        insertExceptionForCustomer : insertExceptionForCustomer,
         updateHoursForCustomer : updateHoursForCustomer
     }
 })();
