@@ -24,13 +24,13 @@ var HoursDataService = (function () {
         ]
             
         var defaultSchedEntries = [
-            { type:"DOW", selector: 1, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 2, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 3, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 4, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 5, start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 6, start:"10:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 7, start:"12:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
+            { type:"DATE", selector: "____-12-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-11-26", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-07-04", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-09-02", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-05-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-01-01", start:"10:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DATE", selector: 7, start:"12:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
             { type:"DOW", selector: 1, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
             { type:"DOW", selector: 2, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
             { type:"DOW", selector: 3, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
@@ -247,7 +247,8 @@ var HoursDataService = (function () {
                     var entry = defaultSchedEntries[i];
                     if ((entry.customer == custName)  
                         && (entry.queueType == qType)
-                        && (entry.queue == queue)) {
+                        && (entry.queue == queue)
+                        && (entry.type == 'DOW')) {
                             hours.push({
                                 row_id: i,
                                 off: false,
@@ -265,6 +266,36 @@ var HoursDataService = (function () {
                 resolve(hours);
             });                        
         }
+        
+        function getExceptionsMock (custName, qType, queue) {
+            console.log("getExceptionsMock called...");
+            console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
+            var hours = [];
+            
+            return new Promise(function(resolve, reject) {            
+                for (var i = 0; i < defaultSchedEntries.length; i++) {
+                    var entry = defaultSchedEntries[i];
+                    if ((entry.customer == custName)  
+                        && (entry.queueType == qType)
+                        && (entry.queue == queue)
+                        && (entry.type == 'DATE')) {
+                            hours.push({
+                                row_id: i,
+                                off: false,
+                                day: parseDate(entry.selector),
+                                open: new Date('Jan 1, 2016 ' + entry.start),
+                                close: new Date('Jan 1, 2016 ' + entry.end),
+                                deleted: false,
+                                updated: false
+                            });
+                            console.log('Added Exception entry: ' + i);
+                            console.log('Day: ' + hours[i].day + ' , hours: ' + entry.start + ' - ' + entry.end);
+                    }
+                }
+                
+                resolve(hours);
+            });                        
+        }        
         
         function insertHoursForCustomer(hourObj ) {
             console.log("insertHoursForCustomer called...");
@@ -346,6 +377,14 @@ var HoursDataService = (function () {
         }        
         
 //Helper functions
+    function parseDate(selector) {
+        console.log('date to be parsed: ' + selector );
+        var yearStr = '-' + (new Date()).getFullYear();
+        var dateStr = selector.replace("____-", '' ) + yearStr + ' 00:00:00';
+        console.log('date to be converted: ' + dateStr );
+        return new Date(dateStr);
+    }
+    
     function getTimeString(date) {
         var h = addZero(date.getHours());
         var m = addZero(date.getMinutes());
@@ -372,9 +411,10 @@ var HoursDataService = (function () {
    
     // Public interface methods
     return {
-        getCustomers : getCustomers,
-        getSchedEntries : getSchedEntries,
-        getHours : getHours,
+        getCustomers : getCustomersMock,
+        getSchedEntries : getSchedEntriesMock,
+        getHours : getHoursMock,
+        getExceptions : getExceptionsMock,
         insertHoursForCustomer : insertHoursForCustomer,
         updateHoursForCustomer : updateHoursForCustomer
     }

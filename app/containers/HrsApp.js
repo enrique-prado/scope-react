@@ -82,7 +82,12 @@ var HrsApp = React.createClass({
       }
       
       if (prevState.selectedMenuEntry !== this.state.selectedMenuEntry)  {
-        this.populateHoursTable();
+        if (this.state.activeHrsTab == "weekly") { 
+            this.populateHoursTable();
+        }
+        else {
+            this.populateExceptionsTable();
+        }
       }
   },
   
@@ -168,7 +173,20 @@ var HrsApp = React.createClass({
     this.setState({
         disableUI: false // Enable Save and Cancel buttons
     });    
-  },  
+  },
+  
+  handleExceptionsUpdate:  function(key, updatedRow) {
+    //merge updated row with current row and rerender by setting state
+    var updatedRows = this.state.exceptionHours;
+    updatedRow.updated = true; // Flag row as dirty
+    Object.assign(updatedRows[key], updatedRow);
+    this.setState({
+        exceptionHours : updatedRows
+    });
+    this.setState({
+        disableUI: false // Enable Save and Cancel buttons
+    });    
+  }, 
   
   // HELPER METHODS
   addNewHourEntries : function() {
@@ -227,6 +245,21 @@ var HrsApp = React.createClass({
       });
   },  
   
+  populateExceptionsTable: function() {
+      console.log('populateExceptionsTable CALLED');
+      //Refreshes working hours table on the right pane
+      var self = this;
+      HoursDataService.getExceptions(this.state.selectedCustomer, this.state.schedType, this.state.selectedMenuEntry)
+      .then(function(result) {
+          self.setState({
+              exceptionHours : result
+          });
+          self.setState({
+              disableUI: true // Disable Save and Cancel buttons
+          });
+      });
+  },    
+  
   //UI RENDERING
   render: function() {
     var customer_id = this.state.customer_id;
@@ -251,7 +284,9 @@ var HrsApp = React.createClass({
                 selected={this.state.activeHrsTab}
                 UIDisable={this.state.disableUI}
                 regularHours={this.state.regularHours}
+                exceptionHours={this.state.exceptionHours}
                 onRegularHrsUpdate={this.handleHoursUpdate}
+                onExceptionHrsUpdate={this.handleExceptionsUpdate}
                 onSave={this.handleSaveHours}
                 onCancel={this.handleCancelHours}
                 onNewRowAccepted={this.handleAddNewHourRow} />

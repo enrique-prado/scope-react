@@ -61,6 +61,15 @@ var HoursTable = React.createClass({
       this.props.onHrsUpdate(key, updatedRow);      
   },
   
+  handleDateSelected : function(key, e, value) {
+      console.log('Date selected: ' + value);
+      console.log('Row key: ' + key );
+      console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
+      var updatedRow = this.props.rows[key];
+      updatedRow.day = value;
+      this.props.onHrsUpdate(key, updatedRow);
+  },
+  
   handleOpenTimeChanged : function(key, e, value) {
     console.log('Open Time selected: ' + value );
     console.log('Row key: ' + key );
@@ -107,6 +116,7 @@ var HoursTable = React.createClass({
                     </TableRowColumn>
                     <TableRowColumn>
                         <DualDayPicker onDaySelect={self.handleDaySelected.bind(self, index)}
+                                onDateSelect={self.handleDateSelected.bind(self, index)}
                                 daySelected={hour.day}
                                 valueType={self.props.valueType} /> 
                     </TableRowColumn>
