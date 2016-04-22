@@ -186,9 +186,11 @@ var HoursDataService = (function () {
             });
         };
         
-        function getHours (custName, qType, queue) {
-            console.log("getHours called...");
-            console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
+        function getHoursOrExceptions(custName, qType, queue, isExceptionQuery) {
+            //console.log("getHoursOrExceptions called...");
+            //console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
+            
+            var qTemplate = isExceptionQuery ? 'getexceptionsforcustomer' : 'gethoursforcustomer';
 
             return new Promise(function(resolve, reject) {
                 var xhr = new XMLHttpRequest();
@@ -209,7 +211,9 @@ var HoursDataService = (function () {
                         
                         for (var i = 0; i < entries.length; i++) {
                             var newEntry = JSON.parse(entries[i]);
-                            newEntry.day = weekDays[newEntry.day - 1]; //Replace day int selector value with actual string: 1 -> Monday, 1 -> Tuesday, etc.
+                            // newEntry.day may contain two different types of data depending on what we query for
+                            // If querying for exceptions then it contains a date string, if querying for regular hours it contains a DOW index [1-7]
+                            newEntry.day = isExceptionQuery ? parseDate(newEntry.day)  : weekDays[newEntry.day - 1]; 
                             newEntry.off = Boolean(Number(newEntry.off));
                             newEntry.open = new Date('Jan 1, 2016 ' + newEntry.open); //Converting to Date object, Month, day & year are irrelevant
                             newEntry.close = new Date('Jan 1, 2016 ' + newEntry.close); //Converting to Date object, Month, day & year are irrelevant
@@ -230,12 +234,20 @@ var HoursDataService = (function () {
                                                     
                 xhr.onerror = reject;
                 //console.log("Fetching hours for cust_name " + custName + "queue_type: " + qType + " , queue_name: " + queue);
-                xhr.open("GET","/getdata?template=gethoursforcustomer" +
+                xhr.open("GET","/getdata?template=" + qTemplate +
                     "&cust_name=" + custName + "&queue_type=" + qType + "&queue_name=" + queue +
                     "&startrow=0&rowcount=30", true);            
                 xhr.send();
             });             
         }
+        
+        function getHours(custName, qType, queue) {
+            console.log("getHours CALLED ...");
+            console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
+
+            return getHoursOrExceptions(custName, qType, queue, false);
+        }           
+        
         
         function getHoursMock (custName, qType, queue) {
             console.log("getHoursMock called...");
@@ -266,6 +278,13 @@ var HoursDataService = (function () {
                 resolve(hours);
             });                        
         }
+        
+        function getExceptions(custName, qType, queue) {
+            console.log("getExceptions CALLED >>>>>>...");
+            console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
+
+            return getHoursOrExceptions(custName, qType, queue, true);
+        }        
         
         function getExceptionsMock (custName, qType, queue) {
             console.log("getExceptionsMock called...");
@@ -417,10 +436,10 @@ var HoursDataService = (function () {
    
     // Public interface methods
     return {
-        getCustomers : getCustomersMock,
-        getSchedEntries : getSchedEntriesMock,
-        getHours : getHoursMock,
-        getExceptions : getExceptionsMock,
+        getCustomers : getCustomers,
+        getSchedEntries : getSchedEntries,
+        getHours : getHours,
+        getExceptions : getExceptions,
         insertHoursForCustomer : insertHoursForCustomer,
         updateHoursForCustomer : updateHoursForCustomer
     }
