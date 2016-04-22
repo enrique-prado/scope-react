@@ -25,9 +25,9 @@ var HoursDataService = (function () {
             
         var defaultSchedEntries = [
             { type:"DATE", selector: "____-12-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-11-26", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "2015-11-26 00:00:00", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
             { type:"DATE", selector: "____-07-04", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-09-02", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-09-02", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
             { type:"DATE", selector: "____-05-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: "____-01-01", start:"10:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: 7, start:"12:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
@@ -379,10 +379,16 @@ var HoursDataService = (function () {
 //Helper functions
     function parseDate(selector) {
         console.log('date to be parsed: ' + selector );
-        var yearStr = '-' + (new Date()).getFullYear();
-        var dateStr = selector.replace("____-", '' ) + yearStr + ' 00:00:00';
-        console.log('date to be converted: ' + dateStr );
-        return new Date(dateStr);
+        //Check to see if date is in format of '____-mm-dd' and convert it to valid date
+        if (selector.indexOf("____-") > -1 ) {
+            var yearStr = new Date().getFullYear();
+            var dateStr = yearStr + selector.replace("____", '' ) + ' 00:00:00';
+            console.log('date to be converted: ' + dateStr );
+            
+            return new Date(dateStr);
+        }
+        // date string is already in valid format
+        return new Date(selector);
     }
     
     function getTimeString(date) {
