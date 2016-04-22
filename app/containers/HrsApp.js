@@ -95,12 +95,15 @@ var HrsApp = React.createClass({
   handleSelectCustomer: function(event, index, value) {
     this.setState({ selectedCustomer: value });
     this.setState({regularHours : [] }) // Clear table
+    this.setState({exceptionHours : [] }) // Clear table TODO: This is inefficient, find out a way to make timepicker control refresh
+
     console.log("Selected Customer is " + value);
   },  
   
   handleSchedTypeChange: function(event, value) {
       this.setState({schedType: value});
       this.setState({regularHours : [] }) // Clear table
+      this.setState({exceptionHours : [] }) // Clear table TODO: This is inefficient, find out a way to make timepicker control refresh
       console.log("Sched Type changed to " + value);
   },
   
@@ -113,6 +116,7 @@ var HrsApp = React.createClass({
       console.log("Entering.... handleMenuEntrySelect");
       console.log("index = " + index);
       this.setState({regularHours : [] }) // Clear table TODO: This is inefficient, find out a way to make timepicker control refresh
+      this.setState({exceptionHours : [] }) // Clear table TODO: This is inefficient, find out a way to make timepicker control refresh
       
       //console.log("event.target.textContent =" + event.target.textContent);
       this.setState({selectedMenuEntry: index})
@@ -149,17 +153,20 @@ var HrsApp = React.createClass({
   
   handleSaveHours : function() {
       //User wants to commit changes to DB
-      //First insert new hour entries
-      this.addNewHourEntries();
+      //First insert new hour entries, then update any changed entries (including deleted rows)
+      this.insertNewHourEntries();
       this.updateChangedEntries();
+      //TODO: insert and update exception changes.
       //TODO: Clear hours array
       //Refresh from DB to get new row_ids.
       this.populateHoursTable();
   },
   handleCancelHours : function() {
       //Throw away any unsaved changes to DB by simply querying and repopulating table
-      //TODO: Clear array first.
+      this.setState({regularHours : [] }) // Clear table TODO: This is inefficient, find out a way to make timepicker control refresh
+      this.setState({exceptionHours : [] }) // Clear table TODO: This is inefficient, find out a way to make timepicker control refresh
       this.populateHoursTable();
+      this.populateExceptionsTable();
   },
   
   handleHoursUpdate : function(key, updatedRow) {
@@ -189,14 +196,13 @@ var HrsApp = React.createClass({
   }, 
   
   // HELPER METHODS
-  addNewHourEntries : function() {
+  insertNewHourEntries : function() {
       //Insert new entries to DB
       this.state.regularHours.forEach (function(entry, index) {
         if (entry.row_id === 'NEW_ID') { // This means this is a new unsaved row
-            console.log('About to call insertHoursForCustomer');
-            HoursDataService.insertHoursForCustomer(entry)
+            HoursDataService.insertHourForCustomer(entry)
             .then(function(result) {
-                console.log('Inserting hr entry, Result:' + result);
+                console.log('Inserted hr entry, Result:' + result);
                 });   
         }  
       });
@@ -205,14 +211,24 @@ var HrsApp = React.createClass({
       //Only update rows that changed
       this.state.regularHours.forEach (function(entry, index) {
         if ((entry.row_id != 'NEW_ID') && (entry.updated)) { 
-            console.log('About to call updateHoursForCustomer');
             HoursDataService.updateHoursForCustomer(entry)
             .then(function(result) {
-                console.log('Inserting hr entry, Result:' + result);
+                console.log('Updated hr entry, Result:' + result);
                 });   
         }  
       });
-  },  
+  },
+  insertNewExceptionEntries : function() {
+      //Insert new entries to DB
+      this.state.exceptionHours.forEach (function(entry, index) {
+        if (entry.row_id === 'NEW_ID') { // This means this is a new unsaved row
+            HoursDataService.insertExceptionForCustomer(entry)
+            .then(function(result) {
+                console.log('Inserted exception entry, Result:' + result);
+                });   
+        }  
+      });
+  },    
   populateSchedNavMenu: function() {
       console.log('populateSchedNavMenu CALLED')
       //Refreshes Sched Nav Menu on the left
