@@ -299,7 +299,7 @@ var HoursDataService = (function () {
                         && (entry.type == 'DATE')) {
                             hours.push({
                                 row_id: i,
-                                off: false,
+                                off: Boolean(entry.state),
                                 day: parseDate(entry.selector),
                                 open: new Date('Jan 1, 2016 ' + entry.start),
                                 close: new Date('Jan 1, 2016 ' + entry.end),
