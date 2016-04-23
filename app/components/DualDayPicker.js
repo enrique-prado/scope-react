@@ -39,6 +39,7 @@ var DualDayPicker = React.createClass({
       }
       else {
           dateComponent = <DatePicker onChange={this.handleDateChange}
+                                style={styles.timeStyle}
                                 value={this.props.daySelected}
                                 mode="landscape" />
       }
