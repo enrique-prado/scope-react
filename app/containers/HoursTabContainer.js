@@ -11,6 +11,7 @@ import ContentClear from 'material-ui/lib/svg-icons/content/clear';
 import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import HoursTable from '../components/HoursTable';
 var WeekDayDropdown = require('../components/WeekDayDropdown');
+var DualDayPicker = require('../components/DualDayPicker');
 
 const tabStyles = {
   headline: {
@@ -40,12 +41,20 @@ const btnStyle = {
 };
 
 //TODO: Make these configurable and localizable
-var defaultEntry  = {  
+var defaultDOWEntry  = {  
           type:"DOW", 
           day: "Monday", 
           open: new Date('Jan 1, 2016 09:00:00'),
           close: new Date('Jan 1, 2016 17:00:00'),
           off: true 
+};
+
+var defaultExceptionEntry = {
+          type:"DATE", 
+          day: new Date(), 
+          open: new Date('Jan 1, 2016 09:00:00'),
+          close: new Date('Jan 1, 2016 17:00:00'),
+          off: true     
 };
 
 var HoursTabContainer = React.createClass({
@@ -63,9 +72,13 @@ var HoursTabContainer = React.createClass({
   },  
   getInitialState: function() {
       return {
-          newEntry : defaultEntry,
+          newEntry : defaultDOWEntry,
           showNewEntryRow : false
       };
+  },
+  handleTabSelected: function(value) {
+      this.handleRowRejected(); // Dismiss Add new row if it happens to be up.
+      this.props.onTabSelect(value); // call parent handler
   },
   handleAddRow: function() {
       //Make new row elements appear
@@ -73,6 +86,7 @@ var HoursTabContainer = React.createClass({
           showNewEntryRow : true
       });
       //Set default row values
+      var defaultEntry = this.props.selected == 'DOW' ? defaultDOWEntry : defaultExceptionEntry;
       this.setState({
           newEntry : defaultEntry
       });
@@ -108,6 +122,15 @@ var HoursTabContainer = React.createClass({
       this.setState({
           newEntry: entry
       });         
+  },
+  handleNewRowDateSelected: function(e, value) {
+      console.log('New Entry Date selected:');
+      console.log('value: ' + value);
+      var entry = this.state.newEntry;
+      entry.day = value;   
+      this.setState({
+          newEntry: entry
+      });         
   },  
   handleOpenHrChange: function(e, newDate) { 
       var entry = this.state.newEntry;
@@ -124,16 +147,16 @@ var HoursTabContainer = React.createClass({
       });
   },
   handleSaveHours : function() {
-    //Check to see if new row needs to be accepted first
-    // Also commit any changes to updated rows
-    //TODO: Reuse for exceptions by passing type param?
+    //TODO:Check to see if new row needs to be accepted first
+    // TODO: Also commit any changes to updated rows
     this.props.onSave();  
   },
   handleCancelHours : function() {
-    //TODO: Reuse for exceptions by passing type param?
     // Throw away any uncommitted changes, call parent to do this.
+    //TODO: Reject new row if it's visible
     this.props.onCancel();  
-  },        
+  },
+    
   render: function() {
       var add_row = null; //add_row either renders the new row ui elements OR the Add button
       if (this.state.showNewEntryRow == true) {
@@ -142,8 +165,11 @@ var HoursTabContainer = React.createClass({
                         <Toggle defaultToggled={this.state.newEntry.off}
                             onToggle={this.handleNewRowDayOffToggle} 
                             style={tabStyles.toggle}/>
-                        <WeekDayDropdown selected={this.state.newEntry.day}
-                            onDaySelect={this.handleNewRowDaySelected}/>
+                        <DualDayPicker daySelected={this.state.newEntry.day}
+                            onDaySelect={this.handleNewRowDaySelected}
+                            onDateSelect={this.handleNewRowDateSelected}
+                            valueType={this.props.selected}
+                        />
                         <TimePicker format="ampm" 
                             defaultTime={this.state.newEntry.open}
                             onChange={this.handleOpenHrChange} 
@@ -174,8 +200,8 @@ var HoursTabContainer = React.createClass({
       return (
           <div>
             <div>
-            <Tabs onChange={this.props.onTabSelect} >
-                <Tab label="Weekly Hours" value="weekly">
+            <Tabs onChange={this.handleTabSelected} >
+                <Tab label="Weekly Hours" value="DOW">
                     <div>
                         <HoursTable rows={this.props.regularHours}
                             valueType="DOW" 
@@ -183,11 +209,13 @@ var HoursTabContainer = React.createClass({
                     </div>
                     {add_row}
                 </Tab>
-                <Tab label="Exceptions" value="exceptions">
+                <Tab label="Exceptions" value="DATE">
                     <div>
                         <HoursTable rows={this.props.exceptionHours}
                             valueType="DATE" 
-                            onHrsUpdate={this.props.onExceptionHrsUpdate}/>                    </div>
+                            onHrsUpdate={this.props.onExceptionHrsUpdate}/>                    
+                   </div>
+                    {add_row}
                 </Tab>            
             </Tabs>
             </div>

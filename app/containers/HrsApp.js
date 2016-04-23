@@ -44,7 +44,7 @@ var HrsApp = React.createClass({
     return { 
         selectedCustomer: "",
         schedType: "global",
-        activeHrsTab: "weekly",
+        activeHrsTab: "DOW",
         selectedMenuEntry: "",
         disableUI:true,
         customers: [],
@@ -82,7 +82,7 @@ var HrsApp = React.createClass({
       }
       
       if (prevState.selectedMenuEntry !== this.state.selectedMenuEntry)  {
-        if (this.state.activeHrsTab == "weekly") { 
+        if (this.state.activeHrsTab == "DOW") { 
             this.populateHoursTable();
         }
         else {
@@ -108,8 +108,10 @@ var HrsApp = React.createClass({
   },
   
   handleHoursTabChange: function(value) {
-      this.setState({activeHrsTab: value});
-      console.log("activeHrsTab changed to " + value);
+      if (typeof value === 'string') { // Hack to work around a material-ui event dispatching bug
+        this.setState({activeHrsTab: value});
+        console.log("activeHrsTab changed to " + value);
+      }
   },
   
   handleMenuEntrySelect: function(event, index) {
@@ -123,12 +125,12 @@ var HrsApp = React.createClass({
   },
   
   handleAddNewHourRow: function(newRow) {
-      console.log("handleAddNewHourRow called");
+      console.log("handleAddNewHourRow called of type: " + newRow.type);
       console.log('off = ' + newRow.off + ' , day = ' + newRow.day + ', hours = ' + newRow.open + ' - ' + newRow.close);
       //Add new row to array in memory but not to DB
       var newEntry = {};
       newEntry.row_id = "NEW_ID" //NEW_ID denotes it's a new row not yet commited to DB
-      newEntry.type = 'DOW';
+      newEntry.type = newRow.type;
       newEntry.off = newRow.off;
       newEntry.day = newRow.day;
       newEntry.open = newRow.open;
@@ -140,12 +142,22 @@ var HrsApp = React.createClass({
       newEntry.deleted = false;
       newEntry.updated = false;
       
-      //update hours array
-      var updatedHours = this.state.regularHours;
-      updatedHours.push(newEntry);
-      this.setState({
-          regularHours : updatedHours
-      });
+      if (newRow.type == 'DOW') {
+            //update hours array
+            var updatedHours = this.state.regularHours;
+            updatedHours.push(newEntry);
+            this.setState({
+                regularHours : updatedHours
+            });
+      }
+      else {
+            //update exceptions array
+            var updatedHours = this.state.exceptionHours;
+            updatedHours.push(newEntry);
+            this.setState({
+                exceptionHours : updatedHours
+            });         
+      }
       this.setState({
           disableUI: false // Enable Save and Cancel buttons
       });         
