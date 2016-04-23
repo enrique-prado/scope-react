@@ -262,7 +262,7 @@ var HoursDataService = (function () {
                         && (entry.type == 'DOW')) {
                             hours.push({
                                 row_id: i,
-                                off: false,
+                                off: Boolean(entry.state),
                                 day: weekDays[entry.selector - 1],
                                 open: new Date('Jan 1, 2016 ' + entry.start),
                                 close: new Date('Jan 1, 2016 ' + entry.end),
