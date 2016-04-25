@@ -82,12 +82,8 @@ var HrsApp = React.createClass({
       }
       
       if (prevState.selectedMenuEntry !== this.state.selectedMenuEntry)  {
-        if (this.state.activeHrsTab == "DOW") { 
             this.populateHoursTable();
-        }
-        else {
             this.populateExceptionsTable();
-        }
       }
   },
   
