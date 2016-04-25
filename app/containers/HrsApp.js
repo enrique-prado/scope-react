@@ -120,10 +120,10 @@ var HrsApp = React.createClass({
       this.setState({selectedMenuEntry: index})
   },
   
+  //Add new row to array in memory but not to DB
   handleAddNewHourRow: function(newRow) {
       console.log("handleAddNewHourRow called of type: " + newRow.type);
       console.log('off = ' + newRow.off + ' , day = ' + newRow.day + ', hours = ' + newRow.open + ' - ' + newRow.close);
-      //Add new row to array in memory but not to DB
       var newEntry = {};
       newEntry.row_id = "NEW_ID" //NEW_ID denotes it's a new row not yet commited to DB
       newEntry.type = newRow.type;
@@ -164,10 +164,13 @@ var HrsApp = React.createClass({
       //First insert new hour entries, then update any changed entries (including deleted rows)
       this.insertNewHourEntries();
       this.updateChangedEntries();
-      //TODO: insert and update exception changes.
+      //Insert and update exception changes.
+      this.insertNewExceptionEntries();
+      this.updateChangedExceptions();
       //TODO: Clear hours array
       //Refresh from DB to get new row_ids.
       this.populateHoursTable();
+      this.populateExceptionsTable();
   },
   handleCancelHours : function() {
       //Throw away any unsaved changes to DB by simply querying and repopulating table
@@ -222,6 +225,17 @@ var HrsApp = React.createClass({
             HoursDataService.updateHoursForCustomer(entry)
             .then(function(result) {
                 console.log('Updated hr entry, Result:' + result);
+                });   
+        }  
+      });
+  },
+  updateChangedExceptions : function () {
+      //Only update rows that changed
+      this.state.exceptionHours.forEach (function(entry, index) {
+        if ((entry.row_id != 'NEW_ID') && (entry.updated)) { 
+            HoursDataService.updateExceptionForCustomer(entry)
+            .then(function(result) {
+                console.log('Updated exception entry, Result:' + result);
                 });   
         }  
       });

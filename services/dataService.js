@@ -370,7 +370,7 @@ var HoursDataService = (function () {
             return insertHourOrException(entryObj, true);
         }
         
-        function updateHoursForCustomer(hourObj ) {
+        function updateEntry( hourObj, isExceptionQuery ) {
             console.log("updateHoursForCustomer called...");
             
             return new Promise(function(resolve, reject) {
@@ -392,7 +392,9 @@ var HoursDataService = (function () {
                 //console.log("Updating new hour entry for customer " + hourObj.custName );
                 var state = Number(hourObj.off);
                 var deleted = Number(hourObj.deleted);
-                var day = getDayIndex(hourObj.day) + 1; // DOW index start at 1 in DB
+                // hourObj.day may contain two different types of data depending on what type of entry we are saving
+                // If saving an exception then it contains a date object, if saving regular hours it contains a DOW string name.
+                var day = isExceptionQuery? getDateString(hourObj.day) : getDayIndex(hourObj.day) + 1; // DOW index start at 1 in DB
                 //Convert Date to time string
                 var openTime = getTimeString(hourObj.open);
                 var closeTime = getTimeString(hourObj.close);
@@ -406,7 +408,17 @@ var HoursDataService = (function () {
                                 
                 xhr.send();
             });                        
-        }        
+        }
+        
+    function updateHoursForCustomer(entry) {
+        console.log("updateHoursForCustomer called...");
+        return updateEntry(entry, false);
+    }
+    
+    function updateExceptionForCustomer(entry) {
+        console.log("updateExceptionForCustomer called...");
+        return updateEntry(entry, true);        
+    }        
         
     //Helper functions
     function parseDate(selector) {
@@ -433,7 +445,7 @@ var HoursDataService = (function () {
     
     function getDateString(date) {
         var year = date.getFullYear();
-        var month = addZero(date.getMonth());
+        var month = addZero(date.getMonth() + 1); //getMonth returns 0-11
         var day = addZero(date.getDate());
         var dateStr = year + '-' + month + '-' + day + ' 00:00:00';
         return dateStr;        
@@ -457,13 +469,14 @@ var HoursDataService = (function () {
    
     // Public interface methods
     return {
-        getCustomers : getCustomersMock,
-        getSchedEntries : getSchedEntriesMock,
-        getHours : getHoursMock,
-        getExceptions : getExceptionsMock,
+        getCustomers : getCustomers,
+        getSchedEntries : getSchedEntries,
+        getHours : getHours,
+        getExceptions : getExceptions,
         insertHourForCustomer : insertHourForCustomer,
         insertExceptionForCustomer : insertExceptionForCustomer,
-        updateHoursForCustomer : updateHoursForCustomer
+        updateHoursForCustomer : updateHoursForCustomer,
+        updateExceptionForCustomer : updateExceptionForCustomer
     }
 })();
 
