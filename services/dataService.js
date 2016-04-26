@@ -470,7 +470,7 @@ var HoursDataService = (function () {
    
     // Public interface methods
     return {
-        getCustomers : getCustomer,
+        getCustomers : getCustomers,
         getSchedEntries : getSchedEntries,
         getHours : getHours,
         getExceptions : getExceptions,
