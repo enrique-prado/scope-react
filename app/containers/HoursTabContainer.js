@@ -25,17 +25,22 @@ const tabStyles = {
     verticalAlign:'top',
     width:'20%'  
   },
-  dualPicker: {
+  parentDiv: {
       display: 'inline-block',
-      width: '100px',
-    verticalAlign:'top',
-    paddingTop: '15px'
-    
-
+      position: 'relative',
+      width:'120px'
+  },
+  dualPicker: {
+    display: 'inline-block',
+    position: 'absolute',
+    top: '50%',
+    height: '70px',
+    marginTop: '-36px'
   },
   toggle: {
     display:'inline-block',
     verticalAlign:'top',
+    paddingTop: '15px',
     width:'60px'  
   },
   newrow:{
@@ -173,12 +178,14 @@ var HoursTabContainer = React.createClass({
                         <Toggle defaultToggled={this.state.newEntry.off}
                             onToggle={this.handleNewRowDayOffToggle} 
                             style={tabStyles.toggle}/>
+                        <div style={tabStyles.parentDiv} >
                         <div style={tabStyles.dualPicker}> 
                             <DualDayPicker daySelected={this.state.newEntry.day}
                                 onDaySelect={this.handleNewRowDaySelected}
                                 onDateSelect={this.handleNewRowDateSelected}
                                 valueType={this.props.selected}
                             />
+                        </div>
                         </div>
                         <TimePicker format="ampm" 
                             defaultTime={this.state.newEntry.open}
