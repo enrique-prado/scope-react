@@ -12,6 +12,7 @@ import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import HoursTable from '../components/HoursTable';
 var WeekDayDropdown = require('../components/WeekDayDropdown');
 var DualDayPicker = require('../components/DualDayPicker');
+var moment = require('moment');
 
 const tabStyles = {
   headline: {
@@ -64,7 +65,7 @@ var defaultDOWEntry  = {
 
 var defaultExceptionEntry = {
           type:"DATE", 
-          day: new Date(), 
+          day: new moment(), 
           open: new Date('Jan 1, 2016 09:00:00'),
           close: new Date('Jan 1, 2016 17:00:00'),
           off: true     

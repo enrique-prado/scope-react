@@ -41,9 +41,8 @@ var DualDayPicker = React.createClass({
                                     selected={this.props.daySelected} /> 
       }
       else {
-          var date = moment(this.props.daySelected);
           dateComponent = <DatePicker className='standard-datepicker' onChange={this.handleDateChange}
-                                selected={date}
+                                selected={this.props.daySelected}
                            />
       }
 

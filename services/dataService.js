@@ -212,7 +212,7 @@ var HoursDataService = (function () {
                             var newEntry = JSON.parse(entries[i]);
                             // newEntry.day may contain two different types of data depending on what we query for
                             // If querying for exceptions then it contains a date string, if querying for regular hours it contains a DOW index [1-7]
-                            newEntry.day = isExceptionQuery ? parseDate(newEntry.day)  : weekDays[newEntry.day - 1]; 
+                            newEntry.day = isExceptionQuery ? new moment(parseDate(newEntry.day))  : weekDays[newEntry.day - 1]; 
                             newEntry.off = Boolean(Number(newEntry.off));
                             newEntry.open = new Date('Jan 1, 2016 ' + newEntry.open); //Converting to Date object, Month, day & year are irrelevant
                             newEntry.close = new Date('Jan 1, 2016 ' + newEntry.close); //Converting to Date object, Month, day & year are irrelevant
@@ -300,7 +300,7 @@ var HoursDataService = (function () {
                             hours.push({
                                 row_id: i,
                                 off: Boolean(entry.state),
-                                day: parseDate(entry.selector),
+                                day: new moment(parseDate(entry.selector)),
                                 open: new Date('Jan 1, 2016 ' + entry.start),
                                 close: new Date('Jan 1, 2016 ' + entry.end),
                                 deleted: false,
@@ -447,7 +447,7 @@ var HoursDataService = (function () {
         /*var year = date.getFullYear();
         var month = addZero(date.getMonth() + 1); //getMonth returns 0-11
         var day = addZero(date.getDate());
-        var dateStr = year + '-' + month + '-' + day + ' 00:00:00'; */
+        var dateStr = year + '-' + month + '-' + day + ' 00:00:00';*/
         var dateStr = date.format('YYYY-MM-DD') + ' 00:00:00';
         return dateStr;        
     }        
