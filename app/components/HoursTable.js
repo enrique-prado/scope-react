@@ -61,8 +61,8 @@ var HoursTable = React.createClass({
       this.props.onHrsUpdate(key, updatedRow);      
   },
   
-  handleDateSelected : function(key, e, value) {
-      console.log('Date selected: ' + value);
+  handleDateSelected : function(key, value) {
+      console.log('Date selected value: ' + value.format());
       console.log('Row key: ' + key );
       console.log('Correspoding row_id: ' + this.props.rows[key].row_id);
       var updatedRow = this.props.rows[key];
