@@ -1,5 +1,5 @@
 var HoursDataService = (function () {
-
+        var moment = require('moment');
         var urlBase = '/getdata?template=';
         var custQTemplate = 'userclientlist';
         var schedQTemplate = 'getschedentries';
@@ -24,10 +24,10 @@ var HoursDataService = (function () {
         ]
             
         var defaultSchedEntries = [
-            { type:"DATE", selector: "____-12-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "2015-11-26 00:00:00", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-07-04", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-09-02", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-12-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"DN Exceptions", state: 1},
+            { type:"DATE", selector: "2015-11-26 00:00:00", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-07-04", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-09-02", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: "____-05-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: "____-01-01", start:"10:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: 7, start:"12:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
@@ -307,7 +307,7 @@ var HoursDataService = (function () {
                                 updated: false
                             });
                             console.log('Added Exception entry: ' + i);
-                            console.log('Day: ' + hours[i].day + ' , hours: ' + entry.start + ' - ' + entry.end);
+                            console.log('Day: ' + parseDate(entry.selector) + ' , hours: ' + entry.start + ' - ' + entry.end);
                     }
                 }
                 
@@ -444,10 +444,11 @@ var HoursDataService = (function () {
     }
     
     function getDateString(date) {
-        var year = date.getFullYear();
+        /*var year = date.getFullYear();
         var month = addZero(date.getMonth() + 1); //getMonth returns 0-11
         var day = addZero(date.getDate());
-        var dateStr = year + '-' + month + '-' + day + ' 00:00:00';
+        var dateStr = year + '-' + month + '-' + day + ' 00:00:00'; */
+        var dateStr = date.format('YYYY-MM-DD') + ' 00:00:00';
         return dateStr;        
     }        
     
@@ -469,10 +470,10 @@ var HoursDataService = (function () {
    
     // Public interface methods
     return {
-        getCustomers : getCustomers,
-        getSchedEntries : getSchedEntries,
-        getHours : getHours,
-        getExceptions : getExceptions,
+        getCustomers : getCustomersMock,
+        getSchedEntries : getSchedEntriesMock,
+        getHours : getHoursMock,
+        getExceptions : getExceptionsMock,
         insertHourForCustomer : insertHourForCustomer,
         insertExceptionForCustomer : insertExceptionForCustomer,
         updateHoursForCustomer : updateHoursForCustomer,
