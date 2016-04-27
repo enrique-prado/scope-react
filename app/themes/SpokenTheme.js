@@ -4,7 +4,19 @@ import Spacing from 'material-ui/lib/styles/spacing';
 import zIndex from 'material-ui/lib/styles/zIndex';
 
 var SpokenTheme = {
-  spacing: Spacing,
+  spacing: {
+      iconSize: 24,
+      desktopGutter: 24,
+      desktopGutterMore: 32,
+      desktopGutterLess: 16,
+      desktopGutterMini: 8,
+      desktopKeylineIncrement: 60,  // left-nav width = this * 4
+      desktopDropDownMenuItemHeight: 32,
+      desktopDropDownMenuFontSize: 15,
+      desktopLeftNavMenuItemHeight: 30,
+      desktopSubheaderHeight: 48,
+      desktopToolbarHeight: 56
+    },
   zIndex: zIndex,
   fontFamily: 'Roboto, sans-serif',
   palette: {
