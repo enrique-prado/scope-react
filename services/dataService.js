@@ -30,7 +30,7 @@ var HoursDataService = (function () {
             { type:"DATE", selector: "____-09-02", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: "____-05-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: "____-01-01", start:"10:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DATE", selector: 7, start:"12:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
+            { type:"DOW", selector: 7, start:"12:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
             { type:"DOW", selector: 1, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
             { type:"DOW", selector: 2, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
             { type:"DOW", selector: 3, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
@@ -470,10 +470,10 @@ var HoursDataService = (function () {
    
     // Public interface methods
     return {
-        getCustomers : getCustomers,
-        getSchedEntries : getSchedEntries,
-        getHours : getHours,
-        getExceptions : getExceptions,
+        getCustomers : getCustomersMock,
+        getSchedEntries : getSchedEntriesMock,
+        getHours : getHoursMock,
+        getExceptions : getExceptionsMock,
         insertHourForCustomer : insertHourForCustomer,
         insertExceptionForCustomer : insertExceptionForCustomer,
         updateHoursForCustomer : updateHoursForCustomer,
