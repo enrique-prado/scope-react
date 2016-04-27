@@ -12,6 +12,7 @@ import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import HoursTable from '../components/HoursTable';
 var WeekDayDropdown = require('../components/WeekDayDropdown');
 var DualDayPicker = require('../components/DualDayPicker');
+var moment = require('moment');
 
 const tabStyles = {
   headline: {
@@ -25,9 +26,22 @@ const tabStyles = {
     verticalAlign:'top',
     width:'20%'  
   },
+  parentDiv: {
+      display: 'inline-block',
+      position: 'relative',
+      width:'120px'
+  },
+  dualPicker: {
+    display: 'inline-block',
+    position: 'absolute',
+    top: '50%',
+    height: '70px',
+    marginTop: '-36px'
+  },
   toggle: {
     display:'inline-block',
     verticalAlign:'top',
+    paddingTop: '15px',
     width:'60px'  
   },
   newrow:{
@@ -51,7 +65,7 @@ var defaultDOWEntry  = {
 
 var defaultExceptionEntry = {
           type:"DATE", 
-          day: new Date(), 
+          day: new moment(), 
           open: new Date('Jan 1, 2016 09:00:00'),
           close: new Date('Jan 1, 2016 17:00:00'),
           off: true     
@@ -165,11 +179,15 @@ var HoursTabContainer = React.createClass({
                         <Toggle defaultToggled={this.state.newEntry.off}
                             onToggle={this.handleNewRowDayOffToggle} 
                             style={tabStyles.toggle}/>
-                        <DualDayPicker daySelected={this.state.newEntry.day}
-                            onDaySelect={this.handleNewRowDaySelected}
-                            onDateSelect={this.handleNewRowDateSelected}
-                            valueType={this.props.selected}
-                        />
+                        <div style={tabStyles.parentDiv} >
+                        <div style={tabStyles.dualPicker}> 
+                            <DualDayPicker daySelected={this.state.newEntry.day}
+                                onDaySelect={this.handleNewRowDaySelected}
+                                onDateSelect={this.handleNewRowDateSelected}
+                                valueType={this.props.selected}
+                            />
+                        </div>
+                        </div>
                         <TimePicker format="ampm" 
                             defaultTime={this.state.newEntry.open}
                             onChange={this.handleOpenHrChange} 

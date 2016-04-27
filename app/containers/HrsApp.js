@@ -41,6 +41,7 @@ custIds['Guthy'] = 'GUTHY_ID';
 var HrsApp = React.createClass({
   //LIFE CYCLE EVENTS 
   getInitialState: function(){
+    console.log('getInitialState CALLED...')
     return { 
         selectedCustomer: "",
         schedType: "global",
@@ -55,6 +56,7 @@ var HrsApp = React.createClass({
   },
 
   componentDidMount: function() {
+    console.log('componentDidMount CALLED...')
       var self = this;
       HoursDataService.getCustomers().then(function(result) {
         self.setState({

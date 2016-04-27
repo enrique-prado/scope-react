@@ -1,7 +1,7 @@
 # scope-react
 
 TODO:
-* Enable other ScopeUI tabs (recordings, calls, etc)
+(D) Enable other ScopeUI tabs (recordings, calls, etc)
 
  Implement up MUI table with nested controls
     (D )Hook up day off toggle ctl
@@ -15,7 +15,7 @@ TODO:
 
     
 
-Implement exceptions tab
+(D)Implement exceptions tab
 
 Implement update functionality / queries
     (D) Insert
@@ -30,11 +30,9 @@ Implement HOP state logic for UI
     
 Clean up and bugs:
     * Refresh issues
-    * onTabSelect not being used / needed?
+    * TODO'S
 
 * Implement in-line styling.
 
-* Reuse hoursTable, pass in a prop that specifies exceptions or hours 
-and use DOW dropdown or DatePicker accordingly. Then implement getExceptions api
-that converts selector into date format.
+* Implemente dataService /dataService Mock using DI
 

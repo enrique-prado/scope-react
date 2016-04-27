@@ -4,7 +4,10 @@
  */
 var React = require('react');
 var WeekDayDropdown = require('../components/WeekDayDropdown');
-import DatePicker from 'material-ui/lib/date-picker/date-picker';
+//import DatePicker from 'material-ui/lib/date-picker/date-picker';
+var DatePicker = require('react-datepicker');
+require('react-datepicker/dist/react-datepicker.css');
+var moment = require('moment');
 
 const styles = {
     timeStyle: {
@@ -25,9 +28,9 @@ var DualDayPicker = React.createClass({
       //Call parent's handler which handles state logic
       this.props.onDaySelect( event, index, value);
   },
-  handleDateChange: function(event, index, value) { 
+  handleDateChange: function(date) { 
       //Call parent's handler which handles state logic
-      this.props.onDateSelect( event, index, value);
+      this.props.onDateSelect(date);
   },  
 
   render: function() {
@@ -38,10 +41,9 @@ var DualDayPicker = React.createClass({
                                     selected={this.props.daySelected} /> 
       }
       else {
-          dateComponent = <DatePicker onChange={this.handleDateChange}
-                                style={styles.timeStyle}
-                                value={this.props.daySelected}
-                                mode="landscape" />
+          dateComponent = <DatePicker className='standard-datepicker' onChange={this.handleDateChange}
+                                selected={this.props.daySelected}
+                           />
       }
 
     return (

@@ -1,5 +1,5 @@
 var HoursDataService = (function () {
-
+        var moment = require('moment');
         var urlBase = '/getdata?template=';
         var custQTemplate = 'userclientlist';
         var schedQTemplate = 'getschedentries';
@@ -24,10 +24,10 @@ var HoursDataService = (function () {
         ]
             
         var defaultSchedEntries = [
-            { type:"DATE", selector: "____-12-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "2015-11-26 00:00:00", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-07-04", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-09-02", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-12-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"DN Exceptions", state: 1},
+            { type:"DATE", selector: "2015-11-26 00:00:00", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-07-04", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
+            { type:"DATE", selector: "____-09-02", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: "____-05-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: "____-01-01", start:"10:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
             { type:"DATE", selector: 7, start:"12:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
@@ -212,7 +212,7 @@ var HoursDataService = (function () {
                             var newEntry = JSON.parse(entries[i]);
                             // newEntry.day may contain two different types of data depending on what we query for
                             // If querying for exceptions then it contains a date string, if querying for regular hours it contains a DOW index [1-7]
-                            newEntry.day = isExceptionQuery ? parseDate(newEntry.day)  : weekDays[newEntry.day - 1]; 
+                            newEntry.day = isExceptionQuery ? new moment(parseDate(newEntry.day))  : weekDays[newEntry.day - 1]; 
                             newEntry.off = Boolean(Number(newEntry.off));
                             newEntry.open = new Date('Jan 1, 2016 ' + newEntry.open); //Converting to Date object, Month, day & year are irrelevant
                             newEntry.close = new Date('Jan 1, 2016 ' + newEntry.close); //Converting to Date object, Month, day & year are irrelevant
@@ -300,14 +300,14 @@ var HoursDataService = (function () {
                             hours.push({
                                 row_id: i,
                                 off: Boolean(entry.state),
-                                day: parseDate(entry.selector),
+                                day: new moment(parseDate(entry.selector)),
                                 open: new Date('Jan 1, 2016 ' + entry.start),
                                 close: new Date('Jan 1, 2016 ' + entry.end),
                                 deleted: false,
                                 updated: false
                             });
                             console.log('Added Exception entry: ' + i);
-                            console.log('Day: ' + hours[i].day + ' , hours: ' + entry.start + ' - ' + entry.end);
+                            console.log('Day: ' + parseDate(entry.selector) + ' , hours: ' + entry.start + ' - ' + entry.end);
                     }
                 }
                 
@@ -444,10 +444,11 @@ var HoursDataService = (function () {
     }
     
     function getDateString(date) {
-        var year = date.getFullYear();
+        /*var year = date.getFullYear();
         var month = addZero(date.getMonth() + 1); //getMonth returns 0-11
         var day = addZero(date.getDate());
-        var dateStr = year + '-' + month + '-' + day + ' 00:00:00';
+        var dateStr = year + '-' + month + '-' + day + ' 00:00:00';*/
+        var dateStr = date.format('YYYY-MM-DD') + ' 00:00:00';
         return dateStr;        
     }        
     
