@@ -15,12 +15,6 @@ var DualDayPicker = require('../components/DualDayPicker');
 var moment = require('moment');
 
 const tabStyles = {
-  headline: {
-    fontSize: 20,
-    paddingTop: 16,
-    marginBottom: 12,
-    fontWeight: 400,
-  },
   horzLayout: {
     display:'inline-block',
     verticalAlign:'top',
@@ -200,7 +194,7 @@ var HoursTabContainer = React.createClass({
                             <ActionDone color={Colors.green300} hoverColor={Colors.green700} />
                         </IconButton>                              
                         <IconButton onClick={this.handleRowRejected}>
-                            <ContentClear color={Colors.grey300} hoverColor={Colors.red700} />
+                            <ContentClear color={Colors.grey700} hoverColor={Colors.red700} />
                         </IconButton>                            				
                     </div>             
         );
@@ -246,7 +240,7 @@ var HoursTabContainer = React.createClass({
                     style={btnStyle} />
                 <FlatButton label="Cancel" 
                     disabled={this.props.UIDisable} 
-                    secondary={true} 
+                    primary={true} 
                     onClick={this.handleCancelHours} 
                     style={btnStyle} />
             </div>

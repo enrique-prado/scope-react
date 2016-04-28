@@ -4,6 +4,8 @@ import HoursDataService from '../../services/dataService';
 var SchedTypeRadioBtn = require('../components/SchedTypeRadioBtn');
 var SchedMenuNav = require('../components/SchedMenuNav');
 var HoursTabContainer = require('../containers/HoursTabContainer');
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import SpokenTheme from '../themes/SpokenTheme';
     
 const appStyles = {
     topnav: {
@@ -40,6 +42,18 @@ custIds['Guthy'] = 'GUTHY_ID';
 
 var HrsApp = React.createClass({
   //LIFE CYCLE EVENTS 
+  
+  //Use context to pass down Theme; must be called "muiTheme"
+  childContextTypes : {
+    muiTheme: React.PropTypes.object,
+  },
+
+  getChildContext() {
+    return {
+      muiTheme: ThemeManager.getMuiTheme(SpokenTheme),
+    };
+  },  
+  
   getInitialState: function(){
     console.log('getInitialState CALLED...')
     return { 

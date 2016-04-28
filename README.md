@@ -31,8 +31,10 @@ Implement HOP state logic for UI
 Clean up and bugs:
     * Refresh issues
     * TODO'S
+    (D)Remove id column
 
-* Implement in-line styling.
+(D) Implemented theme styling.
+    * Inline styling tweaks
 
-* Implemente dataService /dataService Mock using DI
+* Implement dataService /dataService Mock using DI
 
