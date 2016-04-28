@@ -16,10 +16,11 @@ var DualDayPicker = require('../components/DualDayPicker');
 var WeekDayDropdown = require('../components/WeekDayDropdown');
 
 const styles = {
-  propContainerStyle: {
-    width: 200,
-    overflow: 'hidden',
-    margin: '20px auto 0',
+  narrowColumn: {
+    width: '10px'
+  },
+    wideColumn: {
+    width: '160px',
   },
   propToggleHeader: {
     margin: '20px auto 10px',
@@ -109,12 +110,12 @@ var HoursTable = React.createClass({
         if (!hour.deleted) {
             return (
                 <TableRow key={index}>
-                    <TableRowColumn >{hour.row_id}</TableRowColumn>
+                    <TableRowColumn style={styles.narrowColumn}></TableRowColumn> //row_id goes here
                     <TableRowColumn>
                         <Toggle defaultToggled={hour.off}
                                 onToggle={self.handleDayOffToggle.bind(self, index)}/>
                     </TableRowColumn>
-                    <TableRowColumn>
+                    <TableRowColumn style={styles.wideColumn}>
                         <DualDayPicker onDaySelect={self.handleDaySelected.bind(self, index)}
                                 onDateSelect={self.handleDateSelected.bind(self, index)}
                                 daySelected={hour.day}
@@ -146,7 +147,6 @@ var HoursTable = React.createClass({
       >
         <TableHeader displaySelectAll={false}>
             <TableRow>
-                <TableHeaderColumn >row_id</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Toggle off to take entire day off">Active</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Day of the week">Day</TableHeaderColumn>
                 <TableHeaderColumn tooltip="Start of work hours">Open</TableHeaderColumn>
