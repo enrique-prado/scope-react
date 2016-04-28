@@ -470,10 +470,10 @@ var HoursDataService = (function () {
    
     // Public interface methods
     return {
-        getCustomers : getCustomersMock,
-        getSchedEntries : getSchedEntriesMock,
-        getHours : getHoursMock,
-        getExceptions : getExceptionsMock,
+        getCustomers : getCustomers,
+        getSchedEntries : getSchedEntries,
+        getHours : getHours,
+        getExceptions : getExceptions,
         insertHourForCustomer : insertHourForCustomer,
         insertExceptionForCustomer : insertExceptionForCustomer,
         updateHoursForCustomer : updateHoursForCustomer,
