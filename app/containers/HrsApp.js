@@ -1,6 +1,6 @@
 var React = require('react');
 var CustomerDropdown = require('../components/CustomerDropdown');
-import HoursDataService from '../../services/dataService';
+//import HoursDataService from '../../services/dataService';
 var SchedTypeRadioBtn = require('../components/SchedTypeRadioBtn');
 var SchedMenuNav = require('../components/SchedMenuNav');
 var HoursTabContainer = require('../containers/HoursTabContainer');
@@ -54,6 +54,10 @@ var HrsApp = React.createClass({
     };
   },  
   
+  propTypes: {
+    dataService: React.PropTypes.object
+  },
+  
   getInitialState: function(){
     console.log('getInitialState CALLED...')
     return { 
@@ -72,7 +76,7 @@ var HrsApp = React.createClass({
   componentDidMount: function() {
     console.log('componentDidMount CALLED...')
       var self = this;
-      HoursDataService.getCustomers().then(function(result) {
+      this.props.dataService.getCustomers().then(function(result) {
         self.setState({
             customers : result         
         });
@@ -227,7 +231,7 @@ var HrsApp = React.createClass({
       //Insert new entries to DB
       this.state.regularHours.forEach (function(entry, index) {
         if (entry.row_id === 'NEW_ID') { // This means this is a new unsaved row
-            HoursDataService.insertHourForCustomer(entry)
+            this.props.dataService.insertHourForCustomer(entry)
             .then(function(result) {
                 console.log('Inserted hr entry, Result:' + result);
                 });   
@@ -238,7 +242,7 @@ var HrsApp = React.createClass({
       //Only update rows that changed
       this.state.regularHours.forEach (function(entry, index) {
         if ((entry.row_id != 'NEW_ID') && (entry.updated)) { 
-            HoursDataService.updateHoursForCustomer(entry)
+            this.props.dataService.updateHoursForCustomer(entry)
             .then(function(result) {
                 console.log('Updated hr entry, Result:' + result);
                 });   
@@ -249,7 +253,7 @@ var HrsApp = React.createClass({
       //Only update rows that changed
       this.state.exceptionHours.forEach (function(entry, index) {
         if ((entry.row_id != 'NEW_ID') && (entry.updated)) { 
-            HoursDataService.updateExceptionForCustomer(entry)
+            this.props.dataService.updateExceptionForCustomer(entry)
             .then(function(result) {
                 console.log('Updated exception entry, Result:' + result);
                 });   
@@ -260,7 +264,7 @@ var HrsApp = React.createClass({
       //Insert new entries to DB
       this.state.exceptionHours.forEach (function(entry, index) {
         if (entry.row_id === 'NEW_ID') { // This means this is a new unsaved row
-            HoursDataService.insertExceptionForCustomer(entry)
+            this.props.dataService.insertExceptionForCustomer(entry)
             .then(function(result) {
                 console.log('Inserted exception entry, Result:' + result);
                 });   
@@ -271,7 +275,7 @@ var HrsApp = React.createClass({
       console.log('populateSchedNavMenu CALLED')
       //Refreshes Sched Nav Menu on the left
       var self = this;
-       HoursDataService.getSchedEntries(this.state.selectedCustomer, this.state.schedType)
+       this.props.dataService.getSchedEntries(this.state.selectedCustomer, this.state.schedType)
        .then(function(result) {
            self.setState({
                schedEntries : result
@@ -288,7 +292,7 @@ var HrsApp = React.createClass({
       console.log('populateHoursTable CALLED');
       //Refreshes working hours table on the right pane
       var self = this;
-      HoursDataService.getHours(this.state.selectedCustomer, this.state.schedType, this.state.selectedMenuEntry)
+      this.props.dataService.getHours(this.state.selectedCustomer, this.state.schedType, this.state.selectedMenuEntry)
       .then(function(result) {
           self.setState({
               regularHours : result
@@ -303,7 +307,7 @@ var HrsApp = React.createClass({
       console.log('populateExceptionsTable CALLED');
       //Refreshes working hours table on the right pane
       var self = this;
-      HoursDataService.getExceptions(this.state.selectedCustomer, this.state.schedType, this.state.selectedMenuEntry)
+      this.props.dataService.getExceptions(this.state.selectedCustomer, this.state.schedType, this.state.selectedMenuEntry)
       .then(function(result) {
           self.setState({
               exceptionHours : result

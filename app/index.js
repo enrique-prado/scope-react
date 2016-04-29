@@ -1,9 +1,10 @@
-console.log('React is up and running!');
+console.log('React Hours of Operation is up and running!');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import HrsApp from './containers/HrsApp';
-//import CustomerSelect from './components/CustomerSelect';
+import HoursDataService from '../services/dataService';
+//import MockHoursDataService from '../services/mockDataService'
 
 //Needed for onTouchTap
 //Can go away when react 1.0 release
@@ -12,6 +13,6 @@ import HrsApp from './containers/HrsApp';
 injectTapEventPlugin();
 
 ReactDOM.render(
-    <HrsApp />,
+    <HrsApp dataService={HoursDataService} />,
     document.getElementById('app')
 );
