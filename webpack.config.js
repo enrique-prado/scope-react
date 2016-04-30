@@ -2,7 +2,6 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: [
-        'webpack-dev-server/client?http://localhost:8080',
         'webpack/hot/only-dev-server',
         './app/index.js'
     ],
@@ -21,7 +20,7 @@ module.exports = {
         extensions: ['', '.js']
     },
     debug: true,
-    devtool: 'inline-source-map',
+    devtool: 'eval',
     output: {
         path: 'dist',
         publicPath: '/',
