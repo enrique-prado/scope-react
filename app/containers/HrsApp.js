@@ -1,6 +1,5 @@
 var React = require('react');
 var CustomerDropdown = require('../components/CustomerDropdown');
-//import HoursDataService from '../../services/dataService';
 var SchedTypeRadioBtn = require('../components/SchedTypeRadioBtn');
 var SchedMenuNav = require('../components/SchedMenuNav');
 var HoursTabContainer = require('../containers/HoursTabContainer');
@@ -55,7 +54,7 @@ var HrsApp = React.createClass({
   },  
   
   propTypes: {
-    dataService: React.PropTypes.object
+    dataService: React.PropTypes.object.isRequired
   },
   
   getInitialState: function(){
@@ -229,9 +228,10 @@ var HrsApp = React.createClass({
   // HELPER METHODS
   insertNewHourEntries : function() {
       //Insert new entries to DB
+      var self = this;
       this.state.regularHours.forEach (function(entry, index) {
         if (entry.row_id === 'NEW_ID') { // This means this is a new unsaved row
-            this.props.dataService.insertHourForCustomer(entry)
+            self.props.dataService.insertHourForCustomer(entry)
             .then(function(result) {
                 console.log('Inserted hr entry, Result:' + result);
                 });   
@@ -240,9 +240,10 @@ var HrsApp = React.createClass({
   },
   updateChangedEntries : function() {
       //Only update rows that changed
+      var self = this;
       this.state.regularHours.forEach (function(entry, index) {
         if ((entry.row_id != 'NEW_ID') && (entry.updated)) { 
-            this.props.dataService.updateHoursForCustomer(entry)
+            self.props.dataService.updateHoursForCustomer(entry)
             .then(function(result) {
                 console.log('Updated hr entry, Result:' + result);
                 });   
@@ -251,9 +252,10 @@ var HrsApp = React.createClass({
   },
   updateChangedExceptions : function () {
       //Only update rows that changed
+      var self = this;
       this.state.exceptionHours.forEach (function(entry, index) {
         if ((entry.row_id != 'NEW_ID') && (entry.updated)) { 
-            this.props.dataService.updateExceptionForCustomer(entry)
+            self.props.dataService.updateExceptionForCustomer(entry)
             .then(function(result) {
                 console.log('Updated exception entry, Result:' + result);
                 });   
@@ -262,9 +264,10 @@ var HrsApp = React.createClass({
   },
   insertNewExceptionEntries : function() {
       //Insert new entries to DB
+      var self = this;
       this.state.exceptionHours.forEach (function(entry, index) {
         if (entry.row_id === 'NEW_ID') { // This means this is a new unsaved row
-            this.props.dataService.insertExceptionForCustomer(entry)
+            self.props.dataService.insertExceptionForCustomer(entry)
             .then(function(result) {
                 console.log('Inserted exception entry, Result:' + result);
                 });   
