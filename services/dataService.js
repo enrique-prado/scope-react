@@ -99,7 +99,7 @@ var HoursDataService = (function () {
             
                 xhr.onerror = reject;
                 //console.log("Fetching Sched NavMenu entries for customer " + custName + " sched type: " + qType);
-                xhr.open("GET","/getdata?template=getschedentries" +
+                xhr.open("GET","/getdata?template=hop_getmenuentries" +
                     "&cust_name=" + custName + "&queue_type=" + qType +
                     "&startrow=0&rowcount=20", true);            
                 xhr.send();
@@ -110,7 +110,7 @@ var HoursDataService = (function () {
         function getHoursOrExceptions(custName, qType, queue, isExceptionQuery) {
             //console.log("getHoursOrExceptions called...");
             //console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
-            var qTemplate = isExceptionQuery ? 'getexceptionsforcustomer' : 'gethoursforcustomer';
+            var qTemplate = isExceptionQuery ? 'hop_getexceptionsforcustomer' : 'hop_gethoursforcustomer';
 
             return new Promise(function(resolve, reject) {
                 var xhr = new XMLHttpRequest();
@@ -177,7 +177,7 @@ var HoursDataService = (function () {
         }        
         
         function insertHourOrException(hourObj, isExceptionQuery ) {
-            var qTemplate = isExceptionQuery ? 'addexceptionforcustomer' : 'addhoursforcustomer';
+            var qTemplate = isExceptionQuery ? 'hop_addexceptionforcustomer' : 'hop_addhoursforcustomer';
             
             return new Promise(function(resolve, reject) {
                 var xhr = new XMLHttpRequest();
@@ -232,19 +232,19 @@ var HoursDataService = (function () {
         }
         
         function updateEntry( hourObj, isExceptionQuery ) {
-            console.log("updateHoursForCustomer called...");
+            console.log("updateEntry called...");
             
             return new Promise(function(resolve, reject) {
                 var xhr = new XMLHttpRequest();
                 
                 xhr.onload = function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
-                        console.log('dataService.updateHoursForCustomer succeeds');
+                        console.log('dataService.updateEntry succeeds');
                         var result = xhr.response;
                         resolve(result); //Return status
                     }
                     else {
-                        console.log('ERROR in dataService.updateHoursForCustomer(), status: ' + xhr.status);
+                        console.log('ERROR in dataService.updateEntry(), status: ' + xhr.status);
                         resolve(xhr.status);
                     }            
                 }
@@ -259,7 +259,7 @@ var HoursDataService = (function () {
                 //Convert Date to time string
                 var openTime = getTimeString(hourObj.open);
                 var closeTime = getTimeString(hourObj.close);
-                xhr.open("GET","/updatedata?template=updatehoursforcustomer" +
+                xhr.open("GET","/updatedata?template=hop_updatehoursforcustomer" +
                     "&rowid=" + hourObj.row_id +
                     "&day_idx=" + day +
                     "&open=" + openTime +
