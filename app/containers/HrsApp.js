@@ -1,7 +1,8 @@
 var React = require('react');
 var CustomerDropdown = require('../components/CustomerDropdown');
 var SchedTypeRadioBtn = require('../components/SchedTypeRadioBtn');
-var SchedMenuNav = require('../components/SchedMenuNav');
+//var SchedMenuNav = require('../components/SchedMenuNav');
+var ScrollNavBar = require('../components/ScrollNavBar');
 var HoursTabContainer = require('../containers/HoursTabContainer');
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import SpokenTheme from '../themes/SpokenTheme';
@@ -129,13 +130,12 @@ var HrsApp = React.createClass({
       }
   },
   
-  handleMenuEntrySelect: function(event, index) {
+  handleMenuEntrySelect: function(index) {
       console.log("Entering.... handleMenuEntrySelect");
       console.log("index = " + index);
       this.setState({regularHours : [] }) // Clear table TODO: This is inefficient, find out a way to make timepicker control refresh
       this.setState({exceptionHours : [] }) // Clear table TODO: This is inefficient, find out a way to make timepicker control refresh
       
-      //console.log("event.target.textContent =" + event.target.textContent);
       this.setState({selectedMenuEntry: index})
   },
   
@@ -337,7 +337,7 @@ var HrsApp = React.createClass({
             </div>
         </div>  
         <div className="leftNav" style={appStyles.menunav}>
-            <SchedMenuNav selected={this.state.selectedMenuEntry} entries={this.state.schedEntries} 
+            <ScrollNavBar selected={this.state.selectedMenuEntry} entries={this.state.schedEntries} 
                 onEntrySelect={this.handleMenuEntrySelect}  />
         </div>
         <div className="tablesPane" style={appStyles.content}>
