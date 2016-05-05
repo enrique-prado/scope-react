@@ -23,50 +23,6 @@ var HoursDataService = (function () {
             "Sunday"
         ]
             
-        var defaultSchedEntries = [
-            { type:"DATE", selector: "____-12-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"DN Exceptions", state: 1},
-            { type:"DATE", selector: "2015-11-26 00:00:00", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-07-04", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-09-02", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-05-25", start:"08:00:00", end: "19:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DATE", selector: "____-01-01", start:"10:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 1},
-            { type:"DOW", selector: 7, start:"12:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"global",  queue:"All neat", state: 0},
-            { type:"DOW", selector: 1, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
-            { type:"DOW", selector: 2, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
-            { type:"DOW", selector: 3, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
-            { type:"DOW", selector: 4, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
-            { type:"DOW", selector: 5, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 1},
-            { type:"DOW", selector: 6, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 0},
-            { type:"DOW", selector: 7, start:"09:00:00", end: "18:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"global",  queue:"All Spoken", state: 0},
-            { type:"DOW", selector: 1, start:"07:00:00", end: "17:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
-            { type:"DOW", selector: 2, start:"07:00:00", end: "17:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
-            { type:"DOW", selector: 3, start:"07:00:00", end: "17:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
-            { type:"DOW", selector: 4, start:"07:00:00", end: "17:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
-            { type:"DOW", selector: 5, start:"07:00:00", end: "17:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
-            { type:"DOW", selector: 6, start:"09:00:00", end: "17:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
-            { type:"DOW", selector: 7, start:"10:00:00", end: "17:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"global",  queue:"All Guthy", state: 1},
-            
-            { type:"DOW", selector: 1, start:"10:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"800-NEAT", state: 1},
-            { type:"DOW", selector: 2, start:"11:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"877-NEAT", state: 1},
-            { type:"DOW", selector: 3, start:"12:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"888-NEAT", state: 1},
-            { type:"DOW", selector: 4, start:"13:00:00", end: "17:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"DN",  queue:"888-NEAT", state: 1},
-            { type:"DOW", selector: 5, start:"10:00:00", end: "17:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"DN",  queue:"800-SPKN", state: 1},
-            { type:"DOW", selector: 6, start:"11:00:00", end: "17:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"DN",  queue:"877-SPKN", state: 1},
-            { type:"DOW", selector: 7, start:"12:00:00", end: "17:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"DN",  queue:"877-SPKN", state: 1},
-            { type:"DOW", selector: 6, start:"09:00:00", end: "18:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"DN",  queue:"800-GR", state: 1},
-            
-            { type:"DOW", selector: 1, start:"10:00:00", end: "16:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"queue",  queue:"Sales NEAT", state: 1},
-            { type:"DOW", selector: 2, start:"11:00:00", end: "16:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"queue",  queue:"Billing NEAT", state: 1},
-            { type:"DOW", selector: 3, start:"12:00:00", end: "16:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"queue",  queue:"Support NEAT", state: 1},
-            { type:"DOW", selector: 4, start:"13:00:00", end: "16:00:00", app_id:"NEAT_ID", customer:"neat", queueType:"queue",  queue:"Operator NEAT", state: 1},
-            { type:"DOW", selector: 5, start:"10:00:00", end: "15:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"queue",  queue:"Engineering SPKN", state: 1},
-            { type:"DOW", selector: 6, start:"11:00:00", end: "15:00:00", app_id:"SPKN_ID", customer:"SpokenDA", queueType:"queue",  queue:"PM SPKN", state: 1},
-            { type:"DOW", selector: 7, start:"12:00:00", end: "14:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"queue",  queue:"Returns GR", state: 1},
-            { type:"DOW", selector: 6, start:"09:00:00", end: "14:00:00", app_id:"GUTHY_ID", customer:"Guthy", queueType:"queue",  queue:"Sales GR", state: 1}
-]
-            
-            
-
         function getCustomers () {
             return new Promise(function(resolve, reject) {
                 var xhr = new XMLHttpRequest();
@@ -104,11 +60,6 @@ var HoursDataService = (function () {
             });
         };
         
-        function getCustomersMock() {
-            return new Promise(function(resolve, reject) {
-                resolve(defaultCustomers);
-            });
-        }
 
         function getSchedEntries (custName, qType) {
             console.log("getSchedEntries CALLED...");
@@ -148,48 +99,18 @@ var HoursDataService = (function () {
             
                 xhr.onerror = reject;
                 //console.log("Fetching Sched NavMenu entries for customer " + custName + " sched type: " + qType);
-                xhr.open("GET","/getdata?template=getschedentries" +
+                xhr.open("GET","/getdata?template=hop_getmenuentries" +
                     "&cust_name=" + custName + "&queue_type=" + qType +
                     "&startrow=0&rowcount=20", true);            
                 xhr.send();
             });            
         };
         
-        function getSchedEntriesMock (custName, qType) {
-            console.log("getSchedEntriesMock called...");
-            console.log("custName = " + custName + ", qType = " + qType);
-            
-            return new Promise(function(resolve, reject) {
-            var schedEntries = [];
-            var entriesDict = {};
-            var key = {};
-            var value = null;
-            
-            for (var i = 0; i < defaultSchedEntries.length; i++) {
-                if ((defaultSchedEntries[i].customer == custName) && (defaultSchedEntries[i].queueType == qType)) {
-                    key = defaultSchedEntries[i].queue; //use name of queue as dictionary key
-                    if (!entriesDict.hasOwnProperty(key)) {
-                        entriesDict[key] = defaultSchedEntries[i].app_id; //Only store one queue instance, no duplicates
-                    }
-                    
-                    console.log(key + " entry added");
-                }
-            }
-            
-            //Conver dictionary to flat array
-            for (key in entriesDict) {
-                if (entriesDict.hasOwnProperty(key)) {
-                    schedEntries.push({appId: entriesDict[key], queue: key});
-                }
-            }
-            resolve(schedEntries);
-            });
-        };
-        
+       
         function getHoursOrExceptions(custName, qType, queue, isExceptionQuery) {
             //console.log("getHoursOrExceptions called...");
             //console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
-            var qTemplate = isExceptionQuery ? 'getexceptionsforcustomer' : 'gethoursforcustomer';
+            var qTemplate = isExceptionQuery ? 'hop_getexceptionsforcustomer' : 'hop_gethoursforcustomer';
 
             return new Promise(function(resolve, reject) {
                 var xhr = new XMLHttpRequest();
@@ -248,36 +169,6 @@ var HoursDataService = (function () {
         }           
         
         
-        function getHoursMock (custName, qType, queue) {
-            console.log("getHoursMock called...");
-            console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
-            var hours = [];
-            
-            return new Promise(function(resolve, reject) {            
-                for (var i = 0; i < defaultSchedEntries.length; i++) {
-                    var entry = defaultSchedEntries[i];
-                    if ((entry.customer == custName)  
-                        && (entry.queueType == qType)
-                        && (entry.queue == queue)
-                        && (entry.type == 'DOW')) {
-                            hours.push({
-                                row_id: i,
-                                off: Boolean(entry.state),
-                                day: weekDays[entry.selector - 1],
-                                open: new Date('Jan 1, 2016 ' + entry.start),
-                                close: new Date('Jan 1, 2016 ' + entry.end),
-                                deleted: false,
-                                updated: false
-                            });
-                            console.log('Added Hours entry: ' + i);
-                            console.log('Day: ' + entry.selector + ' , hours: ' + entry.start + ' - ' + entry.end);
-                    }
-                }
-                
-                resolve(hours);
-            });                        
-        }
-        
         function getExceptions(custName, qType, queue) {
             console.log("getExceptions CALLED >>>>>>...");
             console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
@@ -285,38 +176,8 @@ var HoursDataService = (function () {
             return getHoursOrExceptions(custName, qType, queue, true);
         }        
         
-        function getExceptionsMock (custName, qType, queue) {
-            console.log("getExceptionsMock called...");
-            console.log("custName = " + custName + ", qType = " + qType + ", queue = " + queue);
-            var hours = [];
-            
-            return new Promise(function(resolve, reject) {            
-                for (var i = 0; i < defaultSchedEntries.length; i++) {
-                    var entry = defaultSchedEntries[i];
-                    if ((entry.customer == custName)  
-                        && (entry.queueType == qType)
-                        && (entry.queue == queue)
-                        && (entry.type == 'DATE')) {
-                            hours.push({
-                                row_id: i,
-                                off: Boolean(entry.state),
-                                day: new moment(parseDate(entry.selector)),
-                                open: new Date('Jan 1, 2016 ' + entry.start),
-                                close: new Date('Jan 1, 2016 ' + entry.end),
-                                deleted: false,
-                                updated: false
-                            });
-                            console.log('Added Exception entry: ' + i);
-                            console.log('Day: ' + parseDate(entry.selector) + ' , hours: ' + entry.start + ' - ' + entry.end);
-                    }
-                }
-                
-                resolve(hours);
-            });                        
-        }        
-        
         function insertHourOrException(hourObj, isExceptionQuery ) {
-            var qTemplate = isExceptionQuery ? 'addexceptionforcustomer' : 'addhoursforcustomer';
+            var qTemplate = isExceptionQuery ? 'hop_addexceptionforcustomer' : 'hop_addhoursforcustomer';
             
             return new Promise(function(resolve, reject) {
                 var xhr = new XMLHttpRequest();
@@ -371,19 +232,19 @@ var HoursDataService = (function () {
         }
         
         function updateEntry( hourObj, isExceptionQuery ) {
-            console.log("updateHoursForCustomer called...");
+            console.log("updateEntry called...");
             
             return new Promise(function(resolve, reject) {
                 var xhr = new XMLHttpRequest();
                 
                 xhr.onload = function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
-                        console.log('dataService.updateHoursForCustomer succeeds');
+                        console.log('dataService.updateEntry succeeds');
                         var result = xhr.response;
                         resolve(result); //Return status
                     }
                     else {
-                        console.log('ERROR in dataService.updateHoursForCustomer(), status: ' + xhr.status);
+                        console.log('ERROR in dataService.updateEntry(), status: ' + xhr.status);
                         resolve(xhr.status);
                     }            
                 }
@@ -398,7 +259,7 @@ var HoursDataService = (function () {
                 //Convert Date to time string
                 var openTime = getTimeString(hourObj.open);
                 var closeTime = getTimeString(hourObj.close);
-                xhr.open("GET","/updatedata?template=updatehoursforcustomer" +
+                xhr.open("GET","/updatedata?template=hop_updatehoursforcustomer" +
                     "&rowid=" + hourObj.row_id +
                     "&day_idx=" + day +
                     "&open=" + openTime +
