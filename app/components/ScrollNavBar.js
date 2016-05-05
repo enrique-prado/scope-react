@@ -12,6 +12,13 @@ import TableFooter from 'material-ui/lib/table/table-footer';
 import Colors from 'material-ui/lib/styles/colors';
 import ActionDelete from 'material-ui/lib/svg-icons/action/delete';
 
+const styles = {
+    container: {
+        width: 'auto',
+        overflow: 'hidden'
+   }
+}
+
 var ScrollNavBar = React.createClass({
   propTypes: {
     entries: React.PropTypes.array,
@@ -52,10 +59,10 @@ var ScrollNavBar = React.createClass({
     return(
       <Table
       height="300px"
-      width="200px"
       selectable={true}
       rowsCount={rowsCount}
       onRowSelection={this.handleRowSelected}
+      wrapperStyle={styles.container}
       >
         <TableHeader displaySelectAll={false}>
             <TableRow>

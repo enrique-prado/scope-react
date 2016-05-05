@@ -14,8 +14,8 @@ const appStyles = {
     },
     menunav: {
         height:'300px',
-        width: '200px',
-        float:'left'
+        width: '250px',
+        float:'left',
     },
     content: {
         width:'700px',
